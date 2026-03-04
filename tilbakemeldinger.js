@@ -39,8 +39,25 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     const entries = snap.docs.map(d => d.data());
+	
+	const weekSelect = document.getElementById("weekSelect");
 
-    list.innerHTML = entries.map(e => {
+const weeks = [...new Set(entries.map(e => e.week))].sort((a,b) => b-a);
+
+weeks.forEach(w => {
+  const option = document.createElement("option");
+  option.value = w;
+  option.textContent = "Uke " + w;
+  weekSelect.appendChild(option);
+});
+
+    function renderFeedback(selectedWeek = "") {
+
+  const filtered = selectedWeek
+    ? entries.filter(e => String(e.week) === selectedWeek)
+    : entries;
+
+  list.innerHTML = filtered.map(e => {
 
       const text = e.editedText?.trim()
         ? e.editedText
@@ -69,4 +86,14 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "minside.html";
     });
   }
+});
+
+}).join("");
+
+}
+
+renderFeedback();
+
+weekSelect.addEventListener("change", () => {
+  renderFeedback(weekSelect.value);
 });
