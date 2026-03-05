@@ -39,37 +39,44 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     const entries = snap.docs.map(d => d.data());
-	
-	const weekSelect = document.getElementById("weekSelect");
 
-const weeks = [...new Set(entries.map(e => e.week))].sort((a,b) => b-a);
+    const weekSelect = document.getElementById("weekSelect");
 
-weeks.forEach(w => {
-  const option = document.createElement("option");
-  option.value = w;
-  option.textContent = "Uke " + w;
-  weekSelect.appendChild(option);
-});
+    const weeks = [...new Set(entries.map(e => e.week))].sort((a,b) => b-a);
+
+    weeks.forEach(w => {
+      const option = document.createElement("option");
+      option.value = w;
+      option.textContent = "Uke " + w;
+      weekSelect.appendChild(option);
+    });
 
     function renderFeedback(selectedWeek = "") {
 
-  const filtered = selectedWeek
-    ? entries.filter(e => String(e.week) === selectedWeek)
-    : entries;
+      const filtered = selectedWeek
+        ? entries.filter(e => String(e.week) === selectedWeek)
+        : entries;
 
-  list.innerHTML = filtered.map(e => {
+      list.innerHTML = filtered.map(e => {
 
-      const text = e.editedText?.trim()
-        ? e.editedText
-        : e.generatedText;
+        const text = e.editedText?.trim()
+          ? e.editedText
+          : e.generatedText;
 
-      return `
-        <div class="fb-entry">
-          <p>${text}</p>
-        </div>
-      `;
+        return `
+          <div class="fb-entry">
+            <p>${text}</p>
+          </div>
+        `;
 
-    }).join("");
+      }).join("");
+    }
+
+    renderFeedback();
+
+    weekSelect.addEventListener("change", () => {
+      renderFeedback(weekSelect.value);
+    });
 
   } catch (err) {
     console.error(err);
@@ -86,14 +93,4 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "minside.html";
     });
   }
-});
-
-}).join("");
-
-}
-
-renderFeedback();
-
-weekSelect.addEventListener("change", () => {
-  renderFeedback(weekSelect.value);
 });
