@@ -294,6 +294,7 @@ let reflectionPayload = {
   workedOnSeasonGoal,
   year,
   week,
+  day: dayInput.value,
   type: selectedType,
   createdAt: serverTimestamp()
 };
