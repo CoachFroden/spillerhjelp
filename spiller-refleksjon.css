@@ -747,3 +747,56 @@ textarea {
   border-color: #16a34a;
   box-shadow: 0 0 18px rgba(22,163,74,0.8);
 }
+
+/* DAGVALG – 5 + 2 layout */
+
+.day-buttons{
+  display:grid !important;
+  grid-template-columns: repeat(5, 1fr);
+  gap:10px;
+  justify-items:center;
+  margin-top:14px;
+}
+
+/* Lørdag */
+.day-buttons button:nth-child(6){
+  grid-column:2;
+}
+
+/* Søndag */
+.day-buttons button:nth-child(7){
+  grid-column:4;
+}
+
+/* mindre dagknapper */
+.day-buttons button{
+  padding:8px 12px;
+  font-size:0.85rem;
+  border-radius:12px;
+}
+
+/* DAGFARGER */
+
+/* trening dager */
+.day-buttons button:nth-child(-n+5){
+  background:#1e40af;
+  border:2px solid #3b82f6;
+}
+
+/* helg */
+.day-buttons button:nth-child(6),
+.day-buttons button:nth-child(7){
+  background:#14532d;
+  border:2px solid #22c55e;
+}
+
+/* hover */
+.day-buttons button:hover{
+  transform:translateY(-1px);
+}
+
+/* valgt dag */
+.day-buttons button.active{
+  box-shadow:0 0 14px rgba(255,255,255,0.35);
+  transform:scale(1.05);
+}

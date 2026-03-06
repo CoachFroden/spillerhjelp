@@ -51,7 +51,7 @@ async function loadHistory(uid) {
   historyDiv.innerHTML = "Laster...";
 
   const entriesRef = collection(db, "refleksjoner", uid, "entries");
-  const q = query(entriesRef, orderBy("createdAt", "desc"));
+  const q = query(entriesRef, orderBy("year", "desc"), orderBy("week", "desc"));
 
   const snapshot = await getDocs(q);
 
@@ -75,12 +75,32 @@ function populateWeekSelector() {
   const selector = document.getElementById("weekSelector");
   selector.innerHTML = "";
 
-  reflectionData.forEach((entry, index) => {
-    const option = document.createElement("option");
-    option.value = index;
-    option.textContent = `Uke ${entry.week} (${entry.year})`;
-    selector.appendChild(option);
-  });
+let currentWeek = null;
+
+reflectionData.forEach((entry, index) => {
+
+  if (currentWeek !== entry.week) {
+
+    const weekHeader = document.createElement("option");
+    weekHeader.textContent = `—— Uke ${entry.week} ——`;
+    weekHeader.disabled = true;
+
+    selector.appendChild(weekHeader);
+
+    currentWeek = entry.week;
+  }
+
+  const option = document.createElement("option");
+  option.value = index;
+
+  const typeText = entry.type === "match" ? "Kamp" : "Trening";
+  const dayText = entry.day || "";
+
+  option.textContent = `${typeText} (${dayText})`;
+
+  selector.appendChild(option);
+
+});
 
 selector.addEventListener("change", (e) => {
 
@@ -138,7 +158,9 @@ function showReflection(index) {
 
   historyDiv.innerHTML = `
     <div id="openReflection" class="history-card">
-      <h3>Uke ${data.week} (${data.year})</h3>
+      <h3>
+Uke ${data.week} – ${data.type === "match" ? "Kamp" : "Trening"} (${data.day || ""})
+</h3>
       ${content}
     </div>
   `;
@@ -245,14 +267,26 @@ if (weeklyForm) {
 
       const entriesRef = collection(db, "refleksjoner", user.uid, "entries");
 	  
-	  const now = new Date();
+const selectedType = document.getElementById("reflectionType").value;
+const targetWeekChoice = document.getElementById("targetWeek").value;
+	  
+const now = new Date();
 const firstDayOfYear = new Date(now.getFullYear(), 0, 1);
 const pastDaysOfYear = (now - firstDayOfYear) / 86400000;
-const week = Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+let week = Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
 
-const year = new Date().getFullYear();
+let year = now.getFullYear();
 
-const selectedType = document.getElementById("reflectionType").value;
+// hvis spilleren velger "forrige uke"
+if (targetWeekChoice === "previous") {
+  week = week - 1;
+
+  // håndter hvis vi går tilbake til forrige år
+  if (week <= 0) {
+    year = year - 1;
+    week = 52;
+  }
+}
 
 let reflectionPayload = {
   effort,
@@ -282,8 +316,10 @@ if (selectedType === "match") {
     document.getElementById("matchImprove").value;
 }
 
-await addDoc(
-  collection(db, "refleksjoner", user.uid, "entries"),
+const entryId = `${year}_${week}_${daySelect.value}_${selectedType}`;
+
+await setDoc(
+  doc(db, "refleksjoner", user.uid, "entries", entryId),
   reflectionPayload
 );
 
@@ -350,6 +386,8 @@ const trainingFields = document.getElementById("trainingFields");
 const matchFields = document.getElementById("matchFields");
 
 const modeButtons = document.querySelectorAll(".mode-toggle button");
+const weekSelectorButtons = document.getElementById("weekSelectorButtons");
+const daySelector = document.getElementById("daySelector");
 const reflectionTypeInput = document.getElementById("reflectionType");
 
 modeButtons.forEach(btn => {
@@ -357,6 +395,14 @@ modeButtons.forEach(btn => {
 
     // Reset form values
     weeklyForm.reset();
+	
+	// nullstill uke og dag
+targetWeekInput.value = "";
+dayInput.value = "";
+
+// fjern aktive knapper
+document.querySelectorAll("#weekButtons button, #dayButtons button")
+  .forEach(b => b.classList.remove("active"));
 
     // Fjern alle active-klasser på valgknapper
     document.querySelectorAll(".score-buttons button, .choice-buttons button")
@@ -383,6 +429,10 @@ modeButtons.forEach(btn => {
     xpBar.style.width = "0%";
     xpText.textContent = "0% Complete";
     submitBtn.disabled = true;
+	
+weekSelectorButtons.hidden = false;
+daySelector.hidden = true;
+reflectionForm.hidden = true;
 	
   });
 });
@@ -433,6 +483,39 @@ seasonGoalButtons.forEach(btn => {
   });
 });
 
+const dayButtons = document.querySelectorAll("#dayButtons button");
+const dayInput = document.getElementById("daySelect");
+
+dayButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    dayButtons.forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    dayInput.value = btn.dataset.day;
+
+  });
+});
+
+const weekButtons = document.querySelectorAll("#weekButtons button");
+const targetWeekInput = document.getElementById("targetWeek");
+
+weekButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    weekButtons.forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    targetWeekInput.value = btn.dataset.week;
+	daySelector.hidden = false;
+
+    checkReflectionReady();
+
+  });
+});
+
 const xpBar = document.getElementById("xpBar");
 const xpText = document.getElementById("xpText");
 
@@ -480,6 +563,53 @@ function updateXP() {
 }
 
 }
+
+
+
+// når trening/kamp velges
+document.querySelectorAll(".mode-toggle button").forEach(btn => {
+  btn.addEventListener("click", checkReflectionReady);
+});
+
+const weekSelect = document.getElementById("targetWeek");
+const daySelectInput = document.getElementById("daySelect");
+const reflectionForm = document.getElementById("weeklyForm");
+
+function checkReflectionReady() {
+
+  const type = document.getElementById("reflectionType").value;
+  const week = weekSelect?.value;
+  const day = daySelectInput?.value;
+
+  if (type && week && day) {
+    reflectionForm.hidden = false;
+  } else {
+    reflectionForm.hidden = true;
+  }
+
+}
+
+// når dag velges
+daySelect?.addEventListener("change", checkReflectionReady);
+
+// uke valgt
+weekSelect?.addEventListener("change", () => {
+
+  daySelector.hidden = false;
+
+  checkReflectionReady();
+
+});
+
+// dag valgt
+document.querySelectorAll("#dayButtons button").forEach(btn => {
+  btn.addEventListener("click", checkReflectionReady);
+});
+
+// trening/kamp valgt
+document.querySelectorAll(".mode-toggle button").forEach(btn => {
+  btn.addEventListener("click", checkReflectionReady);
+});
 
 
 // ==============================

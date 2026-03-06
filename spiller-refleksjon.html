@@ -60,8 +60,43 @@
 
 <input type="hidden" id="reflectionType" name="reflectionType" value="training">
 
+<div class="week-selector" id="weekSelectorButtons" hidden>
 
-          <form id="weeklyForm">
+<h3 class="section-title">Hvilken uke?</h3>
+
+<div class="choice-buttons" id="weekButtons">
+
+<button type="button" data-week="current">Denne uken</button>
+<button type="button" data-week="previous">Forrige uke</button>
+
+</div>
+
+<input type="hidden" id="targetWeek">
+
+</div>
+
+<div class="day-selector" id="daySelector" hidden>
+
+<h3 class="section-title">Hvilken dag?</h3>
+
+<div class="day-buttons" id="dayButtons">
+
+<button type="button" data-day="Mon">Man</button>
+<button type="button" data-day="Tue">Tir</button>
+<button type="button" data-day="Wed">Ons</button>
+<button type="button" data-day="Thu">Tor</button>
+<button type="button" data-day="Fri">Fre</button>
+<button type="button" data-day="Sat">Lør</button>
+<button type="button" data-day="Sun">Søn</button>
+
+</div>
+
+<input type="hidden" id="daySelect">
+
+</div>
+
+
+          <form id="weeklyForm" hidden>
             <h3 class="section-title">Innsats</h3>
 			  <p class="mission-sub">Hva synest du om egen innsats denne uka?</p>
             <div class="score-buttons" id="effortButtons">
@@ -162,6 +197,10 @@
 
             <div class="status" id="weeklyStatus"></div>
           </form>
+		  <div id="reflectionSaved" hidden>
+  <h2>🔥 Refleksjon lagret!</h2>
+  <p>Bra jobbet.</p>
+</div>
         </div>
       </section>
     </div>
