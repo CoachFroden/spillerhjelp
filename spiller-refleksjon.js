@@ -235,9 +235,7 @@ if (weeklyForm) {
 
     const effort = document.getElementById("effort").value;
     const energy = document.getElementById("energy").value;
-	const energyMap = { Lav: 1, Middels: 2, Høy: 3 };
-    const energyValue = energyMap[energy];
-	console.log("Energy:", energy, "=>", energyValue);
+	console.log("Energy valgt:", energy);
     const workedOnSeasonGoal = document.getElementById("workedOnSeasonGoal").value;
     const goodThing = document.getElementById("goodThing").value;
     const improveThing = document.getElementById("improveThing").value;
@@ -258,7 +256,7 @@ const selectedType = document.getElementById("reflectionType").value;
 
 let reflectionPayload = {
   effort,
-  energy,
+  energy: Number(energy),
   workedOnSeasonGoal,
   year,
   week,

@@ -715,3 +715,35 @@ textarea {
   box-shadow: none;
   cursor: not-allowed;
 }
+
+/* Energi / innsats fargeskala */
+
+.score-buttons button[data-value="1"].active {
+  background: linear-gradient(135deg, #ef4444, #991b1b);
+  border-color: #ef4444;
+  box-shadow: 0 0 15px rgba(239,68,68,0.6);
+}
+
+.score-buttons button[data-value="2"].active {
+  background: linear-gradient(135deg, #f97316, #c2410c);
+  border-color: #f97316;
+  box-shadow: 0 0 15px rgba(249,115,22,0.6);
+}
+
+.score-buttons button[data-value="3"].active {
+  background: linear-gradient(135deg, #facc15, #ca8a04);
+  border-color: #facc15;
+  box-shadow: 0 0 15px rgba(250,204,21,0.6);
+}
+
+.score-buttons button[data-value="4"].active {
+  background: linear-gradient(135deg, #a3e635, #65a30d);
+  border-color: #a3e635;
+  box-shadow: 0 0 15px rgba(163,230,53,0.6);
+}
+
+.score-buttons button[data-value="5"].active {
+  background: linear-gradient(135deg, #16a34a, #065f46);
+  border-color: #16a34a;
+  box-shadow: 0 0 18px rgba(22,163,74,0.8);
+}
