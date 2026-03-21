@@ -449,7 +449,6 @@ if(snap.exists()){
 
 } else {
 
-  // 🔥 LEGG DENNE HER
   stars = 0;
   monthlyWheels = 0;
   streak = 0;
@@ -458,7 +457,37 @@ if(snap.exists()){
   monthXP = 0;
   seasonXP = 0;
 
+  // 🔥 RESET lokal spilldata (dette manglet hos deg)
+  categoryCounts = {};
+  recentCategories = [];
+  exerciseHistory = [];
+  lockIndex = {};
+  dailyXP = 0;
+
+  localStorage.setItem("categoryCounts", JSON.stringify(categoryCounts));
+  localStorage.setItem("recentCategories", JSON.stringify(recentCategories));
+  localStorage.setItem("exerciseHistory", JSON.stringify(exerciseHistory));
+  localStorage.setItem("lockIndex", JSON.stringify(lockIndex));
+  localStorage.setItem("dailyXP", 0);
+
+  // 🔥 fjern "done" visuelt
+  document.querySelectorAll(".exerciseBtn").forEach(btn => {
+    btn.classList.remove("done");
+  });
+
 }
+
+// 🔥 SYNC BACK TO FIRESTORE (fikser Ask)
+await setDoc(doc(db, "gameStats", user.uid), {
+  stars: stars || 0,
+  monthlyWheels: monthlyWheels || 0,
+  streak: streak || 0,
+  longestStreak: longestStreak || 0,
+  totalExercises: totalExercises || 0,
+  monthXP: monthXP || 0,
+  seasonXP: seasonXP || 0,
+  totalXP: totalXP || 0
+}, { merge: true });
 
 lastLevel = calculateLevel(seasonXP);
   updateUI();
@@ -1159,11 +1188,18 @@ updateCategoryUI();
     totalExercises++;
     localStorage.setItem("totalExercises", totalExercises);
 	
-	const user = auth.currentUser;
-await setDoc(doc(db, "gameStats", user.uid), {
-  totalExercises: totalExercises,
-  lastExercise: key
-}, { merge: true });
+const user = auth.currentUser;
+
+if(user){
+  const playerName = await getPlayerName(user);
+
+  await setDoc(doc(db, "gameStats", user.uid), {
+    uid: user.uid,
+    navn: playerName,
+    totalExercises: totalExercises,
+    lastExercise: key
+  }, { merge: true });
+}
 
 	
 	// 🔥 BONUS hver 5. øvelse
