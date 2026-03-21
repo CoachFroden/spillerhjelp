@@ -432,20 +432,32 @@ if(nameEl){
   nameEl.textContent = playerName;
 }
 
-  const docRef = doc(db, "gameStats", user.uid);
-  const snap = await getDoc(docRef);
+const docRef = doc(db, "gameStats", user.uid);
+const snap = await getDoc(docRef);
 
 if(snap.exists()){
   const data = snap.data();
 
-  stars = data.stars ?? stars;
-  monthlyWheels = data.monthlyWheels ?? monthlyWheels;
-  streak = data.streak ?? streak;
-  longestStreak = data.longestStreak ?? longestStreak;
-  totalExercises = data.totalExercises ?? totalExercises;
+  stars = data.stars || 0;
+  monthlyWheels = data.monthlyWheels || 0;
+  streak = data.streak || 0;
+  longestStreak = data.longestStreak || 0;
+  totalExercises = data.totalExercises || 0;
 
-monthXP = data.monthXP || 0;
-seasonXP = data.seasonXP || 0;
+  monthXP = data.monthXP || 0;
+  seasonXP = data.seasonXP || 0;
+
+} else {
+
+  // 🔥 LEGG DENNE HER
+  stars = 0;
+  monthlyWheels = 0;
+  streak = 0;
+  longestStreak = 0;
+  totalExercises = 0;
+  monthXP = 0;
+  seasonXP = 0;
+
 }
 
 lastLevel = calculateLevel(seasonXP);
