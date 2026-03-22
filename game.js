@@ -1136,7 +1136,14 @@ document.querySelectorAll(".exerciseBtn").forEach(btn => {
       return;
     }
 	
-	const logsSnap = await getDocs(
+const currentUser = auth.currentUser;
+
+if(!currentUser){
+  showWarning("Du må være logget inn");
+  return;
+}
+
+const logsSnap = await getDocs(
   query(
     collection(db, "exerciseLogs"),
     where("uid", "==", currentUser.uid)
@@ -1168,7 +1175,7 @@ if(found && countSinceLast < 5){
 addXP(xp);
 showXPPopup(xp);
 
-const currentUser = auth.currentUser;
+
 
 if(currentUser){
 const playerName = await getPlayerName(currentUser);
@@ -1389,11 +1396,39 @@ window.closeInfo = function(){
 
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
+let lastUserId = null;
+
 onAuthStateChanged(auth, (user) => {
   if(user){
+
+    if(lastUserId && lastUserId !== user.uid){
+      resetLocalData(); // 🔥 NY
+    }
+
+    lastUserId = user.uid;
+
     loadGameStats();
   }
 });
+
+function resetLocalData(){
+
+  localStorage.removeItem("dailyXP");
+  localStorage.removeItem("monthXP");
+  localStorage.removeItem("stars");
+  localStorage.removeItem("monthlyWheels");
+  localStorage.removeItem("totalExercises");
+  localStorage.removeItem("totalXP");
+  localStorage.removeItem("seasonXP");
+  localStorage.removeItem("streak");
+  localStorage.removeItem("longestStreak");
+  localStorage.removeItem("lastWheelDate");
+  localStorage.removeItem("categoryCounts");
+  localStorage.removeItem("recentCategories");
+  localStorage.removeItem("exerciseHistory");
+  localStorage.removeItem("lockIndex");
+
+}
 
 window.auth = auth;
 window.db = db;
