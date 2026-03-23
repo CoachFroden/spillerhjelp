@@ -63,6 +63,9 @@ let longestStreak = 0;
 let lastPlayDate = "";
 let prevDailyXP = 0;
 let lastWheelDate = "";
+let doubleXPActive = false;
+let exerciseHistory = [];
+
 
 function isCategoryLocked(category){
 
@@ -82,24 +85,6 @@ function isCategoryLocked(category){
 
   // 🔥 tydelig krav
   return uniqueOthers.length < 2;
-}
-
-if(lastPlayDate && lastPlayDate !== today){
-
-  categoryCounts = {};
-  recentCategories = [];
-  lockIndex = {}; // 👈 LEGG DENNE HER
-  
-  exerciseHistory = []; // 👈 LEGG TIL
-
-  dailyXP = 0
-
-  
-  starAnimationPlayed = false;
-
-  document.querySelectorAll(".exerciseBtn").forEach(btn => {
-    btn.classList.remove("done");
-  });
 }
 
 const goal = 100
@@ -289,15 +274,45 @@ let lastLevel = calculateLevel(seasonXP)
 
 async function addXP(xp){
 
-  prevDailyXP = dailyXP; // 🔥 lagrer før økning
+  const user = auth.currentUser;
+  if(!user) return;
+
+  const freshSnap = await getDoc(doc(db, "gameStats", user.uid));
+  
+  if(!freshSnap.exists()){
+  console.log("SERVER TOM → RESET ALT");
+
+  dailyXP = 0;
+  monthXP = 0;
+  seasonXP = 0;
+  totalXP = 0;
+
+  categoryCounts = {};
+  recentCategories = [];
+  lockIndex = {};
+  completedExercises = {};
+
+  totalExercises = 0;
+}
+
+  if(freshSnap.exists()){
+    const serverData = freshSnap.data();
+
+    dailyXP = serverData.dailyXP || 0;
+    monthXP = serverData.monthXP || 0;
+    seasonXP = serverData.seasonXP || 0;
+    totalXP = serverData.totalXP || 0;
+
+    categoryCounts = serverData.categoryCounts || {};
+    recentCategories = serverData.recentCategories || [];
+    lockIndex = serverData.lockIndex || {};
+    completedExercises = serverData.completedExercises || {};
+  }
 
   dailyXP += xp;
   monthXP += xp;
   seasonXP += xp;
   totalXP += xp;
-
-  const user = auth.currentUser;
-  if(!user) return;
 
   const playerName = await getPlayerName(user);
 
@@ -315,6 +330,8 @@ async function addXP(xp){
   }, { merge: true });
 
   updateUI();
+  return true;
+
 }
 
 const month = new Date().getMonth()
@@ -345,9 +362,6 @@ if(serverMonth !== month){
   dailyXP = 0;
   
   monthXP = 0;
-
-  starAnimationPlayed = false;
-
 
     try{
      await setDoc(doc(db, "teamStats", "global"), {
@@ -481,7 +495,6 @@ await loadGameStats();
   const data = snap.data();
   
   console.log("FIRESTORE DATA INN:", data);
-console.log("dailyXP før tildeling:", dailyXP);
 
   stars = data.stars || 0;
   monthlyWheels = data.monthlyWheels || 0;
@@ -499,6 +512,8 @@ console.log("dailyXP før tildeling:", dailyXP);
   completedExercises = data.completedExercises || {};
   lastWheelDate = data.lastWheelDate || "";
   
+  console.log("dailyXP etter tildeling:", dailyXP);
+  
   if(data.lastPlayDate !== today){
 
   console.log("NY DAG – reset");
@@ -512,48 +527,48 @@ console.log("dailyXP før tildeling:", dailyXP);
 
 }
   
-  if(monthXP === 0 && monthlyWheels === 0 && stars === 0){
+if(
+  data.monthXP === 0 &&
+  data.monthlyWheels === 0 &&
+  data.stars === 0
+){
   dailyXP = 0;
-  starAnimationPlayed = false;
   lastWheelDate = "";
 }
 
 } else {
 
-  stars = 0;
-  monthlyWheels = 0;
-  streak = 0;
-  longestStreak = 0;
-  totalExercises = 0;
+  console.log("NY SPILLER / SLETTET DATA – FULL RESET");
+
+  // 🔥 ALT må nulles
+  dailyXP = 0;
   monthXP = 0;
   seasonXP = 0;
-  
-  console.log("ETTER TILDELING:", {
-  dailyXP,
-  monthXP,
-  seasonXP,
-  stars,
-  monthlyWheels,
-  streak,
-  lastWheelDate
-});
+  totalXP = 0;
 
-  // 🔥 RESET lokal spilldata (dette manglet hos deg)
+  stars = 0;
+  monthlyWheels = 0;
+
+  streak = 0;
+  longestStreak = 0;
+
+  totalExercises = 0;
+
   categoryCounts = {};
   recentCategories = [];
   lockIndex = {};
-  dailyXP = 0;
+  completedExercises = {};
 
+  lastWheelDate = "";
 
-  // 🔥 fjern "done" visuelt
+  // 🔥 rydder UI
   document.querySelectorAll(".exerciseBtn").forEach(btn => {
     btn.classList.remove("done");
   });
-  
-  // 🔥 reset wheel visuelt
-segments.forEach(seg => {
-  seg.classList.remove("filled");
-});
+
+  segments.forEach(seg => {
+    seg.classList.remove("filled");
+  });
 
 }
 
@@ -579,14 +594,6 @@ await setDoc(doc(db, "gameStats", user.uid), {
 
 lastLevel = calculateLevel(seasonXP);
   updateUI();
-  
-  if(teamWheelsText){
-    teamWheelsText.textContent = teamWheels;
-  }
-
-  if(teamBarFill){
-    teamBarFill.style.width = "0%";
-  }
 
   updateCategoryUI();
   await loadTeamWheels();
@@ -776,6 +783,7 @@ function playStarCelebration(){
 }
 
 function showBonus(text){
+
 
 const box = document.getElementById("bonusBox")
 
@@ -1117,39 +1125,24 @@ if(!currentUser){
   return;
 }
 
-//const logsSnap = await getDocs(
-//  query(
-//    collection(db, "exerciseLogs"),
-//    where("uid", "==", currentUser.uid)
-//  )
-//);
-//
-// hent siste 10 øvelser
-//const logs = logsSnap.docs
-//  .map(doc => doc.data())
-//  .sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0))
-//  .slice(0, 10); // 🔥 kun siste 10
-//
-//let countSinceLast = 0;
-//let found = false;
-//
-//for(const log of logs){
-//  if(log.exercise === name){
-//    found = true;
-//    break;
-//  }
-//  countSinceLast++;
-//}
-//
-//if(found && countSinceLast < 5){
-//  showWarning("Du må gjøre flere andre øvelser før du kan velge denne igjen");
-//  return;
-//}
-
 const beforeXP = dailyXP;
 
-await addXP(xp);   // 🔥 vent på oppdatering
-showXPPopup(xp);
+let finalXP = xp;
+
+if(doubleXPActive){
+  finalXP = xp * 2;
+  doubleXPActive = false;
+
+  hideBonus(); // 👈 LEGG TIL DENNE
+
+  showBonusAnimation("⚡ DOBBEL XP!");
+}
+
+const success = await addXP(finalXP);
+
+if(!success) return; // 👈 STOPP ALT
+
+showXPPopup(finalXP);
 
 if(beforeXP < goal && dailyXP >= goal){
 
@@ -1255,6 +1248,16 @@ updateCategoryUI();
 
     totalExercises++;
 	
+	if(totalExercises % 5 === 0){
+  doubleXPActive = true;
+  showBonus("⚡ Dobbel XP på neste øvelse!");
+}
+
+function hideBonus(){
+  const box = document.getElementById("bonusBox");
+  box.style.display = "none";
+}
+	
 const user = auth.currentUser;
 
 if(user){
@@ -1266,16 +1269,6 @@ if(user){
     totalExercises: totalExercises,
     lastExercise: key
   }, { merge: true });
-}
-
-	
-	// 🔥 BONUS hver 5. øvelse
-if(totalExercises % 5 === 0){
-
-  addXP(20); // bonus xp
-
-  showBonusAnimation("+20 XP"); // animasjon
-
 }
 
     btn.classList.remove("selected");
