@@ -1187,6 +1187,8 @@ const success = await addXP(finalXP);
 
 if(!success) return; // 👈 STOPP ALT
 
+await loadGameStats();
+
 showXPPopup(finalXP);
 
 if(beforeXP < goal && dailyXP >= goal){
