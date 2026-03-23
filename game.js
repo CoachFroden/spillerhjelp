@@ -31,34 +31,38 @@ function parseDateKey(key){
   return new Date(y, m, d);
 }
 
+function daysBetween(d1, d2){
+  const a = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate());
+  const b = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate());
+
+return Math.floor((a - b) / (1000 * 60 * 60 * 24));}
+
 const today = getTodayKey();
 
-if(!localStorage.getItem("lastPlayDate")){
-  localStorage.setItem("lastPlayDate", today);
-}
+// lockIndex finnes allerede fra steg 1
 
-let categoryCounts = JSON.parse(localStorage.getItem("categoryCounts")) || {};
-let recentCategories = JSON.parse(localStorage.getItem("recentCategories")) || [];
+let completedExercises = {};
+let categoryCounts = {};
+let recentCategories = [];
+let lockIndex = {};
 let xpModeTimeout = null;
-let dailyXP = Number(localStorage.getItem("dailyXP")) || 0
-let monthXP = Number(localStorage.getItem("monthXP")) || 0
-let stars = Number(localStorage.getItem("stars")) || 0
-let lastStars = stars;
-let monthlyWheels = Number(localStorage.getItem("monthlyWheels")) || 0
-let currentMonth = Number(localStorage.getItem("currentMonth")) || -1
+let xpMode = "month";
 let teamWheels = 0;
-let totalExercises = Number(localStorage.getItem("totalExercises")) || 0
-let totalXP = Number(localStorage.getItem("totalXP")) || 0
-let seasonXP = Number(localStorage.getItem("seasonXP")) || 0
-let exerciseHistory = JSON.parse(localStorage.getItem("exerciseHistory")) || [];
-let lockIndex = JSON.parse(localStorage.getItem("lockIndex")) || {};
-let starAnimationPlayed = localStorage.getItem("starAnimationPlayed") === "true";
-let xpMode = localStorage.getItem("xpMode") || "month"; // "month" | "season"
-let streak = Number(localStorage.getItem("streak")) || 0
-let longestStreak = Number(localStorage.getItem("longestStreak")) || 0
-let lastWheelDate = localStorage.getItem("lastWheelDate") || ""
-let lastPlayDate = localStorage.getItem("lastPlayDate") || ""
 let lastLockState = {};
+let dailyXP = 0;
+let monthXP = 0;
+let stars = 0;
+let lastStars = stars;
+let monthlyWheels = 0;
+let currentMonth = -1;
+let totalExercises = 0;
+let totalXP = 0;
+let seasonXP = 0;
+let streak = 0;
+let longestStreak = 0;
+let lastPlayDate = "";
+let prevDailyXP = 0;
+let lastWheelDate = "";
 
 function isCategoryLocked(category){
 
@@ -68,7 +72,7 @@ function isCategoryLocked(category){
 
   const index = lockIndex[category];
 
-  if(index === undefined) return true; // 🔥 fallback = lås
+  if(index === undefined) return true;
 
   const afterLock = recentCategories.slice(index + 1);
 
@@ -76,6 +80,7 @@ function isCategoryLocked(category){
     afterLock.filter(c => c !== category)
   )];
 
+  // 🔥 tydelig krav
   return uniqueOthers.length < 2;
 }
 
@@ -86,19 +91,11 @@ if(lastPlayDate && lastPlayDate !== today){
   lockIndex = {}; // 👈 LEGG DENNE HER
   
   exerciseHistory = []; // 👈 LEGG TIL
-  localStorage.setItem("exerciseHistory", JSON.stringify(exerciseHistory));
 
   dailyXP = 0
 
-  localStorage.setItem("dailyXP", dailyXP)
-  localStorage.setItem("lastPlayDate", today)
-
-  localStorage.setItem("categoryCounts", JSON.stringify(categoryCounts))
-  localStorage.setItem("recentCategories", JSON.stringify(recentCategories))
-  localStorage.setItem("lockIndex", JSON.stringify(lockIndex))
   
   starAnimationPlayed = false;
-localStorage.setItem("starAnimationPlayed", "false");
 
   document.querySelectorAll(".exerciseBtn").forEach(btn => {
     btn.classList.remove("done");
@@ -292,58 +289,65 @@ let lastLevel = calculateLevel(seasonXP)
 
 async function addXP(xp){
 
-dailyXP += xp
-monthXP += xp
-seasonXP += xp
-totalXP += xp
+  prevDailyXP = dailyXP; // 🔥 lagrer før økning
 
-  localStorage.setItem("totalXP", totalXP)
-  localStorage.setItem("seasonXP", seasonXP)
-  localStorage.setItem("lastPlayDate", today)
+  dailyXP += xp;
+  monthXP += xp;
+  seasonXP += xp;
+  totalXP += xp;
 
   const user = auth.currentUser;
-  if(user){
-await setDoc(doc(db, "gameStats", user.uid), {
-  monthXP: monthXP,
-  totalXP: totalXP,
-  seasonXP: seasonXP   // 🔥 DETTE ER FIXEN
-}, { merge: true });
-  }
+  if(!user) return;
 
-  updateUI()
+  const playerName = await getPlayerName(user);
+
+  await setDoc(doc(db, "gameStats", user.uid), {
+    uid: user.uid,
+    navn: playerName,
+    monthXP,
+    seasonXP,
+    totalXP,
+    dailyXP,
+    totalExercises,
+    categoryCounts,
+    recentCategories,
+    lockIndex
+  }, { merge: true });
+
+  updateUI();
 }
 
 const month = new Date().getMonth()
 
 async function loadGameStats(){
 	
+	
+	
   const teamRef = doc(db, "teamStats", "global");
   const teamSnap = await getDoc(teamRef);
-  const serverMonth = teamSnap.data()?.month ?? -1;
+  const teamResetVersion = teamSnap.data()?.resetVersion || 0;
+  const serverMonth = teamSnap.exists() ? teamSnap.data().month : -1;
   const serverSeason = teamSnap.data()?.season ?? -1;
   const currentSeason = new Date().getFullYear(); // enkel løsning = kalenderår
 
   const month = new Date().getMonth()
+  
+  console.log("SERVER MONTH:", serverMonth);
+console.log("CURRENT MONTH:", month);
 
 if(serverMonth !== month){
 
   lastWheelDate = "";
-  localStorage.setItem("lastWheelDate", "");
 
   monthlyWheels = 0
   currentMonth = month
 
   dailyXP = 0;
-  localStorage.setItem("dailyXP", 0);
   
   monthXP = 0;
-  localStorage.setItem("monthXP", 0);
 
   starAnimationPlayed = false;
-  localStorage.setItem("starAnimationPlayed", "false");
 
-  localStorage.setItem("monthlyWheels", monthlyWheels)
-  localStorage.setItem("currentMonth", month)
 
     try{
      await setDoc(doc(db, "teamStats", "global"), {
@@ -380,11 +384,6 @@ setDoc(doc(db, "gameStats", docSnap.id), {
   streak = 0;
   longestStreak = 0;
 
-  localStorage.setItem("seasonXP", 0);
-  localStorage.setItem("stars", 0);
-  localStorage.setItem("streak", 0);
-  localStorage.setItem("longestStreak", 0);
-
   try{
     await setDoc(doc(db, "teamStats", "global"), {
       season: currentSeason
@@ -414,12 +413,6 @@ setDoc(doc(db, "gameStats", docSnap.id), {
 
 const freshTeamSnap = await getDoc(teamRef);
 
-if(!freshTeamSnap.exists()){
-  teamWheels = 0;
-} else {
-  teamWheels = freshTeamSnap.data().teamWheels || 0;
-}
-
   const user = auth.currentUser;
   if(!user) return;
   
@@ -434,18 +427,96 @@ if(nameEl){
 
 const docRef = doc(db, "gameStats", user.uid);
 const snap = await getDoc(docRef);
+const playerResetVersion = snap.data()?.resetVersion || 0;
 
 if(snap.exists()){
+	
+	// 🔥 RESET hvis versjon er forskjellig
+if(playerResetVersion !== teamResetVersion){
+
+  console.log("RESET TRIGGET");
+  
+  localStorage.clear();
+
+  categoryCounts = {};
+  recentCategories = [];
+  lockIndex = {};
+  completedExercises = {};
+
+  dailyXP = 0;
+  stars = 0;
+  monthlyWheels = 0;
+  streak = 0;
+  longestStreak = 0;
+  totalExercises = 0;
+  monthXP = 0;
+  seasonXP = 0;
+  
+  lastWheelDate = "";
+
+  // 🔥 oppdater spiller til ny versjon
+await setDoc(doc(db, "gameStats", user.uid), {
+  resetVersion: teamResetVersion,
+
+  categoryCounts: {},
+  recentCategories: [],
+  lockIndex: {},
+  completedExercises: {},
+
+  stars: 0,
+  monthlyWheels: 0,
+  streak: 0,
+  longestStreak: 0,
+  totalExercises: 0,
+  monthXP: 0,
+  seasonXP: 0
+
+}, { merge: true });
+
+await loadGameStats();
+//return;
+
+}
+
   const data = snap.data();
+  
+  console.log("FIRESTORE DATA INN:", data);
+console.log("dailyXP før tildeling:", dailyXP);
 
   stars = data.stars || 0;
   monthlyWheels = data.monthlyWheels || 0;
   streak = data.streak || 0;
   longestStreak = data.longestStreak || 0;
   totalExercises = data.totalExercises || 0;
-
+  categoryCounts = data.categoryCounts || {};
+  recentCategories = data.recentCategories || [];
+  lockIndex = data.lockIndex || {};
   monthXP = data.monthXP || 0;
+  dailyXP = data.dailyXP || 0;
   seasonXP = data.seasonXP || 0;
+  totalXP = data.totalXP || 0;
+  lastLevel = calculateLevel(seasonXP);
+  completedExercises = data.completedExercises || {};
+  lastWheelDate = data.lastWheelDate || "";
+  
+  if(data.lastPlayDate !== today){
+
+  console.log("NY DAG – reset");
+
+  dailyXP = 0;
+
+  await setDoc(doc(db, "gameStats", user.uid), {
+    dailyXP: 0,
+    lastPlayDate: today
+  }, { merge: true });
+
+}
+  
+  if(monthXP === 0 && monthlyWheels === 0 && stars === 0){
+  dailyXP = 0;
+  starAnimationPlayed = false;
+  lastWheelDate = "";
+}
 
 } else {
 
@@ -456,19 +527,23 @@ if(snap.exists()){
   totalExercises = 0;
   monthXP = 0;
   seasonXP = 0;
+  
+  console.log("ETTER TILDELING:", {
+  dailyXP,
+  monthXP,
+  seasonXP,
+  stars,
+  monthlyWheels,
+  streak,
+  lastWheelDate
+});
 
   // 🔥 RESET lokal spilldata (dette manglet hos deg)
   categoryCounts = {};
   recentCategories = [];
-  exerciseHistory = [];
   lockIndex = {};
   dailyXP = 0;
 
-  localStorage.setItem("categoryCounts", JSON.stringify(categoryCounts));
-  localStorage.setItem("recentCategories", JSON.stringify(recentCategories));
-  localStorage.setItem("exerciseHistory", JSON.stringify(exerciseHistory));
-  localStorage.setItem("lockIndex", JSON.stringify(lockIndex));
-  localStorage.setItem("dailyXP", 0);
 
   // 🔥 fjern "done" visuelt
   document.querySelectorAll(".exerciseBtn").forEach(btn => {
@@ -489,27 +564,22 @@ await setDoc(doc(db, "gameStats", user.uid), {
   uid: user.uid,
   navn: playerName,
 
-  stars: stars || 0,
-  monthlyWheels: monthlyWheels || 0,
-  streak: streak || 0,
-  longestStreak: longestStreak || 0,
-  totalExercises: totalExercises || 0,
-  monthXP: monthXP || 0,
-  seasonXP: seasonXP || 0,
-  totalXP: totalXP || 0
+  monthXP,
+  seasonXP,
+  totalXP,
+  dailyXP,
+
+  totalExercises,
+  categoryCounts,
+  recentCategories,
+  lockIndex,
+
+  lastPlayDate: today   // 👈 HER
 }, { merge: true });
 
 lastLevel = calculateLevel(seasonXP);
   updateUI();
   
-  localStorage.setItem("monthXP", monthXP);
-localStorage.setItem("seasonXP", seasonXP);
-localStorage.setItem("stars", stars);
-localStorage.setItem("monthlyWheels", monthlyWheels);
-localStorage.setItem("streak", streak);
-localStorage.setItem("longestStreak", longestStreak);
-localStorage.setItem("totalExercises", totalExercises);
-
   if(teamWheelsText){
     teamWheelsText.textContent = teamWheels;
   }
@@ -519,9 +589,35 @@ localStorage.setItem("totalExercises", totalExercises);
   }
 
   updateCategoryUI();
+  await loadTeamWheels();
+}
+
+async function loadTeamWheels(){
+
+  const statsSnap = await getDocs(collection(db, "gameStats"));
+
+  let total = 0;
+
+  statsSnap.forEach(doc => {
+    total += doc.data().monthlyWheels || 0;
+  });
+
+  teamWheels = total;
+
+  if(teamWheelsText){
+    teamWheelsText.textContent = teamWheels;
+  }
+
+  if(teamBarFill){
+    const percent = Math.min(teamWheels / teamGoal, 1);
+    teamBarFill.style.width = (percent * 100) + "%";
+  }
 }
 
 async function updateUI(){
+
+  console.log("seasonXP:", seasonXP);
+  console.log("level:", calculateLevel(seasonXP));
 
   const cappedXP = Math.min(dailyXP, goal)
   const progress = cappedXP / goal
@@ -590,134 +686,7 @@ seg.classList.remove("filled")
 })
 
 const alreadyCompletedToday = lastWheelDate === today;
-if(dailyXP >= goal && !alreadyCompletedToday && !starAnimationPlayed){
-	
-  starAnimationPlayed = true;
-  localStorage.setItem("starAnimationPlayed", "true");
-
-  launchFireworks()
-  playStarCelebration()
-
-if(lastWheelDate === today){
-
-dailyXP = goal
-localStorage.setItem("dailyXP", dailyXP)
-
-starAnimationPlayed = true;
-localStorage.setItem("starAnimationPlayed", "true");
-
-return
-}
-
-document.getElementById("completeMessage").textContent =
-"Sirkelen fullført ⭐ Du fikk en stjerne!"
-
-stars++
-starsText.textContent = stars
-
-monthlyWheels++
-monthlyWheelsText.textContent = monthlyWheels
-
-const user = auth.currentUser;
-let navn = "";
-
-if(user){
-
-const fetchedName = await getPlayerName(user);
-
-if(fetchedName){
-  navn = fetchedName;
-}
-
-}
-
-try {
-  await updateDoc(doc(db, "teamStats", "global"), {
-    teamWheels: increment(1)
-  });
-} catch (e) {
-  await setDoc(doc(db, "teamStats", "global"), {
-    teamWheels: 1
-  });
-}
-
-// 🔥 hent riktig verdi på nytt
-const updatedSnap = await getDoc(doc(db, "teamStats", "global"));
-teamWheels = updatedSnap.data().teamWheels || 0;
-
-teamWheelsText.textContent = teamWheels
-
-const teamProgress = Math.min(teamWheels / teamGoal, 1)
-if(teamBarFill){
-  teamBarFill.style.width = (teamProgress * 100) + "%"
-}
-
-if(teamWheels >= teamGoal){
-
-showBonus("⚽ Lagmål nådd! 250 ⭐!")
-
-}
-
-
-if(!lastWheelDate){
-
-  streak = 1;
-
-}else{
-
-const lastDate = parseDateKey(lastWheelDate);
-const todayDateObj = parseDateKey(today);
-
-const diff = Math.floor((todayDateObj - lastDate) / (1000*60*60*24));
-
-  if(diff === 1){
-    streak++;
-  }else{
-    streak = 1;
-  }
-
-}
-
-if(streak > longestStreak){
-  longestStreak = streak;
-}
-longestStreakText.textContent = longestStreak;
-streakText.textContent = streak
-
-lastWheelDate = today
-
-// ✅ NÅ lagrer du riktig verdi
-await setDoc(doc(db, "gameStats", user.uid), {
-  uid: user.uid,
-  navn: navn,
-
-  monthlyWheels: monthlyWheels,
-
-  // 🔥 BESKYTTELSE MOT RESET
-  stars: stars || 0,
-  streak: streak || 0,
-  longestStreak: longestStreak || 0,
-
-  totalExercises: totalExercises,
-
-  monthXP: monthXP,
-  totalXP: totalXP,
-  seasonXP: seasonXP
-
-}, { merge: true });
-
-}
-
-  localStorage.setItem("dailyXP", dailyXP)
-  localStorage.setItem("monthXP", monthXP)
-  localStorage.setItem("stars", stars)
-  localStorage.setItem("monthlyWheels", monthlyWheels)
-  localStorage.setItem("teamWheels", teamWheels)
-  
-  localStorage.setItem("streak", streak)
-  localStorage.setItem("longestStreak", longestStreak)
-  localStorage.setItem("lastWheelDate", lastWheelDate)
-  
+ 
 if(teamWheelsText){
 
 teamWheelsText.textContent = teamWheels
@@ -1096,13 +1065,18 @@ document.querySelectorAll(".exerciseBtn").forEach(btn => {
     const key = category + "|" + btn.textContent.trim();
 
     // 🔴 blokk hvis allerede gjort
-    if(exerciseHistory.includes(key)){
-      showWarning("Du har allerede gjort denne øvelsen");
-      return;
-    }
+   // if(exerciseHistory.includes(key)){
+   //   showWarning("Du har allerede gjort denne øvelsen");
+   //   return;
+  //  }
 
     const xp = Number(btn.dataset.xp);
     const name = btn.textContent.trim();
+	
+	if(completedExercises[category]?.includes(name)){
+  showWarning("Du har allerede gjort denne øvelsen");
+  return;
+}
 
     if(!categoryCounts[category]){
       categoryCounts[category] = 0;
@@ -1143,39 +1117,86 @@ if(!currentUser){
   return;
 }
 
-const logsSnap = await getDocs(
-  query(
-    collection(db, "exerciseLogs"),
-    where("uid", "==", currentUser.uid)
-  )
-);
-
+//const logsSnap = await getDocs(
+//  query(
+//    collection(db, "exerciseLogs"),
+//    where("uid", "==", currentUser.uid)
+//  )
+//);
+//
 // hent siste 10 øvelser
-const logs = logsSnap.docs
-  .map(doc => doc.data())
-  .sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+//const logs = logsSnap.docs
+//  .map(doc => doc.data())
+//  .sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0))
+//  .slice(0, 10); // 🔥 kun siste 10
+//
+//let countSinceLast = 0;
+//let found = false;
+//
+//for(const log of logs){
+//  if(log.exercise === name){
+//    found = true;
+//    break;
+//  }
+//  countSinceLast++;
+//}
+//
+//if(found && countSinceLast < 5){
+//  showWarning("Du må gjøre flere andre øvelser før du kan velge denne igjen");
+//  return;
+//}
 
-let countSinceLast = 0;
-let found = false;
+const beforeXP = dailyXP;
 
-for(const log of logs){
-  if(log.exercise === name){
-    found = true;
-    break;
-  }
-  countSinceLast++;
-}
-
-if(found && countSinceLast < 5){
-  showWarning("Du må gjøre flere andre øvelser før du kan velge denne igjen");
-  return;
-}
-
-    // 🔹 2. klikk → fullfør
-addXP(xp);
+await addXP(xp);   // 🔥 vent på oppdatering
 showXPPopup(xp);
 
+if(beforeXP < goal && dailyXP >= goal){
 
+  // 🎆 animation
+  launchFireworks();
+  playStarCelebration();
+
+  document.getElementById("completeMessage").textContent =
+  "Sirkelen fullført ⭐ Du fikk en stjerne!";
+
+  // ⭐ rewards
+  stars++;
+  monthlyWheels++;
+
+  // 🔥 STREAK
+  if(!lastWheelDate){
+    streak = 1;
+  } else {
+    const lastDate = parseDateKey(lastWheelDate);
+    const todayDateObj = parseDateKey(today);
+    const diff = daysBetween(todayDateObj, lastDate);
+
+    if(diff === 1){
+      streak++;
+    } else {
+      streak = 1;
+    }
+  }
+
+  if(streak > longestStreak){
+    longestStreak = streak;
+  }
+
+  // 📅 sett dato til slutt (VIKTIG!)
+  lastWheelDate = today;
+  
+  await setDoc(doc(db, "gameStats", currentUser.uid), {
+  stars,
+  monthlyWheels,
+  streak,
+  longestStreak,
+  lastWheelDate
+}, { merge: true });
+
+await loadTeamWheels();
+  updateUI();
+}
 
 if(currentUser){
 const playerName = await getPlayerName(currentUser);
@@ -1192,21 +1213,26 @@ await setDoc(doc(collection(db, "exerciseLogs")), {
 categoryCounts[category] = (categoryCounts[category] || 0) + 1;
 recentCategories.push(category);
 
-// 🔥 NY
+if(!completedExercises[category]){
+  completedExercises[category] = [];
+}
+
+if(!completedExercises[category].includes(name)){
+  completedExercises[category].push(name);
+}
+
+// 🔥 først oppdatere lock
 if(categoryCounts[category] === 4){
   lockIndex[category] = recentCategories.length - 1;
 }
 
-// history
-if(!exerciseHistory.includes(key)){
-  exerciseHistory.push(key);
-}
-
-if(exerciseHistory.length > 20){
-  exerciseHistory.shift();
-}
-
-localStorage.setItem("exerciseHistory", JSON.stringify(exerciseHistory));
+// 🔥 så lagre til Firestore
+await setDoc(doc(db, "gameStats", currentUser.uid), {
+  categoryCounts,
+  recentCategories,
+  lockIndex,
+  completedExercises
+}, { merge: true });
 
 // 🔴 så UI
 updateCategoryUI();
@@ -1227,11 +1253,7 @@ updateCategoryUI();
       });
     }
 
-    localStorage.setItem("categoryCounts", JSON.stringify(categoryCounts));
-    localStorage.setItem("recentCategories", JSON.stringify(recentCategories));
-
     totalExercises++;
-    localStorage.setItem("totalExercises", totalExercises);
 	
 const user = auth.currentUser;
 
@@ -1275,25 +1297,12 @@ function updateCategoryUI(){
     // 🔓 UNLOCK → reset alt
 if(wasLocked === true && !locked){
 
+  // 🔥 reset kategori
   categoryCounts[category] = 0;
   delete lockIndex[category];
+  delete completedExercises[category];
 
-  document.querySelectorAll(".exerciseBtn").forEach(btn => {
-    const list = btn.closest(".exerciseList");
-    const btnHeader = list.previousElementSibling;
-
-    if(btnHeader.dataset.category === category){
-      btn.classList.remove("done");
-
-      const key = category + "|" + btn.textContent.trim();
-      exerciseHistory = exerciseHistory.filter(item => item !== key);
-    }
-  });
-
-  localStorage.setItem("categoryCounts", JSON.stringify(categoryCounts));
-  localStorage.setItem("lockIndex", JSON.stringify(lockIndex));
-  localStorage.setItem("recentCategories", JSON.stringify(recentCategories));
-  localStorage.setItem("exerciseHistory", JSON.stringify(exerciseHistory));
+  // 🔥 lagre
 
   locked = false;
 }
@@ -1333,21 +1342,18 @@ document.querySelectorAll(".exerciseList").forEach(list => {
 
 buttons.forEach((btn) => {
 
-const key = category + "|" + btn.textContent.trim();
+  const name = btn.textContent.trim();
 
-if(exerciseHistory.includes(key)){
-  btn.classList.add("done");
-} else {
-  btn.classList.remove("done");
-}
+  if(completedExercises[category]?.includes(name)){
+    btn.classList.add("done");
+  } else {
+    btn.classList.remove("done");
+  }
 
 });
 
 });
   });
-localStorage.setItem("categoryCounts", JSON.stringify(categoryCounts));
-localStorage.setItem("recentCategories", JSON.stringify(recentCategories));
-localStorage.setItem("lockIndex", JSON.stringify(lockIndex));
 }
 
 
@@ -1410,25 +1416,6 @@ onAuthStateChanged(auth, (user) => {
     loadGameStats();
   }
 });
-
-function resetLocalData(){
-
-  localStorage.removeItem("dailyXP");
-  localStorage.removeItem("monthXP");
-  localStorage.removeItem("stars");
-  localStorage.removeItem("monthlyWheels");
-  localStorage.removeItem("totalExercises");
-  localStorage.removeItem("totalXP");
-  localStorage.removeItem("seasonXP");
-  localStorage.removeItem("streak");
-  localStorage.removeItem("longestStreak");
-  localStorage.removeItem("lastWheelDate");
-  localStorage.removeItem("categoryCounts");
-  localStorage.removeItem("recentCategories");
-  localStorage.removeItem("exerciseHistory");
-  localStorage.removeItem("lockIndex");
-
-}
 
 window.auth = auth;
 window.db = db;
