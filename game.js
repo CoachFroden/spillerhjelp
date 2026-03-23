@@ -326,18 +326,27 @@ if(!freshSnap.exists()){
 
   const playerName = await getPlayerName(user);
 
-  await setDoc(doc(db, "gameStats", user.uid), {
-    uid: user.uid,
-    navn: playerName,
-    monthXP,
-    seasonXP,
-    totalXP,
-    dailyXP,
-    totalExercises,
-    categoryCounts,
-    recentCategories,
-    lockIndex
-  }, { merge: true });
+await setDoc(doc(db, "gameStats", user.uid), {
+  uid: user.uid,
+  navn: playerName,
+
+  monthXP,
+  seasonXP,
+  totalXP,
+  dailyXP,
+
+  // 🔥 DETTE MANGLER HOS DEG
+  stars,
+  monthlyWheels,
+  streak,
+  longestStreak,
+  lastWheelDate,
+
+  totalExercises,
+  categoryCounts,
+  recentCategories,
+  lockIndex
+}, { merge: true });
 
 await loadTeamWheels();
   updateUI();
