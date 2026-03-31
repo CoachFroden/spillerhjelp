@@ -28,12 +28,15 @@ async function getPlayerName(user){
 
 function getTodayKey(){
   const d = new Date();
-  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+  const y = d.getFullYear();
+  const m = d.getMonth() + 1;   // 🔥 +1
+  const day = d.getDate();
+  return `${y}-${m}-${day}`;
 }
 
 function parseDateKey(key){
   const [y, m, d] = key.split("-").map(Number);
-  return new Date(y, m, d);
+  return new Date(y, m - 1, d); // 🔥 -1
 }
 
 function daysBetween(d1, d2){
