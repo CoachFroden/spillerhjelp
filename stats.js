@@ -53,6 +53,7 @@ players.push({
     : (data.seasonXP || 0),
 
   streak: data.streak || 0,
+  longestStreak: data.longestStreak || 0, 
   stars: data.stars || 0
 });
   });
@@ -63,13 +64,22 @@ players.push({
       if(b.wheels !== a.wheels) return b.wheels - a.wheels;
       return b.streak - a.streak; // tiebreaker
     });
-  } else {
-    players.sort((a,b) => {
-  const levelDiff = calculateLevel(b.xp) - calculateLevel(a.xp);
-  if(levelDiff !== 0) return levelDiff;
-  return b.xp - a.xp;
-});
-  }
+} else {
+  players.sort((a,b) => {
+
+    // 1. Level først
+    const levelDiff = calculateLevel(b.xp) - calculateLevel(a.xp);
+    if(levelDiff !== 0) return levelDiff;
+
+    // 2. Longest streak
+    if(b.longestStreak !== a.longestStreak){
+      return b.longestStreak - a.longestStreak;
+    }
+
+    // 3. XP
+    return b.xp - a.xp;
+  });
+}
 
   render(players);
 }
@@ -115,7 +125,7 @@ if(mode === "month"){
 <div class="badges">
   <span class="badge level">Lv ${calculateLevel(p.xp)}</span>
   <span class="badge star">⭐ ${p.stars}</span>
-  <span class="badge streak">🔥 ${p.streak}</span>
+  <span class="badge streak">🔥 ${p.longestStreak}</span>
 </div>
 </div>
 `;
