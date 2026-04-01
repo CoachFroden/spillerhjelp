@@ -1187,10 +1187,6 @@ console.log("beforeXP:", beforeXP);
 console.log("afterXP:", afterXP);
 console.log("goal:", goal);
 
-updateUI();
-updateCategoryUI();
-updateCompleteMessage();
-
 showXPPopup(finalXP);
 
 if(beforeXP < goal && afterXP >= goal){
@@ -1274,9 +1270,6 @@ if(!completedExercises[category].includes(name)){
 if(categoryCounts[category] === 4){
   lockIndex[category] = recentCategories.length - 1;
 }
-
-// 5. LAGRE (HELT TIL SLUTT)
-await savePlayerData(user);
 
 // 🔴 så UI
 updateCategoryUI();
@@ -1380,15 +1373,17 @@ document.querySelectorAll(".exerciseList").forEach(list => {
   const count = categoryCounts[category] || 0;
   const buttons = list.querySelectorAll(".exerciseBtn");
 
-  buttons.forEach((btn, index) => {
+buttons.forEach(btn => {
 
-    if(index < count){
-      btn.classList.add("done");
-    } else {
-      btn.classList.remove("done");
-    }
+  const name = btn.textContent.trim();
 
-  });
+  if(completedExercises[category]?.includes(name)){
+    btn.classList.add("done");
+  } else {
+    btn.classList.remove("done");
+  }
+
+});
 
 });
   });
