@@ -7,7 +7,8 @@ import {
   collection,
   query,
   where,
-  serverTimestamp
+  serverTimestamp,
+  deleteField
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 async function getPlayerName(user){
@@ -1248,9 +1249,11 @@ await setDoc(doc(collection(db, "exerciseLogs")), {
 categoryCounts[category] = (categoryCounts[category] || 0) + 1;
 recentCategories.push(category);
 
-// 2. RESET (unlock)
+const unlockedCategories = [];
+
 Object.keys(lockIndex).forEach(cat => {
   if(!isCategoryLocked(cat)){
+    unlockedCategories.push(cat);
     delete lockIndex[cat];
     delete completedExercises[cat];
     categoryCounts[cat] = 0;
@@ -1298,6 +1301,19 @@ updateCategoryUI();
 }
 	
 if(user){
+
+  if(unlockedCategories.length > 0){
+
+    const deletePayload = {};
+
+    unlockedCategories.forEach(cat => {
+      deletePayload[`completedExercises.${cat}`] = deleteField();
+      deletePayload[`lockIndex.${cat}`] = deleteField();
+    });
+
+    await setDoc(doc(db, "gameStats", user.uid), deletePayload, { merge: true });
+  }
+
   await savePlayerData(user);
 }
 
