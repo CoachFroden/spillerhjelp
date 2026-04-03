@@ -145,18 +145,6 @@ document.addEventListener("click", e => {
 
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-
-  const backBtn = document.getElementById("backBtn");
-
-  if(backBtn){
-
-    backBtn.addEventListener("click", () => {
-
-      window.location.href = "minside.html";
-
-    });
-
-  }
-
+backBtn.addEventListener("click", () => {
+  window.history.back();
 });

@@ -1,1029 +1,116 @@
-/* Fjern iOS standard styling */
-select,
-button {
-  -webkit-appearance: none;
-  appearance: none;
-  font-size: 16px; /* Viktig for å unngå zoom */
-}
-
-:root {
-  --bg1:#0f172a;
-  --bg2:#020617;
-  --card:#111827;
-  --muted:#cbd5f5;
-  --text:#e5e7eb;
-  --border:#1f2a44;
-  --accent:#facc15;
-  --btn:#2c7be5;
-  --danger:#ef4444;
-  --ok:#22c55e;
-}
-
-* { box-sizing: border-box; }
-
+/* ===== CSS ===== */
 body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(180deg, var(--bg1), var(--bg2));
-  color: var(--text);
-  min-height: 100vh;
+  margin:0;
+  font-family: system-ui;
+  font-size: 12px;
+  background:#020617;
+  color:white;
+}
 
-  -webkit-overflow-scrolling: touch; /* 📱 smooth scroll iOS */
+h1 {
+  text-align: center;
 }
 
 .container {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 24px 18px 80px;
-
-  min-height: 100dvh; /* 📱 fyller mobilskjermen */
+  max-width:500px;
+  margin:auto;
+  padding:20px;
 }
 
-.header h1{
-  font-size:3rem;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  margin-bottom:14px;
-
-  background:linear-gradient(
-    110deg,
-    #38bdf8 0%,
-    #7dd3fc 20%,
-    #ffffff 40%,
-    #7dd3fc 60%,
-    #38bdf8 80%
-  );
-
-  background-size:200% auto;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-
-  text-shadow:0 0 20px rgba(56,189,248,0.4);
-
-  animation:headerShimmer 4s linear infinite;
-}
-
-@keyframes headerShimmer{
-
-  from{
-    background-position:0% center;
-  }
-
-  to{
-    background-position:200% center;
-  }
-
-}
-
-/* =====================
-   KORT / GENERELT
-===================== */
 .card {
-  background: rgba(17,24,39,0.92);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+  background:#0f172a;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+   position: relative;
+  z-index: 0;
 }
 
-button {
-  appearance: none;
-  border: none;
-  border-radius: 999px;
-  padding: 10px 18px;
-  font-size: 0.95rem;
-  cursor: pointer;
-  background: var(--btn);
-  color: #fff;
-}
-
-button.secondary {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-}
-
-button.danger {
-  background: var(--danger);
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-input,
-select,
-textarea {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: rgba(2,6,23,0.7);
-  color: var(--text);
-
-  font-size: 16px; /* 🔑 hindrer iPhone zoom */
-}
-
-textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.hint {
-  font-size: 0.9rem;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-.status {
-  font-size: 0.95rem;
-  margin-top: 10px;
-  color: var(--muted);
-}
-
-/* =====================
-   AUTH – OVERSKRIFT
-===================== */
-.auth-title {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 14px;
-  color: var(--accent);
-}
-
-.auth-intro {
-  text-align: center;
-  font-size: 1rem;
-  margin: 4px 0;
-}
-
-.auth-intro.muted {
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-/* =====================
-   LOGIN
-===================== */
-#loginBox {
-  margin-top: 24px;
-  display: grid;
-  gap: 12px;
-}
-
-@media (min-width: 640px) {
-  #loginBox {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  #loginBtn,
-  #loginBox p,
-  #loginBox .status {
-    grid-column: span 2;
-    text-align: center;
-    justify-self: center;
-  }
-}
-
-/* =====================
-   REGISTRERING
-===================== */
-#registerBox {
-  margin-top: 24px;
-  display: grid;
-  gap: 12px;
-}
-
-@media (min-width: 640px) {
-  #registerBox {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  #registerBox button,
-  #registerBox p,
-  #registerBox .status {
-    grid-column: span 2;
-    text-align: center;
-  }
-}
-
-#registerBtn {
-  margin-top: 6px;
-}
-
-/* =====================
-   TRENERLOGIN (DISKRET)
-===================== */
-#showCoachLogin {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 0.85rem;
-  opacity: 0.7;
-  cursor: pointer;
-}
-
-/* =====================
-   APP-INNHOLD
-===================== */
-.header {
-  text-align: center;
-  margin-bottom: 18px;
-}
-
-.header h1 {
-  margin: 0 0 8px;
-  font-size: 1.8rem;
-}
-
-.intro{
-  color: rgba(255,255,255,0.55);
-  max-width: 48ch;
-  margin: 0 auto;
-
-  font-size:0.9rem;
-  line-height:1.4;
-}
-
-.grid {
-  display: grid;
-  gap: 18px;
-  margin-top: 18px;
-}
-
-.card h2 {
-  margin-top: 0;
-  color: var(--accent);
-  font-size: 1.1rem;
-}
-
-/* =====================
-   SESONG / BRUKER
-===================== */
-.logged-in-user {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(2,6,23,0.55);
-  font-size: 0.9rem;
-}
-
-.pill {
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(2,6,23,0.55);
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.inline {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.btns {
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-[hidden] {
-  display: none !important;
-}
-/* ===== Brukerinfo øverst til høyre ===== */
-.season-card .card-top{
-  position:relative;
+.buttons {
   display:flex;
-  justify-content:center;
-  align-items:center;
-}
-/* Høyre-alignment */
-.season-card .card-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: auto;   /* 🔑 skyver alt til høyre */
-}
-/* Mindre og roligere logg-ut-knapp */
-.logout-pill {
-  padding: 6px 10px;
-  font-size: 0.85rem;
-  opacity: 0.85;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
 }
 
-.logout-pill:hover {
-  opacity: 1;
-}
-label {
-  display: block;
-  font-size: 0.95rem;
-  color: var(--text);
-  margin-top: 20px;     /* 🔑 mer luft fra pillene */
-  margin-bottom: 20px;  /* luft ned til feltet */
-}
-/* Mindre og roligere destruktiv knapp */
-/* Ekstra kompakt destruktiv knapp */
-button.danger {
-  padding: 9px 16px;     /* 🔑 merkbart lavere */
-  font-size: 0.85rem;
-  line-height: 1;
-  min-height: auto;      /* 🔑 fjerner evt. browser-minimum */
-}
-.btns button.danger {
-  align-self: center;
-}
-.back-btn {
-  margin-bottom: 16px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255,255,255,0.08);
-  color: #cfd8e3;
-  font-size: 0.9rem;
-  cursor: pointer;
+.buttons button {
+  flex:1;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  background:#1e293b;
+  color:white;
 }
 
-.back-btn:hover {
-  background: rgba(255,255,255,0.16);
-}
-.back-btn {
-  background: none;
-  border: none;
-  color: #60a5fa;
-  font-size: 14px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  text-align: left;
+.buttons button.active {
+  background:#22c55e;
 }
 
-.back-btn:hover {
-  text-decoration: underline;
-}
-.history-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 16px;
-}
-
-.history-card h3 {
-  margin-bottom: 10px;
-  color: #facc15; /* gul */
-  font-size: 16px;
-}
-
-.history-card p {
-  margin: 4px 0;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #e5e7eb;
-}
-
-.history-card strong {
-  color: #94a3b8;
-  font-weight: 500;
-}
-#historyList {
-  margin-top: 16px;
-}
-.history-card p + p {
-  margin-top: 6px;
-}
-#weeklyForm .btns {
-  margin-bottom: 24px;
-}
-.history-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 16px;
-
-  opacity: 0;
-  transform: translateY(-8px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.history-card.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.history-card.hide {
-  opacity: 0;
-  transform: translateY(-8px);
-}
-
-.reflection-type {
-  margin-bottom: 20px;
-}
-
-.reflection-type label {
-  font-weight: 500;
-}
-
-.reflection-type input[type="radio"] {
-  margin-right: 6px;
-}
-
-.reflection-type > label {
-  display: inline-flex;
-  align-items: center;
-  margin-right: 20px;
-  cursor: pointer;
-}
-input[type="radio"] {
-  accent-color: #4da3ff;
-  width: 18px;
-  height: 18px;
-}
-select {
-  background-color: #0f1b2d;
-  color: #fff;
-  border: 1px solid #2c3e50;
-  border-radius: 8px;
-  padding: 12px;
-  width: 100%;
-}
-.score-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.score-buttons button {
-  flex: 1;
-  background: #1e293b;
-  border: 2px solid #334155;
-  border-radius: 12px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 12px 0;
-}
-
-.score-buttons button.active {
-  background: linear-gradient(135deg, #22c55e, #15803d);
-  border-color: #22c55e;
-  box-shadow: 0 0 15px rgba(34,197,94,0.6);
-}
-.choice-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.choice-buttons button {
-  flex: 1;
-  background: #1e293b;
-  border: 2px solid #334155;
-  border-radius: 12px;
-  padding: 12px 0;
-  font-weight: 600;
-  transition: all 0.15s ease;
-}
-
-.choice-buttons button.active {
-  background: linear-gradient(135deg, #38bdf8, #2563eb);
-  border-color: #38bdf8;
-  box-shadow: 0 0 15px rgba(56,189,248,0.6);
-}
-.mode-toggle {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.mode-toggle button {
-  flex: 1;
-  background: #1e293b;
-  border: 2px solid #334155;
-  border-radius: 14px;
-  padding: 14px 0;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.mode-toggle button.active {
-  background: linear-gradient(135deg, #facc15, #f59e0b);
-  border-color: #facc15;
-  box-shadow: 0 0 18px rgba(250,204,21,0.6);
-}
-.main-title {
-  text-align: center;
-  font-size: 1.8rem;
-  letter-spacing: 1px;
-  margin-bottom: 30px;
-  text-transform: uppercase;
-  color: #facc15;
-  text-shadow: 0 0 15px rgba(250,204,21,0.6);
-}
-.section-title {
-  margin-top: 25px;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-  text-align: center;
-  letter-spacing: 0.5px;
-  color: #38bdf8;
-  text-transform: uppercase;
-  position: relative;
-}
-
-.section-title::after {
-  content: "";
-  display: block;
-  width: 40px;
-  height: 2px;
-  margin: 8px auto 0;
-  background: linear-gradient(90deg, #38bdf8, #22c55e);
-  border-radius: 2px;
-}
-.choice-buttons,
-.score-buttons {
-  margin-bottom: 30px;
+.buttons.multi button.active {
+  background:#38bdf8;
 }
 
 textarea {
-  margin-top: 10px;
-  margin-bottom: 25px;
-}
-
-#trainingFields,
-#matchFields {
-  margin-top: 30px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(56,189,248,0.2);
-}
-.mission-block {
-  margin-top: 20px;
-  padding: 10px;
-  border-radius: 18px;
-  background: rgba(15,23,42,0.7);
-  border: 1px solid rgba(56,189,248,0.2);
-  transition: all 0.2s ease;
-}
-
-.mission-block:hover {
-  border-color: rgba(56,189,248,0.6);
-  box-shadow: 0 0 20px rgba(56,189,248,0.3);
-}
-
-.mission-title {
-  text-align: center;
-  margin-bottom: 15px;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
-  color: #38bdf8;
-}
-.submit-btn {
   width: 100%;
-  margin-top: 30px;
-  padding: 16px 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #22c55e, #15803d);
+  padding: 12px;
+  border-radius: 12px;
   border: none;
+  background: #1e293b;
   color: white;
-  transition: all 0.15s ease;
+  font-size: 16px;
+  margin-top: 10px;
+  box-sizing: border-box; /* ← DENNE */
 }
 
-.submit-btn:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 20px rgba(34,197,94,0.6);
+#submitBtn {
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:#22c55e;
+  color:white;
 }
 
-.submit-btn:active {
+#submitBtn:disabled {
+  background:#1e293b;
+  opacity:0.5;
+}
+
+#goalBox {
+  margin-top: 15px;
+}
+
+#goalToggleBtn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: #1e293b;
+  color: white;
+  border: none;
+}
+
+#saveGoalBtn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #22c55e;
+  color: white;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+#saveGoalBtn:active {
   transform: scale(0.98);
 }
-.section-title {
-  margin-top: 25px;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-  text-align: center;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #38bdf8;
-  position: relative;
-}
 
-.section-title::after {
-  content: "";
-  display: block;
-  width: 50px;
-  height: 2px;
-  margin: 10px auto 0;
-  background: linear-gradient(90deg, #38bdf8, #22c55e);
-  border-radius: 2px;
-}
-
-.choice-buttons,
-.score-buttons {
-  margin-bottom: 35px;
-}
-#trainingFields,
-#matchFields {
-  margin-top: 50px;
-  padding-top: 25px;
-  border-top: 1px solid rgba(56,189,248,0.25);
-}
-.mission-sub {
-  text-align: center;
-  font-size: 0.9rem;
-  margin-bottom: 15px;
-  color: rgba(255,255,255,0.6);
-}
-.season-title{
-  font-size:1.2rem;
-  letter-spacing:1px;
-  color:#facc15;
-  text-transform:uppercase;
-  margin:0;
-  text-align:center;
-  cursor:pointer;
-}
-.pill {
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-  background: rgba(56,189,248,0.1);
-  border: 1px solid rgba(56,189,248,0.3);
-}
-
-#seasonBadge {
-  font-weight: 600;
-}
-
-#seasonBadge:contains("Satt") {
-  background: rgba(34,197,94,0.15);
-  border-color: rgba(34,197,94,0.6);
-}
-.season-card {
-  position: relative;
-  border: 1px solid rgba(250,204,21,0.2);
-  box-shadow: 0 0 25px rgba(250,204,21,0.1);
-}
-
-.season-card:hover {
-  border-color: rgba(250,204,21,0.6);
-  box-shadow: 0 0 35px rgba(250,204,21,0.3);
-}
-#seasonGoal {
-  font-size: 1rem;
-  font-weight: 500;
-}
-.season-card .secondary {
-  background: linear-gradient(135deg, #22c55e, #15803d);
-  border: none;
+#coachNoteToggleBtn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: #1e293b;
   color: white;
-  font-weight: 600;
-  padding: 10px 18px;
-  border-radius: 999px;
-  transition: all 0.15s ease;
-}
-
-.season-card .secondary:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 18px rgba(34,197,94,0.6);
-}
-.season-card .danger {
-  background: rgba(239,68,68,0.1);
-  border: 1px solid rgba(239,68,68,0.4);
-  color: #ef4444;
-  font-weight: 600;
-  padding: 10px 18px;
-  border-radius: 999px;
-  transition: all 0.15s ease;
-}
-
-.season-card .danger:hover {
-  background: rgba(239,68,68,0.2);
-  box-shadow: 0 0 12px rgba(239,68,68,0.5);
-}
-/* 🔴 RØD */
-.choice-buttons button.low.active {
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
-  border-color: #ef4444;
-  box-shadow: 0 0 18px rgba(239,68,68,0.6);
-}
-
-/* 🟡 GUL */
-.choice-buttons button.mid.active {
-  background: linear-gradient(135deg, #facc15, #eab308);
-  border-color: #facc15;
-  box-shadow: 0 0 18px rgba(250,204,21,0.6);
-}
-
-/* 🟢 GRØNN */
-.choice-buttons button.high.active {
-  background: linear-gradient(135deg, #22c55e, #15803d);
-  border-color: #22c55e;
-  box-shadow: 0 0 18px rgba(34,197,94,0.6);
-}
-.xp-wrapper {
-  margin-top: 30px;
-}
-
-.xp-bar-bg {
-  height: 12px;
-  background: #1e293b;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.xp-bar-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #ef4444, #facc15, #22c55e);
-  transition: width 0.3s ease;
-}
-
-.xp-text {
-  text-align: center;
-  margin-top: 8px;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
-  color: rgba(255,255,255,0.7);
-}
-.submit-btn:disabled {
-  background: #1e293b;
-  color: rgba(255,255,255,0.4);
-  box-shadow: none;
-  cursor: not-allowed;
-}
-
-/* Energi / innsats fargeskala */
-
-.score-buttons button[data-value="1"].active {
-  background: linear-gradient(135deg, #ef4444, #991b1b);
-  border-color: #ef4444;
-  box-shadow: 0 0 15px rgba(239,68,68,0.6);
-}
-
-.score-buttons button[data-value="2"].active {
-  background: linear-gradient(135deg, #f97316, #c2410c);
-  border-color: #f97316;
-  box-shadow: 0 0 15px rgba(249,115,22,0.6);
-}
-
-.score-buttons button[data-value="3"].active {
-  background: linear-gradient(135deg, #facc15, #ca8a04);
-  border-color: #facc15;
-  box-shadow: 0 0 15px rgba(250,204,21,0.6);
-}
-
-.score-buttons button[data-value="4"].active {
-  background: linear-gradient(135deg, #a3e635, #65a30d);
-  border-color: #a3e635;
-  box-shadow: 0 0 15px rgba(163,230,53,0.6);
-}
-
-.score-buttons button[data-value="5"].active {
-  background: linear-gradient(135deg, #16a34a, #065f46);
-  border-color: #16a34a;
-  box-shadow: 0 0 18px rgba(22,163,74,0.8);
-}
-
-/* DAGVALG – 5 + 2 layout */
-
-.day-buttons{
-  display:grid !important;
-  grid-template-columns: repeat(5, 1fr);
-  gap:10px;
-  justify-items:center;
-  margin-top:14px;
-}
-
-/* Lørdag */
-.day-buttons button:nth-child(6){
-  grid-column:2;
-}
-
-/* Søndag */
-.day-buttons button:nth-child(7){
-  grid-column:4;
-}
-
-/* mindre dagknapper */
-.day-buttons button{
-  padding:8px 12px;
-  font-size:0.85rem;
-  border-radius:12px;
-}
-
-/* DAGFARGER */
-
-/* trening dager */
-.day-buttons button:nth-child(-n+5){
-  background:#1e40af;
-  border:2px solid #3b82f6;
-}
-
-/* helg */
-.day-buttons button:nth-child(6),
-.day-buttons button:nth-child(7){
-  background:#14532d;
-  border:2px solid #22c55e;
-}
-
-/* hover */
-.day-buttons button:hover{
-  transform:translateY(-1px);
-}
-
-/* valgt dag */
-.day-buttons button.active{
-  box-shadow:0 0 14px rgba(255,255,255,0.35);
-  transform:scale(1.05);
-}
-
-#seasonContent{
-  display:none;
-  margin-top:10px;
-}
-
-.season-title{
-  cursor:pointer;
-}
-
-.close-btn{
-  position:absolute;
-  right:16px;
-  top:50%;
-  transform:translateY(-50%);
-  background:none;
-  border:none;
-  font-size:16px;
-  color:#94a3b8;
-  cursor:pointer;
-  padding:4px;
-}
-
-.close-btn:hover{
-  color:#ffffff;
-}
-
-.close-btn:hover{
-  color:#ffffff;
-}
-
-.season-title{
-  text-align:center;
-  cursor:pointer;
-  color:rgba(250,204,21,0.6);
-  font-size:1rem;
-  letter-spacing:0.5px;
-  text-transform:uppercase;
-}
-
-.season-card .card-actions{
-  position:absolute;
-  right:14px;
-  top:0;
-}
-
-.back-btn{
-  background:none;
-  border:none;
-  color:#60a5fa;
-  font-size:14px;
-  margin-bottom:10px;
-  cursor:pointer;
-}
-
-.history-title{
-  text-align:center;
-  cursor:pointer;
-  color:#38bdf8;
-  font-size:1.2rem;
-  letter-spacing:0.5px;
-}
-
-#historyContent{
-  display:none;
-  margin-top:15px;
-}
-
-.reflection-title{
-  text-align:center;
-  cursor:pointer;
-  color:#facc15;
-  font-size:1.6rem;
-  letter-spacing:1px;
-  font-weight:700;
-}
-
-#reflectionContent{
-  display:none;
-  margin-top:20px;
-}
-
-/* ===== VISUELL PRIORITET (roligere) ===== */
-
-.reflection-card .reflection-title{
-  text-align:center;
-  cursor:pointer;
-
-  font-size:1.55rem;
-  font-weight:700;
-  letter-spacing:0.8px;
-  margin:0;
-
-  color:#38bdf8;
-
-  text-shadow:
-    0 0 6px rgba(56,189,248,0.35),
-    0 0 16px rgba(56,189,248,0.25);
-
-  animation:reflectionGlow 2.8s ease-in-out infinite;
-}
-
-@keyframes reflectionGlow{
-
-  0%{
-    text-shadow:
-      0 0 6px rgba(56,189,248,0.25),
-      0 0 12px rgba(56,189,248,0.15);
-  }
-
-  50%{
-    text-shadow:
-      0 0 14px rgba(56,189,248,0.65),
-      0 0 28px rgba(56,189,248,0.35);
-  }
-
-  100%{
-    text-shadow:
-      0 0 6px rgba(56,189,248,0.25),
-      0 0 12px rgba(56,189,248,0.15);
-  }
-
-}
-
-.history-section .history-title{
-  text-align:center;
-  cursor:pointer;
-  color:rgba(255,255,255,0.85);
-  font-size:1.2rem;
-  font-weight:600;
-  margin:0;
-}
-
-.season-card .season-title{
-  text-align:center;
-  cursor:pointer;
-  color:rgba(255,255,255,0.55);
-  font-size:0.95rem;
-  font-weight:500;
-  letter-spacing:0.6px;
-  text-transform:uppercase;
-  margin:0;
-}
-
-.wave-letter{
-  display:inline-block;
-  color:#38bdf8;
-  animation:waveText 1.6s ease-in-out infinite;
-}
-
-@keyframes waveText{
-
-  0%{ transform:translateY(0px); }
-
-  50%{ transform:translateY(-6px); }
-
-  100%{ transform:translateY(0px); }
-
-}
-
-/* Glødende ramme rundt ukerefleksjon */
-
-.reflection-card{
-  border:1px solid rgba(56,189,248,0.35);
-  box-shadow:
-    0 0 10px rgba(56,189,248,0.25),
-    0 0 25px rgba(56,189,248,0.15);
-}
-
-/* litt sterkere når kortet er åpent */
-.reflection-card:has(#reflectionContent[style*="block"]){
-  box-shadow:
-    0 0 14px rgba(56,189,248,0.45),
-    0 0 35px rgba(56,189,248,0.25);
-}
-
-/* Hindre iPhone Safari zoom på input */
-
-input,
-textarea,
-select {
-  font-size: 16px !important;
+  border: none;
+  margin-bottom: 10px;
 }
