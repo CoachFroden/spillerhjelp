@@ -76,6 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btn) btn.click();
 });
 
+const backBtn = document.getElementById("backBtn");
+
+backBtn.addEventListener("click", () => {
+  window.location.href = "./minside.html";
+});
+
 function checkReady() {
   const current = selections.current;
 
