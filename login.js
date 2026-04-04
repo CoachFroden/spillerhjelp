@@ -134,19 +134,52 @@ loginBtn.onclick = async () => {
 
     const data = snap.data();
 
-    if (data.approved !== true) {
-      loginStatus.textContent =
-        "Kontoen venter på godkjenning av trener.";
-      return;
-    }
+    // 🚦 Spiller må være godkjent
+if (data.approved !== true) {
+  loginStatus.textContent =
+    "Kontoen venter på godkjenning av trener.";
+  return;
+}
 
-    // ✅ GODKJENT SPILLER
-    window.location.href = "minside.html";
+// 🔐 NY: må endre passord
+if (data.mustChangePassword) {
+  window.location.href = "change-password.html";
+  return;
+}
+
+// ✅ GODKJENT SPILLER
+window.location.href = "minside.html";
 
   } catch (err) {
     console.error(err);
     loginStatus.textContent =
       "Feil brukernavn eller passord.";
+  }
+};
+
+const forgotBtn = document.getElementById("forgotBtn");
+
+forgotBtn.onclick = async () => {
+  const rawUsername = loginEmail.value.trim().toLowerCase();
+  const username = rawUsername.replace(/[^a-z0-9.-]/g, "");
+
+  if (!username) {
+    loginStatus.textContent = "Skriv inn brukernavn først.";
+    return;
+  }
+
+  try {
+    await setDoc(doc(db, "passwordRequests", username), {
+      username,
+      createdAt: new Date().toISOString()
+    });
+
+    loginStatus.textContent =
+      "Trener har mottatt forespørselen.";
+
+  } catch (err) {
+    console.error(err);
+    loginStatus.textContent = "Noe gikk galt.";
   }
 };
 
