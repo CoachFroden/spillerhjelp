@@ -14,6 +14,7 @@
    Ingenting forsvinner, inkludert bottom-boksene.
 */
 
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("visualisering.js loaded (clean version, no reveal)");
-});
+document.querySelector(".back-btn").onclick = () => {
+  window.location.href = "kampklar.html";
+};
+

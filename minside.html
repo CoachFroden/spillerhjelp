@@ -2,59 +2,79 @@
 <html lang="no">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Min side</title>
 
   <link rel="stylesheet" href="minside.css">
 
-  <!-- Firebase v8 (matcher resten av prosjektet ditt) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 </head>
 <body>
 
-  <main class="container">
+<main class="container">
 
-    <section class="player-card">
-      <div class="avatar">👤</div>
-      <div class="player-info">
-        <h1 id="player-name">Spiller</h1>
-        <p id="player-role">–</p>
+  <!-- SPILLER -->
+  <section class="player-card">
+    <div class="avatar">👤</div>
+    <div class="player-info">
+      <h1 id="player-name">Spiller</h1>
+      <p id="player-role">–</p>
+    </div>
+  </section>
+
+  <!-- HOVEDMENY -->
+  <section class="main-menu">
+
+    <button class="main-btn speed" onclick="goTo('trening.html')">
+      <span class="icon">⚡</span>
+      <div>
+        <h2>Trening</h2>
+        <p>Bli raskere og bedre</p>
       </div>
-    </section>
+    </button>
 
-<section class="menu">
+    <button class="main-btn injury" onclick="goTo('skade.html')">
+      <span class="icon">🛡️</span>
+      <div>
+        <h2>Skade og forebygging</h2>
+        <p>Forebygg og bli skadefri</p>
+      </div>
+    </button>
 
-<button class="menu-btn plan" onclick="goTo('ovelser.html')">
-  🔥<span>Ukens fokus</span>
-</button>
+    <button class="main-btn gameprep" onclick="goTo('kampmeny.html')">
+      <span class="icon">⚽</span>
+      <div>
+        <h2>Kamp</h2>
+        <p>Kamper og forberedelse</p>
+      </div>
+    </button>
 
-<button class="menu-btn reflection" onclick="goTo('utvikling.html')">
-  📝<span>Utvikling</span>
-</button>
+    <button class="main-btn mind" onclick="goTo('utvikling.html')">
+      <span class="icon">🧠</span>
+      <div>
+        <h2>Utvikling</h2>
+        <p>Refleksjon og fokus</p>
+      </div>
+    </button>
 
-<button class="menu-btn feedback" onclick="goTo('kamper.html')">
-  📬<span>Kamper</span>
-  <span id="feedbackBadge" class="badge hidden"></span>
-</button>
-
-<button class="menu-btn feedback" onclick="goTo('visualisering.html')">
-  💬<span>Visualisering</span>
-</button>
-
-<button class="menu-btn game" onclick="goTo('game.html')">
-  🎮<span>The Game</span>
-</button>
-
-</section>
+    <button class="main-btn game" onclick="goTo('game.html')">
+      <span class="icon">🎮</span>
+      <div>
+        <h2>Spill</h2>
+        <p>Litt ekstra motivasjon</p>
+      </div>
+    </button>
 	
-	<div class="logout-bullet" id="logoutBtn">
-  • Logg ut
-</div>
 
+  </section>
 
-  </main>
+  <div class="logout-bullet" id="logoutBtn">
+    • Logg ut
+  </div>
+
+</main>
 
 <script type="module" src="minside.js"></script>
 </body>

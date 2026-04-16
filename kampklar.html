@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kampklar</title>
+  <link rel="stylesheet" href="kampklar.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- START -->
+<div id="start" class="screen active">
+
+  <div class="topBar">
+    <div onclick="window.location.href='kampmeny.html'">←</div>
+  </div>
+
+  <div class="hero">
+      <div class="icon">⚽</div>
+      <div class="main">KAMPKLAR</div>
+      <div class="sub">Fra du står opp → klar til kamp</div>
+      <button id="startBtn">START</button>
+    </div>
+  </div>
+  
+  
+
+  <!-- CHECKLIST -->
+  <div id="checklist" class="screen">
+    <div class="topBar">
+      <div id="backBtn">✕</div>
+      <div id="progress"></div>
+    </div>
+
+    <div id="taskBox" class="card">
+      <div id="time"></div>
+      <div id="taskTitle"></div>
+      <div id="taskDesc"></div>
+    </div>
+
+    <button id="doneBtn">FERDIG</button>
+    <div id="visualBox" onclick="goVisual()">
+  🎯 Visualiser kampen (2 min)
+</div>
+
+    <div id="tip"></div>
+  </div>
+  
+  <div id="visual" class="screen">
+
+  <div class="topBar">
+    <div id="backFromVisual">✕</div>
+    <div id="vProgress"></div>
+  </div>
+
+  <div id="vBox" class="card">
+    <div id="vTitle"></div>
+    <div id="vText"></div>
+  </div>
+
+  <button id="vNext">NESTE</button>
+
+</div>
+
+</div>
+
+<script src="kampklar.js"></script>
+</body>
+</html>

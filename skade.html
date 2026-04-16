@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skade</title>
+
+<link rel="stylesheet" href="skade.css">
+</head>
+<body>
+
+<main class="container">
+
+  <!-- BACK -->
+  <button class="back-btn" onclick="goBack()">←</button>
+
+  <!-- HEADER -->
+  <section class="header">
+    <h1>Skade og forebygging</h1>
+    <p>Hold deg skadefri og kom raskt tilbake</p>
+  </section>
+
+  <!-- MENU -->
+  <section class="menu">
+
+    <!-- HAMSTRING -->
+    <button class="card hamstring" onclick="goTo('hamstring.html')">
+      <div class="icon">⚡🦵</div>
+      <div>
+        <h2>Hamstring</h2>
+        <p>Rehab og forebygging</p>
+      </div>
+    </button>
+
+    <!-- LEGG -->
+    <button class="card calf" onclick="goTo('legg.html')">
+      <div class="icon">🦶</div>
+      <div>
+        <h2>Legg</h2>
+        <p>Unngå og håndter kramper</p>
+      </div>
+    </button>
+
+    <!-- LYSK -->
+    <button class="card groin" onclick="goTo('lyske.html')">
+      <div class="icon">🧍‍♂️</div>
+      <div>
+        <h2>Lysk</h2>
+        <p>Unngå og håndter skade</p>
+      </div>
+    </button>
+
+    <!-- KNE -->
+    <button class="card knee" onclick="goTo('kne.html')">
+      <div class="icon">🛡️</div>
+      <div>
+        <h2>Kne</h2>
+        <p>Unngå og håndter skade</p>
+      </div>
+    </button>
+
+    <!-- ANKEL -->
+    <button class="card ankle" onclick="goTo('ankel.html')">
+      <div class="icon">⚖️</div>
+      <div>
+        <h2>Ankel</h2>
+        <p>Unngå og håndter skade</p>
+      </div>
+    </button>
+
+  </section>
+
+</main>
+
+<script src="skade.js"></script>
+</body>
+</html>

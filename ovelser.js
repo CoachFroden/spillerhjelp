@@ -17,39 +17,37 @@ const currentWeek = getWeekNumber();
 
 const weekSelect = document.getElementById("weekSelect");
 const exerciseList = document.getElementById("exerciseList");
+const focusDiv = document.getElementById("focusText");
 
 /* ================= FYLL UKEVELGER ================= */
 
-weekSelect.innerHTML = "";
+if (weekSelect) {
 
-const firstOption = document.createElement("option");
-firstOption.text = "Velg uke";
-firstOption.value = "";
-weekSelect.appendChild(firstOption);
+  weekSelect.innerHTML = "";
 
-for (let i = 0; i < 8; i++) {
+  const firstOption = document.createElement("option");
+  firstOption.text = "Velg uke";
+  firstOption.value = "";
+  weekSelect.appendChild(firstOption);
 
-  const option = document.createElement("option");
-  const weekNumber = currentWeek + i;
+  for (let i = 0; i < 8; i++) {
+    const option = document.createElement("option");
+    const weekNumber = currentWeek + i;
 
-  if (i === 0) {
-    option.text = "Denne uken";
-  } 
-  else if (i === 1) {
-    option.text = "Neste uke";
-  } 
-  else {
-    option.text = "Uke " + weekNumber;
+    if (i === 0) option.text = "Denne uken";
+    else if (i === 1) option.text = "Neste uke";
+    else option.text = "Uke " + weekNumber;
+
+    option.value = "week" + weekNumber;
+    weekSelect.appendChild(option);
   }
 
-  option.value = "week" + weekNumber;
-
-  weekSelect.appendChild(option);
 }
 
 /* ================= LAST ØVELSER ================= */
 
 async function loadExercises() {
+	if (!exerciseList || !weekSelect) return;
 
   const weekChoice = weekSelect.value;
 
@@ -77,6 +75,14 @@ exerciseList.innerHTML = `
   }
 
   const data = snap.data();
+
+if (focusDiv) {
+  if (data.focus) {
+    focusDiv.textContent = "Ukens fokus: " + data.focus;
+  } else {
+    focusDiv.textContent = "";
+  }
+}
 
   if (!data.exercises || data.exercises.length === 0) {
     exerciseList.innerHTML = `
@@ -107,4 +113,9 @@ exerciseList.innerHTML = `
 
 /* ================= VELG UKE ================= */
 
-weekSelect.addEventListener("change", loadExercises);
+if (weekSelect && exerciseList) {
+  weekSelect.addEventListener("change", loadExercises);
+
+  weekSelect.value = "week" + currentWeek;
+  loadExercises();
+}

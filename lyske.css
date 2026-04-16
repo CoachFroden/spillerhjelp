@@ -1,0 +1,383 @@
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:system-ui;
+}
+
+body {
+  margin: 0;
+  background: #020617; /* fallback */
+}
+
+#app {
+  max-width: 420px;
+  margin: auto;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  background: radial-gradient(
+    circle at 50% 15%,
+    #3b82f6 0%,
+    #1e3a8a 35%,
+    #020617 65%
+  );
+}
+
+html, body {
+  height: 100%;
+}
+/* SCREENS */
+.screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 20px 24px;
+
+  width: 100%;
+  min-height: 100vh;   /* 👈 dette er nøkkelen */
+}
+
+.screen.active {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding:28px 20px 24px;
+
+  overflow-y:auto;   /* 👈 dette gir scroll */
+}
+
+/* BACK */
+#homeBack, #backBtn {
+  position:absolute;
+  top:20px;
+  left:20px;
+  font-size:20px;
+  opacity:0.6;
+  cursor:pointer;
+}
+
+/* HERO */
+.hero {
+  text-align:center;
+  margin-top:20px;
+}
+
+.hero h1 {
+  font-size:36px;
+  color:white;
+}
+
+.intro {
+  margin-top:5px;
+  color:#e2e8f0;
+}
+
+.intro.small {
+  font-size:14px;
+  color:#94a3b8;
+}
+
+/* MENU */
+.menu {
+  margin-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.menu button {
+  width:100%;
+  padding: 12px 16px; 
+  border:none;
+  border-radius:16px;
+  background: linear-gradient(145deg, #1f2937, #020617);
+  color:white;
+  text-align:left;
+  border:1px solid rgba(255,255,255,0.06);
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* FARGER PER NIVÅ */
+.menu button:nth-child(1){ border-left:4px solid #22c55e; } /* grønn */
+.menu button:nth-child(2){ border-left:4px solid #3b82f6; } /* blå */
+.menu button:nth-child(3){ border-left:4px solid #f59e0b; } /* gul */
+.menu button:nth-child(4){ border-left:4px solid #ef4444; } /* rød */
+.menu button:nth-child(5){ border-left:4px solid #a855f7; } /* lilla */
+
+.menu button span {
+  display:block;
+  font-size:13px;
+  color:#94a3b8;
+  margin-top:4px;
+}
+
+/* CARD */
+.card {
+  background: linear-gradient(
+    180deg,
+    rgba(59,130,246,0.25),
+    rgba(30,58,138,0.35)
+  );
+
+  backdrop-filter: blur(12px);
+
+  border-radius: 24px;
+  padding: 34px 22px;
+  text-align: center;
+
+  border: 1px solid rgba(96,165,250,0.4);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.5),
+    inset 0 0 30px rgba(59,130,246,0.2);
+}
+
+.card h1,
+.card p {
+  color: #f1f5f9;
+}
+
+#title {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+color: #60a5fa;
+}
+
+#desc {
+  margin-top:10px;
+  opacity:0.9;
+}
+
+/* BUTTON */
+#next {
+  margin-top:30px;
+  padding:18px;
+  border:none;
+  border-radius:18px;
+
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+
+  font-weight: 700;
+  letter-spacing: 1px;
+
+  box-shadow: 0 10px 30px rgba(59,130,246,0.5);
+
+  transition: 0.2s;
+}
+
+#next:hover {
+  transform: translateY(-2px);
+}
+
+/* TIP */
+#tip {
+  opacity: 0.7;
+  font-size: 14px;
+  text-align: center;
+  width: 100%;
+  margin-top: 10px;
+  color: #858AA6;
+}
+
+/* MODAL */
+.modal {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal.show {
+  display:flex;
+}
+
+.modalContent {
+  background:#020617;
+  padding:25px;
+  border-radius:20px;
+  max-width:90%;
+}
+
+#hint {
+  font-size:12px;
+  opacity:0.7;
+  text-align: center;
+   margin-top: 0;
+  padding: 4px 10px;
+  color: #60a5fa;
+}
+
+.modalContent {
+  background:#020617;
+  padding:25px;
+  border-radius:20px;
+  max-width:90%;
+
+  max-height:80vh;        /* 👈 viktig */
+  overflow-y:auto;        /* 👈 viktig */
+
+  line-height:1.6;
+}
+
+.modalContent::-webkit-scrollbar {
+  width:6px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background:#3b82f6;
+  border-radius:10px;
+}
+
+#levelTitle {
+  text-align:center;
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:20px;
+  letter-spacing:1px;
+}
+
+#levelHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  margin-bottom: 0;
+}
+
+#levelBig {
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+#levelSmall {
+  font-size: 13px;
+  opacity: 0.8;
+  max-width: 280px;
+  line-height: 1.35;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.progressWrap {
+  margin-top: 40px;
+}
+
+#step {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 0;
+  opacity: 0.85;
+  font-size: 13px;
+}
+
+#exerciseBox {
+  width: 100%;
+  max-width: 320px;
+  margin-top: 0;
+}
+
+.testHeader {
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.testTitle {
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:1px;
+  margin-bottom:6px;
+  color:#60a5fa;
+  text-transform:uppercase;
+}
+
+.testProgress {
+  font-size:13px;
+  opacity:0.6;
+}
+
+/* Gjør kortet mer “question mode” */
+.testMode #exerciseBox {
+  background: linear-gradient(180deg, rgba(15,23,42,0.9), rgba(2,6,23,0.95));
+  border:1px solid rgba(96,165,250,0.3);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7), inset 0 0 30px rgba(96,165,250,0.15);
+}
+
+/* Spørsmål mer fokusert */
+.testMode #title {
+  font-size:20px;
+  margin-bottom:10px;
+}
+
+.testMode #desc {
+  font-size:18px;
+  font-weight:600;
+}
+
+/* JA / NEI knapper mye fetere */
+#yesBtn, #noBtn {
+  width:100%;
+  padding:16px;
+  border-radius:16px;
+  font-size:16px;
+  font-weight:700;
+  margin-top:10px;
+  border:none;
+  cursor:pointer;
+}
+
+#yesBtn {
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  color:black;
+}
+
+#noBtn {
+  background: linear-gradient(90deg, #ef4444, #b91c1c);
+  color:white;
+}
+
+/* Result screen */
+.resultGood {
+  color:#22c55e;
+}
+
+.resultBad {
+  color:#ef4444;
+}
+
+.resultCard {
+  text-align:center;
+}
+
+.resultCard.ready {
+  border:1px solid rgba(34,197,94,0.4);
+  box-shadow: 0 0 40px rgba(34,197,94,0.2);
+}
+
+.resultCard.pain {
+  border:1px solid rgba(239,68,68,0.4);
+  box-shadow: 0 0 40px rgba(239,68,68,0.2);
+}
+
+body.testMode #levelHeader {
+  display: none;
+}
+
+.primaryCard {
+  transform: scale(1.03);
+  box-shadow: 0 20px 50px rgba(34,197,94,0.25);
+  border: 1px solid rgba(34,197,94,0.6);
+}
+

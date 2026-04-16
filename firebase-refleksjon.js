@@ -48,3 +48,6 @@ export const app = initializeApp(firebaseConfig);
 // 🔑 DELTE instanser (kritisk)
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+window.auth = auth;
+window.db = db;

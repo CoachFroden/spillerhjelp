@@ -1,0 +1,142 @@
+/* BASE */
+body {
+  margin: 0;
+  background: radial-gradient(circle at 50% 20%, #2563eb, #020617 85%);
+  min-height: 100vh;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* BACK */
+.back-btn {
+  margin-bottom: 20px;
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  font-size: 1.4rem;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* HEADER */
+.header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.header p {
+  margin-top: 6px;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+/* MENU */
+.menu {
+  margin-top: 25px;
+  display: grid;
+  gap: 18px;
+}
+
+/* CARD */
+.card {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 20px;
+  border-radius: 22px;
+
+  background: linear-gradient(180deg, #020617, #020617);
+
+  border: 1px solid rgba(255,255,255,0.05);
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,0.8),
+    inset 0 0 25px rgba(59,130,246,0.15);
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* NEON STRIPE */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  height: 64%;
+  width: 4px;
+  border-radius: 4px;
+}
+
+/* FARGER */
+.hamstring::before { background: #ef4444; }  /* rød */
+.calf::before { background: #22c55e; }       /* grønn */
+.groin::before { background: #06b6d4; }      /* cyan */
+.knee::before { background: #f59e0b; }       /* oransje */
+.ankle::before { background: #8b5cf6; }      /* lilla */
+
+/* ICON */
+.icon {
+  font-size: 26px;
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.05);
+
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.5),
+    inset 0 0 10px rgba(255,255,255,0.05);
+}
+
+/* TEXT */
+.card h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.card p {
+  margin: 4px 0 0;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+}
+
+/* TRYKK-EFFEKT (mobilfølelse) */
+.card:active {
+  transform: scale(0.98);
+}
+
+/* SMOOTH LOAD */
+.card {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

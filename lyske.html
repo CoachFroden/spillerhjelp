@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lyske</title>
+<link rel="stylesheet" href="lyske.css">
+</head>
+<body>
+
+<div id="app">
+
+<!-- START -->
+<section id="start" class="screen active">
+
+  <div id="homeBack">←</div>
+
+  <div class="hero">
+    <h1>Lyske</h1>
+
+    <p class="intro">
+      Skade i lysken kommer ofte av sprint, vendinger, spark og raske retningsforandringer.
+      Her lærer du hvordan du bygger deg opp igjen – og unngår ny skade.
+    </p>
+
+    <p class="intro small">
+      Start her hvis du fortsatt har vondt.
+    </p>
+  </div>
+
+<div class="menu">
+
+<button class="primary" onclick="startTest()">
+  <strong>Test nivå</strong><br>
+  <span>Finn riktig start automatisk</span>
+</button>
+
+  <button onclick="startPhase('pain')">
+    <strong>Har vondt</strong><br>
+    <span>Hvis det gjør vondt når du går, vender eller løfter beinet</span>
+  </button>
+
+  <button onclick="startPhase('better')">
+    <strong>Føles litt bedre</strong><br>
+    <span>Du kan bevege deg, men ikke presse fart eller spark</span>
+  </button>
+
+  <button onclick="startPhase('almost')">
+    <strong>Nesten klar</strong><br>
+    <span>Du kan løpe, men ikke maks eller eksplosivt</span>
+  </button>
+
+  <button onclick="startPhase('ready')">
+    <strong>Testøkt</strong><br>
+    <span>Test deg før full trening</span>
+  </button>
+
+  <button onclick="startPhase('prevent')">
+    <strong>Forebygging</strong><br>
+    <span>Unngå at det skjer igjen</span>
+  </button>
+
+</div>
+
+</section>
+
+<!-- ØKT -->
+<section id="workout" class="screen">
+
+  <div id="backBtn">✕</div>
+
+  <div id="levelHeader">
+    <div id="levelBig"></div>
+    <div id="levelSmall"></div>
+  </div>
+
+  <div class="progressWrap">
+    <div id="step"></div>
+  </div>
+
+  <div id="testHeader" class="testHeader">
+    <div id="testTitle" class="testTitle"></div>
+    <div id="testProgress" class="testProgress"></div>
+  </div>
+
+  <div class="card" id="exerciseBox">
+    <h2 id="title"></h2>
+    <p id="desc"></p>
+  </div>
+
+  <div id="hint">Trykk på kortet for forklaring</div>
+
+  <button id="next">START</button>
+  <button id="yesBtn" style="display:none;">JA</button>
+  <button id="noBtn" style="display:none;">NEI</button>
+
+  <div id="tip"></div>
+
+</section>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modalContent">
+    <p id="modalText"></p>
+  </div>
+</div>
+
+</div>
+
+<script src="lyske.js"></script>
+</body>
+</html>

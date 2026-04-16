@@ -5,13 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Utvikling</title>
 
-  <link rel="stylesheet" href="minside.css"> <!-- du kan reuse style -->
+  <link rel="stylesheet" href="utvikling.css"> <!-- du kan reuse style -->
 </head>
 <body>
 
 <main class="container">
 
-  <button id="backBtn" class="back-btn">← Tilbake</button>
+  <div class="topBar">
+  <button id="backBtn" class="back-btn">←</button>
+</div>
 
   <h1>📈 Utvikling</h1>
 
@@ -34,13 +36,13 @@
 </main>
 
 <script>
-  function goTo(page) {
-    window.location.href = page;
-  }
+document.getElementById("backBtn").onclick = () => {
+  window.location.href = "minside.html";
+};
 
-  document.getElementById("backBtn").onclick = () => {
-    window.location.href = "minside.html";
-  };
+window.goTo = (page) => {
+  window.location.href = page;
+};
 </script>
 
 </body>

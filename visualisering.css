@@ -2,6 +2,22 @@
    VISUALISERING.CSS – REN OG STABIL VERSJON (UTEN REVEAL)
    All styling beholdt, ingen layout-hacks, ingen tvang med !important
 -------------------------------------------------------------------*/
+body {
+  background: radial-gradient(circle at 50% 20%, #2563eb, #020617 80%);
+}
+
+header {
+  max-width: 420px;
+  margin: auto;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  opacity: 0.7;
+}
 
 /* GLOBAL ICON CIRCLES --------------------------------------------------- */
 .icon-circle {

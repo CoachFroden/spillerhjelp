@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kamp</title>
+
+  <link rel="stylesheet" href="minside.css">
+</head>
+<body>
+
+<main class="container">
+<div class="topBar">
+  <div onclick="goBack()">←</div>
+</div>
+  <h1 style="margin-bottom:20px;">Kamp</h1>
+
+  <section class="main-menu">
+
+    <button class="main-btn game" onclick="goTo('kamper.html')">
+      <span class="icon">⚽</span>
+      <div>
+        <h2>Kamper</h2>
+        <p>Se kommende kamper</p>
+      </div>
+    </button>
+
+    <button class="main-btn gameprep" onclick="goTo('kampklar.html')">
+      <span class="icon">🎯</span>
+      <div>
+        <h2>Kampklar</h2>
+        <p>Gjør deg klar før kamp</p>
+      </div>
+    </button>
+
+  </section>
+
+</main>
+
+<script type="module" src="minside.js"></script>
+</body>
+</html>

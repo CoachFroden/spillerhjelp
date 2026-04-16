@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trening</title>
+
+  <link rel="stylesheet" href="trening.css">
+</head>
+<body>
+
+<main class="container">
+
+  <!-- TILBAKE -->
+  <button class="back-btn" onclick="goBack()">←</button>
+
+  <!-- HEADER -->
+  <section class="header">
+    <h1>Trening</h1>
+    <p>Bli raskere, sterkere og bedre</p>
+  </section>
+
+  <!-- MENY -->
+  <section class="menu">
+
+    <button class="card speed" onclick="goTo('hurtighet.html')">
+      <div class="icon">⚡</div>
+      <div>
+        <h2>Hurtighet</h2>
+        <p>Fart og eksplosivitet</p>
+      </div>
+    </button>
+
+    <button class="card focus" onclick="goTo('ovelser.html')">
+      <div class="icon">🔥</div>
+      <div>
+        <h2>Ukens fokus</h2>
+        <p>Øvelser og utvikling denne uka</p>
+      </div>
+    </button>
+
+  </section>
+
+</main>
+
+<script src="trening.js"></script>
+</body>
+</html>

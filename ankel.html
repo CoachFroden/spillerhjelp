@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ankel</title>
+<link rel="stylesheet" href="ankel.css">
+</head>
+<body>
+
+<div id="app">
+
+<section id="start" class="screen active">
+
+  <div id="homeBack">←</div>
+
+  <div class="hero">
+    <h1>Ankel</h1>
+
+    <p class="intro">
+      Overtråkk og ustabil ankel er vanlig når du løper, hopper og spiller fotball.
+      Her lærer du hva du gjør – og hvordan du unngår det.
+    </p>
+
+    <p class="intro small">
+      Start her hvis du kjenner smerte eller at ankelen ikke føles trygg.
+    </p>
+  </div>
+
+  <div class="menu">
+
+    <button class="primary" onclick="startTest()">
+      <strong>Test nivå</strong><br>
+      <span>Finn riktig start automatisk</span>
+    </button>
+
+    <button onclick="startPhase('pain')">
+      <strong>Har vondt</strong>
+      <span>Ankelen gjør vondt i hverdagen</span>
+    </button>
+
+    <button onclick="startPhase('better')">
+      <strong>Føles litt bedre</strong>
+      <span>Du kan bevege deg, men ikke presse</span>
+    </button>
+
+    <button onclick="startPhase('almost')">
+      <strong>Nesten klar</strong>
+      <span>Du kan løpe litt</span>
+    </button>
+
+    <button onclick="startPhase('ready')">
+      <strong>Testøkt</strong>
+      <span>Test før trening</span>
+    </button>
+
+    <button onclick="startPhase('prevent')">
+      <strong>Forebygging</strong>
+      <span>Unngå overtråkk og ustabilitet</span>
+    </button>
+
+  </div>
+
+</section>
+
+<section id="workout" class="screen">
+
+  <div id="backBtn">✕</div>
+
+  <div id="levelHeader">
+    <div id="levelBig"></div>
+    <div id="levelSmall"></div>
+  </div>
+
+  <div class="progressWrap">
+    <div id="step"></div>
+  </div>
+
+  <div id="testHeader" class="testHeader">
+    <div id="testTitle" class="testTitle"></div>
+    <div id="testProgress" class="testProgress"></div>
+  </div>
+
+  <div class="card" id="exerciseBox">
+    <h2 id="title"></h2>
+    <p id="desc"></p>
+  </div>
+
+  <div id="hint">Trykk på kortet for forklaring</div>
+
+  <button id="next">START</button>
+  <button id="yesBtn" style="display:none;">JA</button>
+  <button id="noBtn" style="display:none;">NEI</button>
+
+  <div id="tip"></div>
+
+</section>
+
+<div id="modal" class="modal">
+  <div class="modalContent">
+    <p id="modalText"></p>
+  </div>
+</div>
+
+</div>
+
+<script src="ankel.js"></script>
+</body>
+</html>

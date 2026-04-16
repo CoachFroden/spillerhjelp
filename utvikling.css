@@ -1,0 +1,79 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at 50% 20%, #2563eb, #020617 85%);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* TOP */
+.topBar {
+  margin-bottom: 10px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+/* TITLE */
+h1 {
+  margin: 10px 0 20px;
+  font-size: 28px;
+}
+
+/* MENU */
+.menu {
+  display: grid;
+  gap: 16px;
+}
+
+/* BUTTONS */
+.menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 18px;
+  border: none;
+  cursor: pointer;
+
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,.4);
+
+  transition: 0.2s;
+}
+
+.menu-btn span {
+  opacity: 0.9;
+}
+
+.menu-btn:hover {
+  transform: translateY(-3px);
+}
+
+/* COLORS (match resten av appen) */
+.reflection { border-left: 4px solid #22c55e; }
+.feedback   { border-left: 4px solid #4da3ff; }
+.plan       { border-left: 4px solid #ffd42a; }
