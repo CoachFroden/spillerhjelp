@@ -169,6 +169,7 @@ color: #60a5fa;
   box-shadow: 0 10px 30px rgba(59,130,246,0.5);
 
   transition: 0.2s;
+  color: #f1f5f9;
 }
 
 #next:hover {
