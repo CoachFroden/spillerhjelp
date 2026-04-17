@@ -486,3 +486,7 @@ input:-webkit-autofill:focus {
 .card {
   width: 100%;
 }
+
+.container {
+  padding: 40px 16px 0;
+}
