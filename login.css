@@ -5,6 +5,10 @@ body {
   font-family: system-ui, sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .login-wrapper {
   min-height: 100vh;
   display: flex;
@@ -128,7 +132,8 @@ body {
 
 .glow-wrapper {
   position: relative;
-  display: inline-block;
+  display: block;   /* 👈 endre fra inline-block */
+  width: 100%;
 }
 
 /* Gløden */
