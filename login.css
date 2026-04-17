@@ -482,3 +482,7 @@ input:-webkit-autofill:focus {
 .secondary:hover {
   color: #facc15;
 }
+
+.card {
+  width: 100%;
+}
