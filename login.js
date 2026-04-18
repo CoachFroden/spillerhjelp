@@ -132,8 +132,8 @@ await setDoc(doc(db, "userLogins", user.uid), {
 }, { merge: true }); // <- viktig
 
 // 🔥 skriv session
-await setDoc(
-  doc(collection(db, "userLogins", user.uid, "sessions")),
+await addDoc(
+  collection(db, "userLogins", user.uid, "sessions"),
   {
     email: user.email,
     loginAt: serverTimestamp()
