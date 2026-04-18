@@ -11,7 +11,8 @@ import {
   doc,
   getDoc,
   getDocs,
-  setDoc
+  setDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 
@@ -121,11 +122,33 @@ loginBtn.onclick = async () => {
 
   loginStatus.textContent = "Logger inn…";
 
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
+try {
+  const cred = await signInWithEmailAndPassword(auth, email, password);
+  const user = cred.user;
 
-    const uid = auth.currentUser.uid;
-    const snap = await getDoc(doc(db, "users", uid));
+// 🔥 skriv parent
+await setDoc(doc(db, "userLogins", user.uid), {
+  lastLogin: serverTimestamp()
+}, { merge: true }); // <- viktig
+
+// 🔥 skriv session
+await setDoc(
+  doc(collection(db, "userLogins", user.uid, "sessions")),
+  {
+    email: user.email,
+    loginAt: serverTimestamp()
+  }
+);
+
+// 🔥 vent LITT før redirect (kritisk i praksis)
+await new Promise(r => setTimeout(r, 150));
+
+  // resten av koden din...
+
+// 🔥 BRUK user.uid – IKKE auth.currentUser
+const uid = user.uid;
+
+const snap = await getDoc(doc(db, "users", uid));
 
     if (!snap.exists()) {
       loginStatus.textContent = "Brukerprofil mangler.";
