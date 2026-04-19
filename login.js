@@ -12,11 +12,9 @@ import {
   getDoc,
   getDocs,
   setDoc,
-  addDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-let isLoggingIn = false;
 
 /* ==== DOM ==== */
 const loginBox = document.getElementById("loginBox");
@@ -111,7 +109,6 @@ registerBtn.onclick = async () => {
 /* ================= LOGIN ================= */
 
 loginBtn.onclick = async () => {
-  isLoggingIn = true;
   const rawUsername = loginEmail.value.trim().toLowerCase();
   const username = rawUsername.replace(/[^a-z0-9.-]/g, "");
   const password = loginPassword.value;
@@ -129,22 +126,17 @@ try {
   const cred = await signInWithEmailAndPassword(auth, email, password);
   const user = cred.user;
 
-// 🔥 skriv parent
-await setDoc(doc(db, "userLogins", user.uid), {
-  lastLogin: serverTimestamp()
-}, { merge: true }); // <- viktig
+  await setDoc(doc(db, "userLogins", user.uid), {
+    lastLogin: serverTimestamp()
+  });
 
-// 🔥 skriv session
-await addDoc(
-  collection(db, "userLogins", user.uid, "sessions"),
-  {
-    email: user.email,
-    loginAt: serverTimestamp()
-  }
-);
-
-// 🔥 vent LITT før redirect (kritisk i praksis)
-await new Promise(r => setTimeout(r, 150));
+  await setDoc(
+    doc(collection(db, "userLogins", user.uid, "sessions")),
+    {
+      email: user.email,
+      loginAt: serverTimestamp()
+    }
+  );
 
   // resten av koden din...
 
@@ -301,8 +293,7 @@ loadPlayersIntoDropdown();
 
 
 onAuthStateChanged(auth, async (user) => {
-
-  if (!user || isLoggingIn) return;
+  if (!user) return;
 
   const snap = await getDoc(doc(db, "users", user.uid));
 
