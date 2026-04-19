@@ -16,6 +16,7 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
+let isLoggingIn = false;
 
 /* ==== DOM ==== */
 const loginBox = document.getElementById("loginBox");
@@ -110,6 +111,7 @@ registerBtn.onclick = async () => {
 /* ================= LOGIN ================= */
 
 loginBtn.onclick = async () => {
+  isLoggingIn = true;
   const rawUsername = loginEmail.value.trim().toLowerCase();
   const username = rawUsername.replace(/[^a-z0-9.-]/g, "");
   const password = loginPassword.value;
@@ -299,7 +301,8 @@ loadPlayersIntoDropdown();
 
 
 onAuthStateChanged(auth, async (user) => {
-  if (!user) return;
+
+  if (!user || isLoggingIn) return;
 
   const snap = await getDoc(doc(db, "users", user.uid));
 
