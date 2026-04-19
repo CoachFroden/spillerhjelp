@@ -126,19 +126,19 @@ try {
   const cred = await signInWithEmailAndPassword(auth, email, password);
   const user = cred.user;
 
-  await setDoc(doc(db, "userLogins", user.uid), {
+await Promise.all([
+  setDoc(doc(db, "userLogins", user.uid), {
     lastLogin: serverTimestamp()
-  });
+  }),
 
-  await setDoc(
-    doc(collection(db, "userLogins", user.uid, "sessions")),
-    {
-      email: user.email,
-      loginAt: serverTimestamp()
-    }
-  );
+  setDoc(doc(collection(db, "userLogins", user.uid, "sessions")), {
+    email: user.email,
+    loginAt: serverTimestamp()
+  })
+]);
 
-  // resten av koden din...
+// 🔥 VIKTIG: gi mobilen tid før redirect
+await new Promise(r => setTimeout(r, 200));
 
 // 🔥 BRUK user.uid – IKKE auth.currentUser
 const uid = user.uid;
@@ -295,22 +295,6 @@ loadPlayersIntoDropdown();
 onAuthStateChanged(auth, async (user) => {
   if (!user) return;
 
-  const snap = await getDoc(doc(db, "users", user.uid));
-
-  if (!snap.exists()) {
-    loginStatus.textContent = "Brukerprofil mangler.";
-    return;
-  }
-
-  const data = snap.data();
-
-  // 🚦 Spiller må være godkjent
-  if (data.approved !== true) {
-    loginStatus.textContent =
-      "Kontoen venter på godkjenning av trener.";
-    return;
-  }
-
-  // ✅ Godkjent spiller
-  window.location.href = "minside.html";
+  // ❌ IKKE redirect her
+  console.log("Auth state endret – men ingen redirect på login-side");
 });
