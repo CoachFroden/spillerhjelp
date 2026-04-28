@@ -19,14 +19,37 @@ async function updateLastActive(user) {
   );
 }
 
+// 🔥 legg denne UTENFOR
+let trackingStarted = false;
+
+function startTracking(user){
+  if(trackingStarted) return;
+  trackingStarted = true;
+
+  setInterval(() => {
+
+    // 🔥 SIKKERHET HER
+    if (!auth.currentUser) return;
+
+    setDoc(
+      doc(db, "users", user.uid),
+      { lastActiveAt: serverTimestamp() },
+      { merge: true }
+    );
+  }, 30000);
+}
+
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "index.html";
     return;
   }
 
-  // 🔥 LEGG INN DENNE
+  // 🔥 første ping
   updateLastActive(user);
+
+  // 🔥 start tracking
+  startTracking(user);
 
   const q = query(
     collection(db, "spillere"),
@@ -39,13 +62,13 @@ onAuthStateChanged(auth, async (user) => {
 
   const player = snap.docs[0].data();
 
-const nameEl = document.getElementById("player-name");
-const roleEl = document.getElementById("player-role");
+  const nameEl = document.getElementById("player-name");
+  const roleEl = document.getElementById("player-role");
 
-if (nameEl && roleEl) {
-  nameEl.textContent = player.navn;
-  roleEl.textContent = player.rolle || "";
-}
+  if (nameEl && roleEl) {
+    nameEl.textContent = player.navn;
+    roleEl.textContent = player.rolle || "";
+  }
 });
 
 /* NAV */
@@ -63,10 +86,6 @@ if (logoutBtn) {
     });
   };
 }
-
-window.goTo = function(page){
-  window.location.href = page;
-};
 
 window.goBack = function() {
   window.location.href = "minside.html";
