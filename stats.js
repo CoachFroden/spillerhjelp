@@ -40,23 +40,27 @@ async function loadLeaderboard(){
 
   let players = [];
 
-  statsSnap.forEach(doc => {
-    const data = doc.data();
+statsSnap.forEach(doc => {
+  const data = doc.data();
 
-players.push({
-  uid: data.uid,
-  name: playersMap[data.uid] || data.navn || "Ukjent",
+  const currentMonth = new Date().getMonth();
+  const isCurrentMonth = data.month === currentMonth;
 
-  wheels: data.monthlyWheels || 0,
-  xp: mode === "month"
-    ? (data.monthXP || 0)
-    : (data.seasonXP || 0),
+  players.push({
+    uid: data.uid,
+    name: playersMap[data.uid] || data.navn || "Ukjent",
 
-  streak: data.streak || 0,
-  longestStreak: data.longestStreak || 0, 
-  stars: data.stars || 0
-});
+    wheels: isCurrentMonth ? (data.monthlyWheels || 0) : 0,
+
+    xp: mode === "month"
+      ? (isCurrentMonth ? (data.monthXP || 0) : 0)
+      : (data.seasonXP || 0),
+
+    streak: data.streak || 0,
+    longestStreak: data.longestStreak || 0,
+    stars: data.stars || 0
   });
+});
 
   // 🔥 SORTERING
   if(mode === "month"){

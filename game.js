@@ -99,7 +99,7 @@ function isCategoryLocked(category){
 }
 
 const goal = 100
-const teamGoal = 250
+const teamGoal = 150
 const dailyXPText = document.getElementById("dailyXP")
 const starsText = document.getElementById("starsText")
 const monthlyWheelsText = document.getElementById("monthlyWheelsText")
@@ -346,6 +346,8 @@ async function savePlayerData(user){
 
     uid: user.uid,
     navn: playerName,
+	
+	month: new Date().getMonth(),
 
     dailyXP,
     monthXP,
@@ -389,6 +391,31 @@ async function loadGameStats(){
 console.log("CURRENT MONTH:", month);
 
 if(serverMonth !== month){
+	const user = auth.currentUser;
+
+if(user && serverMonth !== -1){
+
+  await setDoc(
+    doc(db, "monthlyStats", user.uid + "_" + serverMonth + "_" + currentSeason),
+    {
+      uid: user.uid,
+      name: playerName,
+
+      month: serverMonth,
+	  monthName: new Date(currentSeason, serverMonth).toLocaleString("no-NO", { month: "long" }),
+      year: currentSeason,
+
+      monthXP: monthXP,
+      monthlyWheels: monthlyWheels,
+	  
+	  streak: streak,
+      longestStreak: longestStreak,
+
+      savedAt: new Date()
+    }
+  );
+
+}
 
   lastWheelDate = "";
 
@@ -400,26 +427,22 @@ if(serverMonth !== month){
   monthXP = 0;
 
     try{
-     await setDoc(doc(db, "teamStats", "global"), {
-  teamWheels: 0,
-  month: month,
-  season: currentSeason   // 🔥 VIKTIG
-}, { merge: true });
+//  await setDoc(doc(db, "teamStats", "global"), {
+//teamWheels: 0,
+// month: month,
+//season: currentSeason   // 🔥 VIKTIG
+//}, { merge: true });
 	  
-	    const statsSnap = await getDocs(collection(db, "gameStats"));
+const user = auth.currentUser;
 
-  const updates = [];
-
-  statsSnap.forEach(docSnap => {
-    updates.push(
-setDoc(doc(db, "gameStats", docSnap.id), {
-  monthlyWheels: 0,
-  monthXP: 0 
-}, { merge: true })
-    );
-  });
-
-  await Promise.all(updates);
+if(user){
+  await setDoc(doc(db, "gameStats", user.uid), {
+    monthlyWheels: 0,
+    monthXP: 0,
+    dailyXP: 0,
+    lastWheelDate: ""
+  }, { merge: true });
+}
 
 }catch(e){
   console.error("Feil ved reset av teamWheels", e);
@@ -439,22 +462,16 @@ setDoc(doc(db, "gameStats", docSnap.id), {
       season: currentSeason
     }, { merge: true });
 
-    const statsSnap = await getDocs(collection(db, "gameStats"));
+const user = auth.currentUser;
 
-    const updates = [];
-
-    statsSnap.forEach(docSnap => {
-      updates.push(
-        setDoc(doc(db, "gameStats", docSnap.id), {
-          seasonXP: 0,
-          stars: 0,
-          streak: 0,
-          longestStreak: 0
-        }, { merge: true })
-      );
-    });
-
-    await Promise.all(updates);
+if(user){
+  await setDoc(doc(db, "gameStats", user.uid), {
+    seasonXP: 0,
+    stars: 0,
+    streak: 0,
+    longestStreak: 0
+  }, { merge: true });
+}
 
   }catch(e){
     console.error("Feil ved reset av season", e);
@@ -616,6 +633,8 @@ if(
 await setDoc(doc(db, "gameStats", user.uid), {
   uid: user.uid,
   navn: playerName,
+  
+  month: new Date().getMonth(),
 
   monthXP,
   seasonXP,
@@ -642,10 +661,16 @@ async function loadTeamWheels(){
 
   const statsSnap = await getDocs(collection(db, "gameStats"));
 
+  const currentMonth = new Date().getMonth();
+
   let total = 0;
 
   statsSnap.forEach(doc => {
-    total += doc.data().monthlyWheels || 0;
+    const data = doc.data();
+
+    if(data.month === currentMonth){
+      total += data.monthlyWheels || 0;
+    }
   });
 
   teamWheels = total;
