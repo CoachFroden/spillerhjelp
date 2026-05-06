@@ -427,11 +427,10 @@ if(user && serverMonth !== -1){
   monthXP = 0;
 
     try{
-//  await setDoc(doc(db, "teamStats", "global"), {
-//teamWheels: 0,
-// month: month,
-//season: currentSeason   // 🔥 VIKTIG
-//}, { merge: true });
+await setDoc(doc(db, "teamStats", "global"), {
+  month: month,
+  season: currentSeason
+}, { merge: true });
 	  
 const user = auth.currentUser;
 
