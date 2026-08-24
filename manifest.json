@@ -1,11 +1,12 @@
 {
-  "name": "Samnanger G14",
-  "short_name": "G14",
-  "description": "Refleksjon og utviklingsanalyse",
+  "name": "Spillerhjelpen",
+  "short_name": "Spillerhjelp",
+  "description": "Trening, rehab og kampforberedelse for fotballspillere",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#0f1720",
-  "theme_color": "#0f1720",
+  "background_color": "#07110d",
+  "theme_color": "#07110d",
   "orientation": "portrait",
   "icons": [
     {
