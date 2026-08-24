@@ -11,11 +11,51 @@ const exerciseBox = document.getElementById("exerciseBox");
 const modal = document.getElementById("modal");
 const modalText = document.getElementById("modalText");
 const hint = document.getElementById("hint");
-const beep = new Audio("langbeep.mp3");
 
 let index = 0;
 let reactionBusy = false;
 let reactionTimer = null;
+let audioContext = null;
+
+function getAudioContext() {
+  if (!audioContext) {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return null;
+    audioContext = new AudioCtx();
+  }
+  return audioContext;
+}
+
+async function unlockAudio() {
+  const ctx = getAudioContext();
+  if (!ctx) return false;
+  if (ctx.state === "suspended") {
+    try { await ctx.resume(); } catch (_) { return false; }
+  }
+  return ctx.state === "running";
+}
+
+function playReactionBeep() {
+  const ctx = getAudioContext();
+  if (!ctx || ctx.state !== "running") return;
+
+  const now = ctx.currentTime;
+  const oscillator = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(1050, now);
+
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.75, now + 0.01);
+  gain.gain.setValueAtTime(0.75, now + 0.16);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.24);
+
+  oscillator.connect(gain);
+  gain.connect(ctx.destination);
+  oscillator.start(now);
+  oscillator.stop(now + 0.25);
+}
 
 const exercises = [
   { t: "Før du starter", d: "Ca. 15 min · friske bein · god plass", i: "Hurtighet skal trenes med kvalitet. Ikke gjør maks sprint hvis du har smerter, halter eller er tydelig sliten etter annen hard trening." },
@@ -68,17 +108,12 @@ function show() {
   }
 }
 
-startBtn.onclick = () => {
+startBtn.onclick = async () => {
   index = 0;
   clearReactionTimer();
   startScreen.classList.remove("active");
   workoutScreen.classList.add("active");
-
-  beep.play().then(() => {
-    beep.pause();
-    beep.currentTime = 0;
-  }).catch(() => {});
-
+  await unlockAudio();
   exerciseBox?.classList.remove("hidden");
   hint?.classList.remove("hidden");
   show();
@@ -97,16 +132,23 @@ next.onclick = () => {
 };
 
 if (reaction) {
-  reaction.onclick = () => {
+  reaction.onclick = async () => {
     if (reactionBusy) return;
+
+    const audioReady = await unlockAudio();
+    if (!audioReady) {
+      reaction.innerText = "LYD BLOKKERT – PRØV IGJEN";
+      setTimeout(() => { reaction.innerText = "START REAKSJON"; }, 1600);
+      return;
+    }
+
     reactionBusy = true;
     reaction.disabled = true;
     reaction.innerText = "VENT …";
 
     const delay = Math.random() * 2500 + 1500;
     reactionTimer = setTimeout(() => {
-      beep.currentTime = 0;
-      beep.play().catch(() => {});
+      playReactionBeep();
       reaction.innerText = "SPRINT!";
 
       setTimeout(() => {
@@ -147,5 +189,5 @@ resetBtn?.addEventListener("click", () => {
 const homeBack = document.getElementById("homeBack");
 homeBack?.addEventListener("click", () => {
   clearReactionTimer();
-  window.location.href = "trening.html";
+  window.location.href = "index.html";
 });
