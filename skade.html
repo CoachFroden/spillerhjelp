@@ -1,28 +1,51 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skade og forebygging</title>
-<link rel="stylesheet" href="skade.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Rehab · Spillerhjelpen</title>
+  <meta name="theme-color" content="#07110d">
+  <link rel="stylesheet" href="app.css">
 </head>
 <body>
-<main class="container">
-  <button class="back-btn" onclick="goBack()">←</button>
-  <section class="header">
-    <h1>Rehab og forebygging</h1>
-    <p>Gradert belastning, trygg progresjon og tydelige stoppkriterier</p>
-  </section>
-  <section class="menu">
-    <button class="card hamstring" onclick="goTo('hamstring.html')"><div class="icon">⚡🦵</div><div><h2>Hamstring</h2><p>Muskelstrekk, retur til løping og forebygging</p></div></button>
-    <button class="card calf" onclick="goTo('legg.html')"><div class="icon">🦶</div><div><h2>Legg</h2><p>Leggmuskel, kapasitet og retur til løping</p></div></button>
-    <button class="card achilles" onclick="goTo('akilles.html')"><div class="icon">🦵</div><div><h2>Akilles</h2><p>Senebelastning, leggstyrke og retur til fotball</p></div></button>
-    <button class="card heel" onclick="goTo('hael.html')"><div class="icon">👟</div><div><h2>Hæl / Sever</h2><p>Vekstrelatert hælsmerte, øvelser og belastningsstyring</p></div></button>
-    <button class="card groin" onclick="goTo('lyske.html')"><div class="icon">🧍‍♂️</div><div><h2>Lyske</h2><p>Adduktorrelatert smerte og forebygging</p></div></button>
-    <button class="card knee" onclick="goTo('kne.html')"><div class="icon">🛡️</div><div><h2>Kne</h2><p>Gradvis fremre knesmerte og belastningsstyring</p></div></button>
-    <button class="card ankle" onclick="goTo('ankel.html')"><div class="icon">⚖️</div><div><h2>Ankel</h2><p>Overtråkk, stabilitet og retur til fotball</p></div></button>
-  </section>
-</main>
-<script src="skade.js"></script>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html"><div class="brand-mark">SH</div><div class="brand-copy"><strong>Spillerhjelpen</strong><span>Rehab og forebygging</span></div></a>
+      <a class="icon-btn" href="index.html" aria-label="Hjem">⌂</a>
+    </header>
+
+    <section class="page-head">
+      <div class="eyebrow">Rehab og forebygging</div>
+      <h1 class="page-title">Hvor har<br>du vondt?</h1>
+      <p class="page-lead">Velg område og start med sikkerhetssjekken. Du får deretter et nivå og en gradvis vei tilbake mot fotball.</p>
+    </section>
+
+    <div class="search-wrap"><input id="rehabSearch" type="search" placeholder="Søk: hæl, kne, lyske …" aria-label="Søk i rehabområder"></div>
+    <div class="chip-row" aria-hidden="true"><span class="chip">Sikkerhet først</span><span class="chip">Gradert belastning</span><span class="chip">Retur til fotball</span></div>
+
+    <section class="section">
+      <div class="section-head"><h2>Områder</h2><p id="rehabCount">7 valg</p></div>
+      <div id="rehabGrid" class="category-grid">
+        <button class="category-card" data-search="hamstring bakside lår strekk sprint" onclick="goTo('hamstring.html')"><div class="category-icon">⚡</div><div><h3>Hamstring</h3><p>Bakside lår, muskelstrekk og retur til sprint</p></div></button>
+        <button class="category-card" data-search="legg calf muskel smerte" onclick="goTo('legg.html')"><div class="category-icon">🦵</div><div><h3>Legg</h3><p>Leggmuskel, kapasitet og retur til løping</p></div></button>
+        <button class="category-card" data-search="akilles sene hæl senebelastning" onclick="goTo('akilles.html')"><div class="category-icon">↟</div><div><h3>Akilles</h3><p>Senebelastning, leggstyrke og retur til fotball</p></div></button>
+        <button class="category-card" data-search="hæl sever vekst barn ungdom heel" onclick="goTo('hael.html')"><div class="category-icon">👟</div><div><h3>Hæl / Sever</h3><p>Vekstrelatert hælsmerte og belastningsstyring</p></div></button>
+        <button class="category-card" data-search="lyske adduktor groin innside lår" onclick="goTo('lyske.html')"><div class="category-icon">◆</div><div><h3>Lyske</h3><p>Adduktorrelatert smerte og gradvis retur</p></div></button>
+        <button class="category-card" data-search="kne knesmerte foran patellofemoral" onclick="goTo('kne.html')"><div class="category-icon">◉</div><div><h3>Kne</h3><p>Gradvis fremre knesmerte og belastningsstyring</p></div></button>
+        <button class="category-card" data-search="ankel overtråkk fot leddbånd" onclick="goTo('ankel.html')"><div class="category-icon">⌁</div><div><h3>Ankel</h3><p>Overtråkk, stabilitet og retur til fotball</p></div></button>
+      </div>
+      <div id="rehabEmpty" class="empty-state hide">Fant ikke noe område som passer søket.</div>
+    </section>
+
+    <div class="notice"><strong>Ikke sikker på hva det er?</strong> Velg området der du kjenner smerten og bruk sikkerhetssjekken. Ved akutt kraftig skade, tydelig funksjonstap eller uvanlige symptomer skal du ikke presse deg gjennom testen.</div>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Hovedmeny">
+    <a class="nav-item" href="index.html"><b>⌂</b>Hjem</a>
+    <a class="nav-item" href="trening.html"><b>⚡</b>Trening</a>
+    <a class="nav-item active" href="skade.html"><b>＋</b>Rehab</a>
+    <a class="nav-item" href="kampklar.html"><b>⚽</b>Kamp</a>
+  </nav>
+  <script src="skade.js"></script>
 </body>
 </html>
