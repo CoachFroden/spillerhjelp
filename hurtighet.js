@@ -1,222 +1,151 @@
 const startBtn = document.getElementById("startBtn");
 const startScreen = document.getElementById("start");
 const workoutScreen = document.getElementById("workout");
-
 const title = document.getElementById("title");
 const desc = document.getElementById("desc");
 const next = document.getElementById("next");
 const reaction = document.getElementById("reaction");
-const info = document.getElementById("info");
 const tip = document.getElementById("tip");
 const step = document.getElementById("step");
 const exerciseBox = document.getElementById("exerciseBox");
-
 const modal = document.getElementById("modal");
 const modalText = document.getElementById("modalText");
 const hint = document.getElementById("hint");
 const beep = new Audio("langbeep.mp3");
 
-let inWorkout = false;
+let index = 0;
+let reactionBusy = false;
+let reactionTimer = null;
 
 const exercises = [
-
-{t:"Klar?", d:"15 min. Gjør det skikkelig.", i:"Dette er en kort økt. Gå maks på hver øvelse. Ta pauser når du trenger, men ikke slurv."},
-
-// Oppvarming
-{t:"Oppvarming", d:"Kneløft 2 x 20", i:"Løp på stedet. Løft knær opp mot hofta. Bruk armene aktivt. Hold høy fart hele tiden."},
-
-{t:"Oppvarming", d:"Spark bak 2 x 20", i:"Løp på stedet og spark hælene opp mot rumpa. Hold rytme og fart."},
-
-{t:"Oppvarming", d:"Skipping 20 steg", i:"Små raske steg fremover. Vær lett på tærne. Tenk korte, raske kontakter med bakken."},
-
-{t:"Oppvarming", d:"Utfall 10 per bein", i:"Ta et langt steg frem. Senk kroppen kontrollert. Press deg opp igjen. Hold balansen."},
-
-// Aktivering
-{t:"Aktivering", d:"3 hopp rett opp", i:"Stå rolig. Hopp rett opp med maks kraft. Bruk armene. Land mykt og stabilt."},
-
-{t:"Aktivering", d:"3 fallstarter", i:"Len deg frem til du må ta et steg. Eksploder frem i sprint. Første steg skal være raskt."},
-
-// Start
-{t:"Start", d:"3 fra stående", i:"Start helt rolig. Eksploder frem. Fokuser på første 3 steg – maks kraft."},
-
-{t:"Start", d:"3 fra sittende", i:"Sitt på bakken. Reis deg raskt og sprint. Ikke nøl – gå rett i maks fart."},
-
-{t:"Start", d:"3 fra liggende", i:"Ligg på magen. Reis deg så raskt du kan og sprint. Reaksjon + eksplosivitet."},
-
-// Reaksjon
-{t:"Reaksjon", d:"5 sprint på pip", r:true, i:"Vent på signal. Reager så raskt du kan og sprint. Ikke tjuvstart."},
-
-// Sprint
-{t:"Sprint", d:"5 x 10 meter", i:"Sprint maks fart i 10 meter. Full innsats hver gang. Pause mellom hvert drag."},
-
-// Retning
-{t:"Retning", d:"Frem + snu x5", i:"Sprint frem, stopp og snu raskt. Lav tyngde og raske steg."},
-
-{t:"Retning", d:"Høyre/venstre x5", i:"Sprint og bytt retning til høyre/venstre. Korte steg og god balanse."},
-
-// Hopp
-{t:"Hopp", d:"5 hopp opp", i:"Hopp rett opp med maks kraft. Bruk armene. Land kontrollert."},
-
-{t:"Hopp", d:"5 lengdehopp", i:"Hopp fremover så langt du kan. Bruk armene og sats kraftig."},
-
-{t:"Hopp", d:"5 per bein", i:"Hopp på ett bein. Hold balansen. Stabil landing er viktig."},
-
-// Combo
-{t:"Combo", d:"5 hopp + sprint", i:"Hopp rett opp, land og sprint med en gang. Eksplosiv overgang."},
-
-// Slutt
-{t:"Ferdig", d:"Bra jobba", i:"Dette er det som gjør deg raskere. Gjør det jevnlig og gi full innsats hver gang."}
-
+  { t: "Før du starter", d: "Ca. 15 min · friske bein · god plass", i: "Hurtighet skal trenes med kvalitet. Ikke gjør maks sprint hvis du har smerter, halter eller er tydelig sliten etter annen hard trening." },
+  { t: "Dynamisk oppvarming", d: "Kneløft + spark bak · 2 x 15 m", i: "Rolig første runde, litt raskere andre runde. Bruk armene aktivt og finn rytmen." },
+  { t: "Bevegelse", d: "Utfall + sideutfall · 6 per side", i: "Kontroller bevegelsen. Dette er oppvarming, ikke en styrketest." },
+  { t: "Progressive løp", d: "3 x 20 m · ca. 60 → 70 → 80 %", i: "Øk farten gradvis. Gå rolig tilbake mellom dragene." },
+  { t: "Fallstart", d: "3 x 10 m", i: "Len kroppen frem til du må ta et steg og akselerer. Tenk kraftige første steg og lav kroppsvinkel." },
+  { t: "Akselerasjon", d: "4 x 10 m · høy kvalitet", i: "Start stående. Sprint hardt, men ta god pause mellom dragene. Når farten faller, er økta ferdig nok." },
+  { t: "Reaksjon", d: "4 starter på tilfeldig pip", r: true, i: "Trykk START REAKSJON, stå klar og vent på signalet. Sprint 5–10 meter. Hvil før neste repetisjon." },
+  { t: "Lengre akselerasjon", d: "3 x 15–20 m · opp mot 90–95 %", i: "Bygg farten gjennom draget. Ikke jag toppfart hvis teknikken eller steget blir dårlig." },
+  { t: "Side → sprint", d: "3 per side", i: "Ta 2–3 raske sidesteg og akselerer 8–10 meter frem. Hold kontroll på fot og kne i retningsskiftet." },
+  { t: "Brems", d: "4 drag · 10 m sprint + kontrollert stopp", i: "Akselerer og brems ned over flere korte steg. Ikke plant ett stivt bein langt foran kroppen." },
+  { t: "Pogo", d: "2 x 12 små raske hopp", i: "Små elastiske hopp med kort bakkekontakt. Stopp hvis legg, hæl eller Akilles blir irritert." },
+  { t: "Lengdehopp", d: "3 gode hopp", i: "Hopp eksplosivt frem og land stabilt. Full kontroll er viktigere enn maksimal lengde." },
+  { t: "Hopp + sprint", d: "3 repetisjoner", i: "Ett kontrollert hopp, stabil landing og direkte akselerasjon 8–10 meter. Ta god pause." },
+  { t: "Ferdig", d: "Stopp mens kvaliteten fortsatt er god", i: "Hurtighet utvikles av raske, gode repetisjoner med nok hvile – ikke ved å gjøre flest mulig drag på slitne bein." }
 ];
 
 const tips = [
-"Full fart eller ingen effekt",
-"Pause mellom sprintene",
-"Første steg avgjør",
-"Kvalitet > kvantitet"
+  "Kvalitet før mengde",
+  "Ta god pause mellom raske drag",
+  "Første steg: kraftig og bestemt",
+  "Stopp hvis farten tydelig faller"
 ];
 
-let i = 0;
+function clearReactionTimer() {
+  if (reactionTimer) clearTimeout(reactionTimer);
+  reactionTimer = null;
+  reactionBusy = false;
+  if (reaction) {
+    reaction.disabled = false;
+    reaction.innerText = "START REAKSJON";
+  }
+}
+
+function show() {
+  const ex = exercises[index];
+  if (title) title.innerText = ex.t;
+  if (desc) desc.innerText = ex.d;
+  if (step) step.innerText = `Øvelse ${index + 1} av ${exercises.length}`;
+  if (tip) tip.innerText = tips[index % tips.length];
+
+  if (reaction) {
+    reaction.classList.toggle("hidden", !ex.r);
+    if (!ex.r) clearReactionTimer();
+  }
+
+  if (next) {
+    next.innerText = index === exercises.length - 1 ? "AVSLUTT ØKT" : "NESTE";
+  }
+}
 
 startBtn.onclick = () => {
+  index = 0;
+  clearReactionTimer();
   startScreen.classList.remove("active");
   workoutScreen.classList.add("active");
 
-  // aktiver lyd på mobil
   beep.play().then(() => {
     beep.pause();
     beep.currentTime = 0;
-  });
+  }).catch(() => {});
 
-  inWorkout = true;
-
-  if (exerciseBox) {
-    exerciseBox.classList.remove("hidden");
-  }
-
-  if (hint) {
-    hint.classList.remove("hidden");
-  }
-
+  exerciseBox?.classList.remove("hidden");
+  hint?.classList.remove("hidden");
   show();
-
-  if (next) {
-    next.innerText = "NESTE";
-  }
 };
 
-function show(){
-  let ex = exercises[i];
-
-  if(title) title.innerText = ex.t;
-  if(desc) desc.innerText = ex.d;
-  if(step) step.innerText = "Øvelse " + (i+1) + " av " + exercises.length;
-
-  if(tip){
-    tip.innerText = tips[Math.floor(Math.random()*tips.length)];
+next.onclick = () => {
+  if (index >= exercises.length - 1) {
+    clearReactionTimer();
+    workoutScreen.classList.remove("active");
+    startScreen.classList.add("active");
+    index = 0;
+    return;
   }
-
-  if(reaction){
-    if(ex.r){
-      reaction.classList.remove("hidden");
-    } else {
-      reaction.classList.add("hidden");
-    }
-  }
-}
-
-if (next) {
-  next.onclick = () => {
-
-    i++;
-    if(i >= exercises.length) i = 0;
-    show();
-  };
-}
-
-if (info) {
-  info.onclick = () => {
-    alert(exercises[i].i);
-  };
-}
+  index++;
+  show();
+};
 
 if (reaction) {
   reaction.onclick = () => {
+    if (reactionBusy) return;
+    reactionBusy = true;
+    reaction.disabled = true;
+    reaction.innerText = "VENT …";
 
-    reaction.innerText = "VENT...";
-
-    let delay = Math.random() * 3000 + 2000;
-
-    setTimeout(() => {
+    const delay = Math.random() * 2500 + 1500;
+    reactionTimer = setTimeout(() => {
       beep.currentTime = 0;
-      beep.play();
-
+      beep.play().catch(() => {});
       reaction.innerText = "SPRINT!";
-      
-      setTimeout(() => {
-        reaction.innerText = "START REAKSJON";
-      }, 1000);
 
+      setTimeout(() => {
+        reactionBusy = false;
+        reaction.disabled = false;
+        reaction.innerText = "START REAKSJON";
+      }, 1200);
     }, delay);
   };
 }
 
 const backBtn = document.getElementById("backBtn");
+backBtn?.addEventListener("click", () => {
+  clearReactionTimer();
+  workoutScreen.classList.remove("active");
+  startScreen.classList.add("active");
+});
 
-if (backBtn) {
-  backBtn.onclick = () => {
-    workoutScreen.classList.remove("active");
-    startScreen.classList.add("active");
-  };
-}
+exerciseBox?.addEventListener("click", () => {
+  const ex = exercises[index];
+  if (!ex.i || !modal || !modalText) return;
+  modalText.innerText = ex.i;
+  modal.classList.remove("hidden");
+});
 
-if (exerciseBox && modal && modalText) {
-  exerciseBox.onclick = () => {
-    modal.classList.remove("hidden");
-    modalText.innerText = exercises[i].i;
-  };
-}
-
-if (modal) {
-  modal.onclick = (e) => {
-    if (e.target === modal) {
-      modal.classList.add("hidden");
-    }
-  };
-}
+modal?.addEventListener("click", e => {
+  if (e.target === modal) modal.classList.add("hidden");
+});
 
 const resetBtn = document.getElementById("resetBtn");
-
-if (resetBtn) {
-  resetBtn.onclick = () => {
-
-    i = 0;                 // tilbake til første øvelse
-    inWorkout = true;
-
-    if (exerciseBox) {
-      exerciseBox.classList.remove("hidden");
-    }
-
-    if (hint) {
-      hint.classList.remove("hidden");
-    }
-
-    if (modal) {
-      modal.classList.add("hidden");
-    }
-
-    if (next) {
-      next.innerText = "NESTE";
-    }
-
-    show(); // vis første øvelse igjen
-  };
-}
+resetBtn?.addEventListener("click", () => {
+  index = 0;
+  clearReactionTimer();
+  modal?.classList.add("hidden");
+  show();
+});
 
 const homeBack = document.getElementById("homeBack");
-
-if (homeBack) {
-  homeBack.onclick = () => {
-    window.location.href = "trening.html"; // eller minside.html hvis du vil rett hjem
-  };
-}
+homeBack?.addEventListener("click", () => {
+  clearReactionTimer();
+  window.location.href = "trening.html";
+});
