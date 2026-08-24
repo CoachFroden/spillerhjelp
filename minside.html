@@ -1,81 +1,14 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Min side</title>
-
-  <link rel="stylesheet" href="minside.css">
-
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="0; url=index.html">
+  <title>Spillerhjelpen</title>
+  <link rel="canonical" href="index.html">
 </head>
 <body>
-
-<main class="container">
-
-  <!-- SPILLER -->
-  <section class="player-card">
-    <div class="avatar">👤</div>
-    <div class="player-info">
-      <h1 id="player-name">Spiller</h1>
-      <p id="player-role">–</p>
-    </div>
-  </section>
-
-  <!-- HOVEDMENY -->
-  <section class="main-menu">
-
-    <button class="main-btn speed" onclick="goTo('trening.html')">
-      <span class="icon">⚡</span>
-      <div>
-        <h2>Trening</h2>
-        <p>Bli raskere og bedre</p>
-      </div>
-    </button>
-
-    <button class="main-btn injury" onclick="goTo('skade.html')">
-      <span class="icon">🛡️</span>
-      <div>
-        <h2>Skade og forebygging</h2>
-        <p>Forebygg og bli skadefri</p>
-      </div>
-    </button>
-
-    <button class="main-btn gameprep" onclick="goTo('kampmeny.html')">
-      <span class="icon">⚽</span>
-      <div>
-        <h2>Kamp</h2>
-        <p>Kamper og forberedelse</p>
-      </div>
-    </button>
-
-    <button class="main-btn mind" onclick="goTo('utvikling.html')">
-      <span class="icon">🧠</span>
-      <div>
-        <h2>Utvikling</h2>
-        <p>Refleksjon og fokus</p>
-      </div>
-    </button>
-
-    <button class="main-btn game" onclick="goTo('game.html')">
-      <span class="icon">🎮</span>
-      <div>
-        <h2>Spill</h2>
-        <p>Litt ekstra motivasjon</p>
-      </div>
-    </button>
-	
-
-  </section>
-
-  <div class="logout-bullet" id="logoutBtn">
-    • Logg ut
-  </div>
-
-</main>
-
-<script type="module" src="minside.js"></script>
+  <p><a href="index.html">Gå til Spillerhjelpen</a></p>
+  <script>window.location.replace("index.html");</script>
 </body>
 </html>
