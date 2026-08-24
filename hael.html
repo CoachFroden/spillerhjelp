@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hæl / Sever</title>
+<link rel="stylesheet" href="hamstring.css">
+</head>
+<body>
+<div id="app">
+<section id="start" class="screen active">
+  <div id="homeBack">←</div>
+  <div class="hero">
+    <h1>Hæl / Sever</h1>
+    <p class="intro">Vekstrelatert hælsmerte er vanlig hos aktive barn og ungdom, særlig ved mye løping og hopping.</p>
+    <p class="intro small">Dette er en treningsveileder for typisk Sever-lignende hælsmerte – ikke en diagnose.</p>
+  </div>
+  <div class="menu">
+    <button class="primary" onclick="startTest()"><strong>Test nivå</strong><br><span>Sikkerhetssjekk og finn passende startnivå</span></button>
+    <button onclick="startPhase('pain')"><strong>Har vondt</strong><br><span>Hælen gjør vondt ved gange, løp eller hopp</span></button>
+    <button onclick="startPhase('better')"><strong>Føles litt bedre</strong><br><span>Bygg leggstyrke og belastning gradvis</span></button>
+    <button onclick="startPhase('almost')"><strong>Nesten klar</strong><br><span>Fra styrke til hopp og løping</span></button>
+    <button onclick="startPhase('ready')"><strong>Testøkt</strong><br><span>Test før gradert lagtrening</span></button>
+    <button onclick="startPhase('prevent')"><strong>Forebygging</strong><br><span>Kapasitet, belastningsstyring og vekstperioder</span></button>
+  </div>
+</section>
+<section id="workout" class="screen">
+  <div id="backBtn">✕</div>
+  <div id="levelHeader"><div id="levelBig"></div><div id="levelSmall"></div></div>
+  <div class="progressWrap"><div id="step"></div></div>
+  <div id="testHeader" class="testHeader"><div id="testTitle" class="testTitle"></div><div id="testProgress" class="testProgress"></div></div>
+  <div class="card" id="exerciseBox"><h2 id="title"></h2><p id="desc"></p></div>
+  <div id="hint">Trykk på kortet for forklaring</div>
+  <button id="next">START</button>
+  <button id="yesBtn" style="display:none;">JA</button>
+  <button id="noBtn" style="display:none;">NEI</button>
+  <div id="tip"></div>
+</section>
+<div id="modal" class="modal"><div class="modalContent"><p id="modalText"></p></div></div>
+</div>
+<script src="rehab-core.js"></script>
+<script src="hael.js"></script>
+</body>
+</html>
