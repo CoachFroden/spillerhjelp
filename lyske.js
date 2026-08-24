@@ -1,909 +1,175 @@
 "use strict";
 
-/* ELEMENTER */
-const startScreen = document.getElementById("start");
-const workoutScreen = document.getElementById("workout");
+initRehabApp({
+  name: "Lyske",
+  scopeShort: "For typisk adduktorrelatert smerte på innsiden av lår/lyske.",
+  scope: "Dette opplegget passer best ved typisk adduktorrelatert lyskesmerte etter løping, vendinger eller spark. Lyskeregionen kan også gi symptomer fra hofte, bukvegg, brokk, pubis eller andre strukturer, så selvtesten skal ikke brukes som diagnose.",
+  painRuleShort: "Rolig adduktorstyrke kan gi lett ubehag – fart og spark skal bygges gradvis.",
+  painRule: `Ved kontrollert styrke kan lett og stabilt ubehag være akseptabelt dersom det ikke øker gjennom økta, du ikke endrer bevegelsen og du er tilbake på samme eller bedre nivå neste morgen.
 
-const title = document.getElementById("title");
-const desc = document.getElementById("desc");
-const step = document.getElementById("step");
-
-const modal = document.getElementById("modal");
-const modalText = document.getElementById("modalText");
-
-const nextBtn = document.getElementById("next");
-const exerciseBox = document.getElementById("exerciseBox");
-const backBtn = document.getElementById("backBtn");
-const homeBack = document.getElementById("homeBack");
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const levelBig = document.getElementById("levelBig");
-const levelSmall = document.getElementById("levelSmall");
-const progressWrap = document.querySelector(".progressWrap");
-const levelHeader = document.getElementById("levelHeader");
-
-const tipEl = document.getElementById("tip");
-
-/* STATE */
-let exercises = [];
-let i = 0;
-let currentLevel = "";
-
-/* TEST STATE */
-let mode = "menu";
-let testStep = 0;
-let answers = [];
-let recommendedLevel = "pain";
-let inGameTest = false;
-let gameAnswers = [];
-let isTestWorkout = false;
-
-/* TEST FLOW */
-const testFlow = [
-  {
-    t: "Smerte",
-    d: "Kan du gå og stå uten smerte i lysken?",
-    i: "Dette tester om lysken fortsatt er irritert i vanlige situasjoner. Før du går videre til øvelser og løping, må du kjenne etter om du har vondt når du står, går rolig eller løfter beinet litt. Reis deg opp, gå noen rolige steg og kjenn etter. Hvis du kjenner smerte, stikking, murring eller at du beskytter området, er du ikke klar for å gå videre."
-  },
-  {
-    t: "Aktivering",
-    d: "Kan du klemme en ball eller pute mellom knærne 10 ganger uten smerte?",
-    i: "Ligg på ryggen med bøyde knær og sett en ball, pute eller sammenrullet genser mellom knærne. Klem rolig sammen i 3–4 sekunder og slapp av. Gjør dette 10 ganger. Dette tester om lyskemusklene tåler lett aktivering. Du skal kjenne arbeid på innsiden av lårene, men ikke skarp smerte eller utrygghet."
-  },
-  {
-    t: "Kontroll",
-    d: "Kan du gjøre 20 sideforflytninger rolig uten smerte?",
-    i: "Stå i lett bøy i knærne og ta små steg sideveis, først én vei og så tilbake. Hold kroppen stabil og rolig. Dette tester om lysken tåler kontrollert sidebevegelse. Du skal ikke kjenne smerte, drag eller at du holder igjen."
-  },
-  {
-    t: "Jogging",
-    d: "Kan du jogge 2–3 minutter uten smerte eller halting?",
-    i: "Jogge rolig i jevnt tempo. Dette skal være lett jogging, ikke sprint. Målet er å sjekke om lysken tåler jevn bevegelse over litt tid. Hvis du kjenner smerte, halter, eller blir usikker når du løper, er du ikke klar for neste steg."
-  },
-  {
-    t: "Retning",
-    d: "Kan du gjøre 5 rolige vendinger uten smerte?",
-    i: "Løp noen meter frem, brems rolig, snu kroppen og løp tilbake. Dette tester om lysken tåler bremsing, vending og nytt fraspark. Lysken blir ofte utfordret når du skifter retning. Du skal kunne vende uten smerte eller frykt."
-  },
-  {
-    t: "Sprint",
-    d: "Kan du løpe 2–3 raske drag uten smerte eller frykt?",
-    i: "Løp to til tre korte drag der du bygger opp til høy fart. Ikke gå rett på maks i første drag. Du skal kunne løpe naturlig uten å beskytte lysken, uten smerte og uten at steget føles låst."
-  },
-  {
-    t: "Spark",
-    d: "Kan du slå 5 kontrollerte spark uten smerte i lysken?",
-    i: "Bruk en ball hvis du har, eller gjør en kontrollert sparkebevegelse uten ball. Dette tester om lysken tåler den typen bevegelse som ofte provoserer området i fotball. Du skal ikke kjenne smerte, napp eller frykt når du fører beinet frem."
-  }
-];
-
-const data = {
-  pain: [
+Stopp ved skarp smerte, plutselig kraftsvikt, økende smerte for hvert sett eller dersom du begynner å beskytte området. Rask løping, harde vendinger og kraftige spark skal være smertefrie før full fotballbelastning.`,
+  safetyQuestions: [
     {
-      t: "Klar?",
-      d: "Start rolig",
-      i: `DETTE NIVÅET ER FOR DEG SOM:
-- fortsatt har vondt i lysken
-- kjenner det når du går, vender eller løfter beinet
-- ikke er klar for fart, spark eller sidebevegelser
-
-MÅLET HER ER:
-- å få i gang muskulaturen igjen
-- å unngå at skaden blir verre
-- å bygge kontroll før du gjør mer
-
-VIKTIG:
-- dette skal være rolig
-- du skal ikke presse gjennom smerte
-- hvis du er usikker, velg heller dette nivået enn et for tungt nivå`
+      t: "Kraftig akutt skade?",
+      d: "Kom smerten plutselig med et tydelig knepp/pop, stor hevelse/blåmerker eller klarer du ikke å gå normalt?",
+      stop: "Dette kan være en større muskel- eller seneskade og bør vurderes av helsepersonell før selvstyrt rehab."
     },
-
     {
-      t: "Klem pute",
-      d: "3 x 10 sek",
-      i: `SLIK GJØR DU:
-- Ligg på ryggen med knærne bøyd
-- Sett en pute, ball eller sammenrullet genser mellom knærne
-- Klem rolig sammen
-- Hold i 10 sekunder
-- Slapp helt av
-- Gjenta 3 ganger
-
-DETTE ER EN STATISK ØVELSE:
-- musklene på innsiden av låret jobber uten mye bevegelse
-- målet er å vekke lysken, ikke irritere den
-
-DU SKAL KJENNE:
-- et tydelig, men rolig arbeid på innsiden av lårene
-- kontroll og trygghet
-
-DU SKAL IKKE KJENNE:
-- skarp smerte
-- stikking
-- at du spenner hele kroppen
-
-STOPP HVIS:
-- smerten øker
-- du kjenner napp eller stikk
-- du blir mer anspent for hver repetisjon`
+      t: "Andre symptomer i lysken?",
+      d: "Har du kul/hevelse i lysken, sterke magesmerter, testikkelsmerte/hevelse eller smerte som ikke tydelig henger sammen med bevegelse/trening?",
+      stop: "Dette passer ikke godt med en enkel adduktorskade. Få medisinsk vurdering før du bruker rehabopplegget."
     },
-
     {
-      t: "Bent knee fallout",
-      d: "3 x 8 per side",
-      i: `SLIK GJØR DU:
-- Ligg på ryggen med bøyde knær og føttene i gulvet
-- La ett kne falle rolig litt ut til siden
-- Gå bare så langt det føles trygt
-- Før kneet rolig tilbake
-- Bytt side
-
-MÅLET MED ØVELSEN:
-- å gi lysken rolig bevegelse
-- å bygge kontroll i hofte og innside lår
-
-DU SKAL KJENNE:
-- rolig bevegelse
-- lett arbeid, ikke smerte
-
-DU SKAL IKKE KJENNE:
-- skarp smerte
-- at kneet faller ukontrollert ut
-- at du må hjelpe til med overkroppen
-
-TIPS:
-- liten bevegelse er helt ok
-- rolig tempo er viktigere enn å gå langt`
-    },
-
-    {
-      t: "Stå på ett bein",
-      d: "3 x 20 sek per bein",
-      i: `SLIK GJØR DU:
-- Stå på ett bein
-- Hold kroppen høy og rolig
-- Se på et punkt foran deg
-- Hold 20 sekunder
-- Bytt bein
-
-MÅLET MED ØVELSEN:
-- å bygge rolig kontroll rundt hofte og lyske
-- å venne kroppen til belastning igjen
-
-DU SKAL KJENNE:
-- balansearbeid
-- kontroll, ikke stress
-
-DU SKAL IKKE KJENNE:
-- smerte i lysken
-- at hofta faller helt ut
-- at du må hoppe rundt`
-    },
-
-    {
-      t: "Rolig gange",
-      d: "5 min",
-      i: `SLIK GJØR DU:
-- Gå i vanlig, rolig tempo
-- Ta korte og naturlige steg
-- Hold kroppen avslappet
-- Gå i 5 minutter uten å teste mer
-
-MÅLET:
-- å få i gang sirkulasjonen
-- å gjøre området mindre stivt
-- å venne lysken til vanlig bevegelse igjen
-
-STOPP HVIS:
-- du begynner å halte
-- smerten øker
-- du kjenner at du beskytter området mer og mer`
+      t: "Dyp hofte- eller hvilesmerte?",
+      d: "Har du sterke dype hoftesmerter, tydelig låsning/klikking med funksjonstap, nattlig smerte eller smerte som blir gradvis verre uten belastning?",
+      stop: "Lyskesmerter kan komme fra flere strukturer. Disse symptomene bør vurderes faglig før videre testing."
     }
   ],
-
-  better: [
-    {
-      t: "Klar?",
-      d: "Føles litt bedre",
-      i: `DETTE NIVÅET ER FOR DEG SOM:
-- har mindre vondt enn før
-- kan gå ganske normalt
-- kan bevege deg uten mye smerte
-- fortsatt ikke er klar for sprint, spark eller harde vendinger
-
-MÅLET HER ER:
-- å bygge mer kontroll
-- å tåle litt mer bevegelse
-- å gjøre lysken sterkere uten å provosere den`
-    },
-
-    {
-      t: "Adductor squeeze",
-      d: "3 x 8",
-      i: `SLIK GJØR DU:
-- Ligg på ryggen med knærne bøyd
-- Ha en ball eller pute mellom knærne
-- Klem sammen i 3 sekunder
-- Slapp rolig av
-- Gjør 8 repetisjoner
-
-DU SKAL KJENNE:
-- arbeid på innsiden av lårene
-- kontrollert kraft uten smerte
-
-VANLIGE FEIL:
-- klemmer altfor hardt
-- holder pusten
-- blir stresset i hele kroppen`
-    },
-
-    {
-      t: "Sideutfall kort",
-      d: "3 x 6 per side",
-      i: `SLIK GJØR DU:
-- Stå med litt bred avstand mellom beina
-- Flytt vekten rolig ut til én side
-- Bøy kneet litt på den siden du går mot
-- Hold det andre beinet mer strakt
-- Skyv rolig tilbake til midten
-- Bytt side
-
-MÅLET:
-- å gi lysken kontrollert strekk og belastning
-- å forberede deg på sidebevegelser igjen
-
-DU SKAL IKKE:
-- gå for dypt
-- skynde deg
-- presse hvis det gjør vondt`
-    },
-
-    {
-      t: "Marching",
-      d: "3 x 20 steg",
-      i: `SLIK GJØR DU:
-- Stå oppreist
-- Løft ett kne rolig opp
-- Sett ned igjen
-- Bytt side
-- Fortsett annenhver side
-
-MÅLET:
-- å bygge kontroll i hofte og lyske
-- å trene rytme og stabilitet
-
-TIPS:
-- kroppen skal være høy
-- dette er kontroll, ikke fart`
-    }
+  tests: [
+    { t: "Gange", d: "Kan du gå normalt uten tydelig smerte eller halting?", failLevel: "pain" },
+    { t: "Adduktor squeeze", d: "Kan du klemme en ball/pute mellom knærne 5 x 5 sek med moderat kraft uten tydelig smerte?", failLevel: "better" },
+    { t: "Sideutfall", d: "Kan du gjøre 8 korte, kontrollerte sideutfall per side uten tydelig smerte?", failLevel: "better" },
+    { t: "Jogging", d: "Kan du jogge i 5 minutter uten smerte eller beskyttelse?", failLevel: "almost" },
+    { t: "Sidebevegelse", d: "Kan du gjøre 3 x 10 meter sideveis forflytning i moderat fart uten smerte?", failLevel: "almost" },
+    { t: "Vending", d: "Kan du gjøre 5 kontrollerte 45–90° retningsendringer per side uten smerte?", failLevel: "almost" },
+    { t: "Spark", d: "Kan du slå 5–8 kontrollerte spark og øke mot ca. 80–90 % kraft uten smerte?", failLevel: "almost" }
   ],
-
-  almost: [
-    {
-      t: "Klar?",
-      d: "Nesten klar",
-      i: `DETTE NIVÅET ER FOR DEG SOM:
-- kan gå normalt
-- tåler en del belastning
-- føler deg bedre, men ikke er klar for full fart
-- kan gjøre rolige øvelser uten smerte
-
-MÅLET HER ER:
-- å bygge styrke
-- å forberede lysken på løping, vending og fotballbevegelse
-- å komme nærmere vanlig trening igjen`
-    },
-
-    {
-      t: "Copenhagen kort",
-      d: "3 x 15 sek per side",
-      i: `SLIK GJØR DU:
-- Støtt deg på underarmen i sideplanke
-- Ha øverste kne eller legg på en benk, sofa eller stol
-- Løft hofta opp så kroppen blir stabil
-- Hold i 15 sekunder
-- Bytt side
-
-MÅLET:
-- å gjøre lysken sterkere
-- å bygge styrke i den muskulaturen som ofte svikter ved lyskeplager
-
-DU SKAL KJENNE:
-- tydelig arbeid på innsiden av låret
-- stabilitet i kroppen
-
-STOPP HVIS:
-- du kjenner skarp smerte
-- du mister kontroll helt`
-    },
-
-    {
-      t: "Side shuffle",
-      d: "3 x 15 sek",
-      i: `SLIK GJØR DU:
-- Stå i lett knebøy
-- Beveg deg sideveis med små, raske steg
-- Hold brystet oppe og kroppen stabil
-- Jobb 15 sekunder
-- Hvil og gjenta
-
-MÅLET:
-- å forberede lysken på sidebevegelse
-- å bygge trygghet før raskere retningsforandringer`
-    },
-
-    {
-      t: "Lett løp",
-      d: "5 x 10m",
-      i: `SLIK GJØR DU:
-- Løp 10 meter i kontrollert fart
-- Start rolig og bygg litt fart
-- Gå tilbake som pause
-- Gjenta 5 ganger
-
-MÅLET:
-- å kjenne om lysken tåler løp
-- å bygge trygghet før raskere drag`
-    }
+  phases: {
+    pain: [
+      {
+        t: "Adduktor squeeze",
+        d: "5 x 10–20 sek – lett/moderat",
+        i: "Ligg på ryggen med bøyde knær og en ball/pute mellom knærne. Klem med rolig, moderat kraft. Målet er smertestyrt aktivering, ikke maks innsats."
+      },
+      {
+        t: "Bent-knee fallout",
+        d: "2–3 x 8 per side",
+        i: "Ligg på ryggen med bøyde knær. La ett kne gli rolig ut til siden og tilbake innenfor et komfortabelt område."
+      },
+      {
+        t: "Glute bridge",
+        d: "3 x 8–12",
+        i: "Løft hofta kontrollert. Hold bekkenet stabilt og fordel belastningen likt."
+      },
+      {
+        t: "Rolig gange",
+        d: "5–10 min hvis du går normalt",
+        i: "Gå med naturlig steg. Stopp dersom smerten øker eller du begynner å halte."
+      }
+    ],
+    better: [
+      {
+        t: "Side-liggende adduksjon",
+        d: "3 x 8–12 per side",
+        i: "Ligg på siden. Det nederste beinet er arbeidsbeinet. Løft det rolig noen centimeter og senk kontrollert."
+      },
+      {
+        t: "Kort Copenhagen",
+        d: "2–3 x 5–8 per side",
+        i: "Støtt kneet på en benk/stol mens underste bein løftes mot det øverste. Start med kort spak og liten dose. Copenhagen er tung; ikke bruk lang variant tidlig."
+      },
+      {
+        t: "Kort sideutfall",
+        d: "3 x 6–8 per side",
+        i: "Ta et kontrollert steg til siden og bøy kneet på arbeidsbeinet. Hold dybden moderat og skyv rolig tilbake."
+      },
+      {
+        t: "Sideveis gange",
+        d: "3 x 10–15 m",
+        i: "Små kontrollerte steg sideveis i lett knebøy. Øk farten først når det er smertefritt."
+      },
+      {
+        t: "Jogg/gå",
+        d: "8–12 min",
+        i: "Veksle rolig jogg og gange. Ingen økning hvis lysken blir tydelig mer irritert senere samme dag eller neste morgen."
+      }
+    ],
+    almost: [
+      {
+        t: "Copenhagen",
+        d: "3 x 6 per side",
+        i: "Bruk kort eller lengre spak etter kapasitet. Hold bekkenet stabilt. Øk spaklengde før du jager mange repetisjoner."
+      },
+      {
+        t: "Sideutfall",
+        d: "3 x 8 per side",
+        i: "Øk gradvis dybde og kraft. Hold kontroll over hofte, kne og fot."
+      },
+      {
+        t: "Lateral shuffle",
+        d: "4 x 10–15 m",
+        i: "Bygg fra ca. 50 % til 80 % fart. Ikke kryss beina."
+      },
+      {
+        t: "Retningsendring",
+        d: "2 x 4 per side",
+        i: "Start med 45° og gå gradvis mot 90°. Planlagte vendinger før reaktive."
+      },
+      {
+        t: "Spark-progresjon",
+        d: "8–12 spark: 50–60–70–80 %",
+        i: "Start med korte pasninger. Øk gradvis lengde og kraft. Avslutt dersom du får napp eller begynner å holde igjen."
+      }
+    ],
+    ready: [
+      {
+        t: "Oppvarming",
+        d: "8–10 min gradvis",
+        i: "Rolig løp, hoftebevegelser, sideforflytning og progressive akselerasjoner."
+      },
+      {
+        t: "Høy fart",
+        d: "4 x 20–30 m opp mot 90–95 %",
+        i: "Bygg fart gradvis og ta full pause."
+      },
+      {
+        t: "Vending og brems",
+        d: "6–8 repetisjoner",
+        i: "Bruk begge sider og varier 45–90° retningsendring. Ingen smerte eller beskyttelse."
+      },
+      {
+        t: "Spark-progresjon",
+        d: "10–12 spark opp mot 90–95 %",
+        i: "Begynn med pasning, gå mot lengre pasning/skudd. Maks kraft er siste steg."
+      },
+      {
+        t: "Fotballsekvens",
+        d: "8–10 min",
+        i: "Kombiner løp, vending, mottak, pasning og noen avslutninger i kontrollert, gradvis økende tempo."
+      }
+    ],
+    prevent: [
+      {
+        t: "Copenhagen adduction",
+        d: "2 x 6–8 per side, 1–2 ganger per uke",
+        i: "Velg kort eller lang spak etter nivå. Øk gradvis. Øvelsen er høyintensiv for adduktorene."
+      },
+      {
+        t: "Sideutfall",
+        d: "3 x 6–10 per side",
+        i: "Kontrollert styrke gjennom sideveis bevegelse."
+      },
+      {
+        t: "Ettbeins styrke",
+        d: "3 x 6–10",
+        i: "Split squat eller ettbeins knebøy til benk bygger hofte- og beinkapasitet rundt lysken."
+      },
+      {
+        t: "Spark og vending",
+        d: "Jevn eksponering i trening",
+        i: "Ikke la første harde spark eller raske sidebevegelse etter en pause komme i kamp. Bygg disse aksjonene inn gradvis i trening."
+      },
+      {
+        t: "Følg tidlige symptomer",
+        d: "Ikke vent til du må stå over",
+        i: "Ved gradvis økende lyskesymptomer: reduser den provoserende belastningen midlertidig og fortsett passende styrke. Tidlig justering er bedre enn å presse til funksjonen faller."
+      }
+    ]
+  },
+  returnQuestions: [
+    "Kjente du tydelig lyskesmerte under rask løping, vending eller sidebevegelse?",
+    "Holdt du igjen i spark eller retningsendringer fordi området føltes utrygt?",
+    "Ble lysken tydelig mer irritert mot slutten av testøkta?"
   ],
-
-  ready: [
-    {
-      t: "Klar?",
-      d: "Siste steg før trening",
-      i: `DETTE NIVÅET ER FOR DEG SOM:
-- har veldig lite eller ingen smerte
-- tåler løping ganske bra
-- er nærmere normal trening igjen
-- trenger å teste fart, vending og spark før full retur
-
-MÅLET HER ER:
-- å gå fra kontrollert trening til kampnære bevegelser
-- å sjekke at kroppen tåler sprint, vending og spark
-- å bli trygg før du er helt tilbake`
-    },
-
-    {
-      t: "Sprint",
-      d: "3 x 20m",
-      i: `SLIK GJØR DU:
-- Start rolig
-- Løp 20 meter
-- Øk farten litt for hvert drag
-- Gå tilbake og ta god pause
-
-MÅLET:
-- å teste om lysken tåler høyere fart
-- å gjøre overgangen mot vanlig sprint trygg`
-    },
-
-    {
-      t: "Retning",
-      d: "5 runder",
-      i: `SLIK GJØR DU:
-- Løp noen meter frem
-- Brems kontrollert
-- Snu kroppen
-- Løp tilbake
-- Gjenta 5 runder
-
-MÅLET:
-- å teste lysken i bremsing og vending
-- å kjenne om kroppen føles stabil i mer fotballnære bevegelser`
-    },
-
-    {
-      t: "Spark",
-      d: "10 kontrollerte spark",
-      i: `SLIK GJØR DU:
-- Slå 10 kontrollerte pasninger eller lette spark
-- Start rolig
-- Øk bare hvis alt kjennes trygt
-- Ikke gå rett på harde skudd
-
-MÅLET:
-- å teste om lysken tåler sparkebevegelsen
-- å kjenne om du kan føre beinet frem naturlig uten smerte`
-    }
-  ],
-
-  prevent: [
-    {
-      t: "Klar?",
-      d: "Forebygging",
-      i: `DETTE NIVÅET ER FOR DEG SOM:
-- ikke nødvendigvis er skadet nå
-- vil unngå lyskeskade
-- vil være bedre rustet for sprint, vending og spark
-
-MÅLET HER ER:
-- å gjøre lysken sterkere
-- å tåle fotballbelastning bedre
-- å redusere sjansen for at problemet kommer tilbake`
-    },
-
-    {
-      t: "Copenhagen",
-      d: "3 x 20 sek per side",
-      i: `SLIK GJØR DU:
-- Gå i sideplanke
-- Legg øverste bein på en benk eller stol
-- Løft kroppen opp og hold
-- Bytt side
-
-MÅLET:
-- å bygge sterk lyske
-- å trene en av de viktigste forebyggende øvelsene for innside lår`
-    },
-
-    {
-      t: "Sideutfall",
-      d: "3 x 8 per side",
-      i: `SLIK GJØR DU:
-- Stå bredt
-- Flytt vekten rolig ut til én side
-- Hold kontroll gjennom hele bevegelsen
-- Skyv tilbake til midten
-- Bytt side
-
-MÅLET:
-- å gjøre lysken sterk gjennom sidebevegelse
-- å tåle strekk og kontroll bedre`
-    },
-
-    {
-      t: "Oppvarming",
-      d: "Alltid",
-      i: `SLIK GJØR DU:
-- Start med rolig bevegelse
-- Gjør dynamiske bevegelser for hofte og lyske
-- Øk tempo gradvis
-- Gjør korte akselerasjoner og sidebevegelser før du går fullt
-
-MÅLET:
-- å gjøre kroppen varm før fart
-- å forberede lysken på belastning
-- å redusere risikoen for skade`
-    }
-  ]
-};
-
-/* TIPS */
-const tips = [
-  "Ikke tren gjennom smerte",
-  "Kontroll først",
-  "Bygg opp gradvis",
-  "Stopp hvis du kjenner napp",
-  "Kvalitet er viktigere enn å skynde seg"
-];
-
-/* START */
-function startPhase(type){
-  mode = "workout";
-  inGameTest = false;
-
-  yesBtn.style.display = "none";
-  noBtn.style.display = "none";
-  nextBtn.style.display = "block";
-
-  if(progressWrap){
-    progressWrap.style.display = "block";
-  }
-
-  step.innerText = "";
-
-  exercises = data[type].map(e => ({ ...e }));
-  i = 0;
-  currentLevel = type;
-
-  startScreen.classList.remove("active");
-  workoutScreen.classList.add("active");
-  document.getElementById("levelHeader").style.display = "block";
-
-  document.getElementById("hint").style.display = "block";
-  tipEl.style.display = "block";
-
-  exerciseBox.classList.remove("resultCard", "ready", "pain");
-  title.classList.remove("resultGood", "resultBad");
-
-  nextBtn.style.display = "block";
-  yesBtn.style.display = "none";
-  noBtn.style.display = "none";
-  nextBtn.innerText = "NESTE";
-  nextBtn.onclick = nextExercise;
-
-  const levelMap = {
-    pain: ["NIVÅ 1", "Har vondt"],
-    better: ["NIVÅ 2", "Føles litt bedre"],
-    almost: ["NIVÅ 3", "Nesten klar"],
-    ready: ["TESTØKT", "Siste sjekk før trening"],
-    prevent: ["NIVÅ 5", "Forebygging"]
-  };
-
-  const levelInfo = {
-    pain: "2–3 ganger i uka. Fokus på rolig kontroll.",
-    better: "2–3 ganger i uka. Bygg styrke uten smerte.",
-    almost: "2–3 ganger i uka. Forbered deg på løp og sidebevegelse.",
-    ready: "",
-    prevent: "1–2 ganger i uka for å holde deg skadefri."
-  };
-
-  levelBig.innerText = levelMap[type][0];
-  levelSmall.innerHTML = levelMap[type][1] + " - <br>" + levelInfo[type];
-
-  if(type === "ready" && isTestWorkout){
-    exercises[0].t = "TESTØKT";
-    exercises[0].d = "Fullfør uten smerte eller usikkerhet";
-  }
-
-  show();
-}
-
-/* VIS ØVELSE */
-function show(){
-  const ex = exercises[i];
-
-  title.innerText = ex.t;
-  desc.innerText = ex.d;
-  step.innerText = "Øvelse " + (i + 1) + " av " + exercises.length;
-
-  if(tipEl){
-    tipEl.innerText = tips[Math.floor(Math.random() * tips.length)];
-  }
-}
-
-/* NEXT */
-function nextExercise(){
-  i++;
-
-  if(i >= exercises.length){
-    if(currentLevel === "ready"){
-      startGameTest();
-      return;
-    }
-
-    showFinished();
-    return;
-  }
-
-  show();
-}
-
-function showFinished(){
-  const finishText = {
-    pain: "Bra. Hold det rolig og bygg opp kroppen.",
-    better: "Bra. Du er på vei – fortsett med kontroll.",
-    almost: "Bra. Du nærmer deg – men ikke gå for fort frem.",
-    prevent: "Bra. Dette holder deg skadefri over tid."
-  };
-
-  const nextStep = {
-    pain: "Gjør dette nivået 2–3 ganger før du går videre.",
-    better: "Fortsett her til alt kjennes stabilt.",
-    almost: "Når dette føles lett → gå til test.",
-    prevent: "Fortsett 1–2 ganger i uka."
-  };
-
-  title.innerText = "FULLFØRT";
-  desc.innerText = finishText[currentLevel] + "\n\n" + nextStep[currentLevel];
-
-  nextBtn.innerText = "TILBAKE";
-
-  nextBtn.onclick = () => {
-    resetUI();
-    workoutScreen.classList.remove("active");
-    startScreen.classList.add("active");
-
-    document.body.classList.remove("testMode");
-    document.getElementById("hint").style.display = "block";
-    tipEl.style.display = "block";
-    nextBtn.onclick = nextExercise;
-  };
-}
-
-if(nextBtn){
-  nextBtn.onclick = nextExercise;
-}
-
-/* MODAL */
-exerciseBox.onclick = () => {
-  if(mode === "test"){
-    if(!testFlow[testStep]) return;
-    modalText.innerText = testFlow[testStep].i || "Ingen forklaring tilgjengelig";
-    modal.classList.add("show");
-    return;
-  }
-
-  if(mode === "workout"){
-    if(!exercises[i]) return;
-    modalText.innerText = exercises[i].i;
-    modal.classList.add("show");
-  }
-};
-
-if(modal){
-  modal.onclick = (e) => {
-    if(e.target === modal){
-      modal.classList.remove("show");
-    }
-  };
-}
-
-/* BACK */
-if(backBtn){
-  backBtn.onclick = () => {
-    resetUI();
-    workoutScreen.classList.remove("active");
-    startScreen.classList.add("active");
-  };
-}
-
-if(homeBack){
-  homeBack.onclick = () => {
-    window.location.href = "skade.html";
-  };
-}
-
-/* START TEST */
-function startTest(){
-  mode = "test";
-  testStep = -1;
-  answers = [];
-
-  startScreen.classList.remove("active");
-  workoutScreen.classList.add("active");
-
-  title.innerText = "FØR DU STARTER";
-  desc.innerText = `REGLER:
-
-- JA = helt uten smerte og full kontroll
-- NEI = hvis du kjenner noe, er usikker eller holder igjen
-
-- Hvis du kjenner smerte → stopp med en gang
-- Gå tilbake til nivået under
-- Ikke press deg gjennom noe
-- Ikke test hvor mye du tåler
-
-- Sprint og spark er siste steg – ikke rush det`;
-
-  step.innerText = "";
-
-  nextBtn.style.display = "block";
-  nextBtn.innerText = "START TEST";
-
-  yesBtn.style.display = "none";
-  noBtn.style.display = "none";
-
-  document.getElementById("levelHeader").style.display = "none";
-  document.getElementById("hint").style.display = "block";
-  document.getElementById("hint").innerText = "Trykk på kortet for forklaring";
-
-  nextBtn.onclick = () => {
-    testStep = 0;
-    nextBtn.style.display = "none";
-    yesBtn.style.display = "block";
-    noBtn.style.display = "block";
-    showTest();
-  };
-}
-
-function showTest(){
-  const q = testFlow[testStep];
-
-  title.innerText = q.t;
-  desc.innerText = q.d;
-  step.innerText = "Test " + (testStep + 1) + " av " + testFlow.length;
-
-  document.getElementById("hint").innerText = "Trykk på kortet for forklaring";
-
-  yesBtn.disabled = true;
-  noBtn.disabled = true;
-
-  setTimeout(() => {
-    yesBtn.disabled = false;
-    noBtn.disabled = false;
-  }, 1200);
-}
-
-if(yesBtn && noBtn){
-  yesBtn.onclick = () => {
-    if(mode === "test"){
-      nextTest(true);
-    } else if(inGameTest){
-      nextGameTest(true);
-    }
-  };
-
-  noBtn.onclick = () => {
-    if(mode === "test"){
-      nextTest(false);
-    } else if(inGameTest){
-      nextGameTest(false);
-    }
-  };
-}
-
-function nextTest(answer){
-  answers.push(answer);
-
-  const failMap = [
-    "pain",
-    "better",
-    "better",
-    "almost",
-    "almost",
-    "almost",
-    "ready"
-  ];
-
-  if(answer === false){
-    recommendedLevel = failMap[testStep];
-    showResult();
-    return;
-  }
-
-  testStep++;
-
-  if(testStep >= testFlow.length){
-    recommendedLevel = "ready";
-    showResult();
-  } else {
-    showTest();
-  }
-}
-
-/* RESULT */
-function showResult(){
-  mode = "menu";
-
-  title.innerText = "DIN STATUS";
-  step.innerText = "";
-  document.getElementById("hint").style.display = "none";
-  tipEl.style.display = "none";
-  exerciseBox.classList.add("resultCard");
-  exerciseBox.classList.remove("ready","pain");
-  exerciseBox.classList.add(recommendedLevel === "ready" ? "ready" : "pain");
-
-  const resultMap = {
-    pain: "Du må starte rolig og bygge opp lysken igjen",
-    better: "Du er på vei tilbake – bygg videre med kontroll",
-    almost: "Du er nær – men ikke klar for høy fart eller harde vendinger ennå",
-    ready: "Du kan gjøre testøkta",
-    prevent: "Du er skadefri – jobb med forebygging"
-  };
-
-  desc.innerText = resultMap[recommendedLevel];
-
-  nextBtn.style.display = "block";
-  yesBtn.style.display = "none";
-  noBtn.style.display = "none";
-
-  nextBtn.innerText = recommendedLevel === "ready" ? "START TESTØKT" : "START NIVÅ";
-
-  nextBtn.onclick = () => {
-    isTestWorkout = (recommendedLevel === "ready");
-    startPhase(recommendedLevel);
-    nextBtn.onclick = nextExercise;
-  };
-}
-
-function startGameTest(){
-  document.getElementById("levelHeader").style.display = "none";
-  inGameTest = true;
-  gameAnswers = [];
-
-  document.getElementById("hint").style.display = "none";
-  tipEl.style.display = "none";
-  document.body.classList.add("testMode");
-
-  title.innerText = "KLAR FOR TRENING?";
-  desc.innerText = "Spørsmål 1 av 3\n\nKjente du smerte under økta?";
-
-  nextBtn.style.display = "none";
-  yesBtn.style.display = "block";
-  noBtn.style.display = "block";
-
-  tipEl.innerText = "";
-}
-
-const questions = [
-  "Kjente du smerte under økta?",
-  "Holdt du igjen i sprint, vending eller sidebevegelse?",
-  "Følte du deg utrygg i spark eller raske bevegelser?"
-];
-
-function nextGameTest(answer){
-  gameAnswers.push(answer);
-
-  if(gameAnswers.length < questions.length){
-    desc.innerText =
-      "Spørsmål " + (gameAnswers.length + 1) + " av 3\n\n" +
-      questions[gameAnswers.length];
-
-    step.innerText = "";
-    document.getElementById("testProgress").innerText =
-      (gameAnswers.length + 1) + " / 3";
-
-    return;
-  }
-
-  evaluateGameTest();
-  isTestWorkout = false;
-}
-
-function evaluateGameTest(){
-  document.getElementById("levelHeader").style.display = "none";
-  step.innerText = "";
-  document.getElementById("testProgress").innerText = "";
-
-  if(gameAnswers.includes(true)){
-    recommendedLevel = "almost";
-
-    title.innerText = "IKKE KLAR";
-    title.className = "resultBad";
-    desc.innerText = "Gå tilbake til nivå: Nesten klar";
-  } else {
-    title.innerText = "KLAR FOR TRENING";
-    title.className = "resultGood";
-    exerciseBox.classList.add("resultCard");
-
-    desc.innerText =
-      "Du kan delta på trening med 100% innsats.\n\n" +
-      "Hvis du trener uten smerte eller utrygghet,\n" +
-      "er du klar for kamp.";
-  }
-
-  nextBtn.style.display = "block";
-  yesBtn.style.display = "none";
-  noBtn.style.display = "none";
-
-  nextBtn.innerText = "FERDIG";
-
-  nextBtn.onclick = () => {
-    workoutScreen.classList.remove("active");
-    startScreen.classList.add("active");
-
-    document.getElementById("hint").style.display = "block";
-    tipEl.style.display = "block";
-
-    nextBtn.onclick = nextExercise;
-    inGameTest = false;
-    isTestWorkout = false;
-    currentLevel = "";
-    title.classList.remove("resultGood", "resultBad");
-    exerciseBox.classList.remove("resultCard", "ready", "pain");
-  };
-}
-
-function resetUI(){
-  mode = "menu";
-  currentLevel = "";
-  inGameTest = false;
-  isTestWorkout = false;
-
-  i = 0;
-  exercises = [];
-
-  if(progressWrap){
-    progressWrap.style.display = "block";
-  }
-
-  levelBig.innerText = "";
-  levelSmall.innerText = "";
-
-  nextBtn.style.display = "block";
-  yesBtn.style.display = "none";
-  noBtn.style.display = "none";
-  levelHeader.style.display = "none";
-  nextBtn.onclick = nextExercise;
-
-  title.classList.remove("resultGood", "resultBad");
-  exerciseBox.classList.remove("resultCard", "ready", "pain");
-
-  document.getElementById("hint").style.display = "block";
-  tipEl.style.display = "block";
-
-  testStep = 0;
-  answers = [];
-  step.innerText = "";
-}
+  returnSuccessText: "Testøkta gikk uten tydelige varselsignaler. Du kan starte gradert lagtrening. Bygg først mengde og intensitet i løp, vendinger og spark. Full trening uten reaksjon bør tåles før kamp vurderes, og området skal være like bra eller bedre neste morgen."
+});
