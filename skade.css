@@ -83,6 +83,7 @@ body {
 /* FARGER */
 .hamstring::before { background: #ef4444; }  /* rød */
 .calf::before { background: #22c55e; }       /* grønn */
+.heel::before { background: #eab308; }       /* gul */
 .groin::before { background: #06b6d4; }      /* cyan */
 .knee::before { background: #f59e0b; }       /* oransje */
 .ankle::before { background: #8b5cf6; }      /* lilla */
