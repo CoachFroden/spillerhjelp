@@ -43,7 +43,7 @@ const programs = {
       },
       {
         tag: "Bakside / balanse",
-        title: "Ettbeins RDL",
+        title: "Ettbeins hoftebøy",
         dose: "3 × 8 per bein",
         cue: "Mykt kne. Skyv hofta bak og hold ryggen lang.",
         info: "Stå på ett bein med lett bøy i kneet. Før hofta bakover mens overkroppen lener seg frem og det frie beinet går bak. Kom opp ved å presse hofta frem igjen.\n\nBevegelsen skal kjennes i bakside lår og sete, ikke i korsryggen.",
@@ -159,7 +159,7 @@ const programs = {
       },
       {
         tag: "Bakside",
-        title: "Ettbeins RDL",
+        title: "Ettbeins hoftebøy",
         dose: "2 × 8 per bein",
         cue: "Hofta bak. Stabil rygg og bekken.",
         info: "Balanser på ett bein og heng frem fra hofta. Kjenn bakside lår og sete jobbe.\n\nBruk støtte ved behov, og legg eventuelt på lett belastning hvis kroppsvekt er enkelt.",
