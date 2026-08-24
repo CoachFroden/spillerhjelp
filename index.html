@@ -1,117 +1,72 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Logg inn</title>
-
-  <link rel="stylesheet" href="spiller-refleksjon.css" />
-<link rel="stylesheet" href="login.css" />
-
-<link rel="manifest" href="manifest.json">
-
-<!-- iPhone icon -->
-<link rel="apple-touch-icon" href="icon-180.png">
-
-<!-- iOS PWA støtte -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Samnanger G14">
-
-<meta name="theme-color" content="#0f1720">
-
-
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Spillerhjelpen</title>
+  <meta name="description" content="En enkel spillerhjelp for trening, rehab, kampforberedelse og ukens fokus.">
+  <meta name="theme-color" content="#07110d">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Spillerhjelpen">
+  <link rel="stylesheet" href="app.css">
 </head>
 <body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="Spillerhjelpen hjem">
+        <div class="brand-mark">SH</div>
+        <div class="brand-copy"><strong>Spillerhjelpen</strong><span>Samnanger fotball</span></div>
+      </a>
+      <span class="status-pill">Åpen</span>
+    </header>
 
-<main class="container">
+    <section class="hero">
+      <div class="eyebrow">For spilleren</div>
+      <h1>Hva trenger<br>du i dag?</h1>
+      <p>Ingen innlogging. Gå rett til økta, skadehjelpen eller kampforberedelsen du trenger.</p>
+    </section>
 
-  <!-- 🔐 AUTH BOX (kopiert fra spiller-refleksjon, UTEN trener) -->
-<div class="glow-wrapper">
-  <div id="authBox" class="card">
+    <section class="section">
+      <div class="quick-grid">
+        <a class="feature-card feature-training" href="trening.html">
+          <div class="feature-icon">⚡</div>
+          <div><strong>Trening</strong><small>Fart, eksplosivitet og ekstraarbeid</small></div>
+        </a>
+        <a class="feature-card feature-rehab" href="skade.html">
+          <div class="feature-icon">🛡️</div>
+          <div><strong>Rehab</strong><small>Finn område, test nivå og bygg deg opp</small></div>
+        </a>
+        <a class="feature-card feature-match" href="kampklar.html">
+          <div class="feature-icon">⚽</div>
+          <div><strong>Kampklar</strong><small>En enkel rutine fra dagen starter til avspark</small></div>
+        </a>
+        <a class="feature-card feature-focus" href="ovelser.html">
+          <div class="feature-icon">◎</div>
+          <div><strong>Ukens fokus</strong><small>Øvelser treneren har lagt ut denne uka</small></div>
+        </a>
+      </div>
+    </section>
 
+    <section class="section">
+      <div class="section-head"><h2>Snarveier</h2><p>Rett til det du trenger</p></div>
+      <div class="list-stack">
+        <a class="list-card" href="hurtighet.html"><div class="list-icon">🏃</div><div class="list-copy"><strong>15 min hurtighetsøkt</strong><span>Kort økt du kan gjøre alene</span></div><div class="arrow">›</div></a>
+        <a class="list-card" href="hael.html"><div class="list-icon">👟</div><div class="list-copy"><strong>Vond hæl / Sever</strong><span>Vanlig hos spillere i vekst</span></div><div class="arrow">›</div></a>
+        <a class="list-card" href="akilles.html"><div class="list-icon">🦵</div><div class="list-copy"><strong>Akilles</strong><span>Belastningsplager, styrke og retur</span></div><div class="arrow">›</div></a>
+      </div>
+    </section>
 
-    <h2 class="auth-title glow-title">Samnanger G14</h2>
+    <div class="notice"><strong>Viktig:</strong> Rehabdelen er treningsveiledning, ikke diagnose eller medisinsk klarering. Sikkerhetssjekken skal alltid brukes ved nye eller tydelige plager.</div>
+  </main>
 
-
-    <p class="auth-intro">
-      Dette er <strong>din personlige side</strong>.
-    </p>
-
-    <p class="auth-intro muted">
-      Bare du og treneren kan se det du skriver.
-    </p>
-
-    <!-- LOGIN -->
-    <div id="loginBox">
-      <input id="loginEmail" placeholder="Brukernavn" autocomplete="off" />
-      <input id="loginPassword" type="password" placeholder="Passord" autocomplete="new-password" />
-
-      <button id="loginBtn">Logg inn</button>
-	  <button id="forgotBtn">Glemt passord?</button>
-
-      <p class="hint">
-        Du trenger ikke e-post. Brukernavn og passord velger du selv.
-      </p>
-
-      <p>
-        <button id="showRegisterBtn" class="secondary">
-          Har du ikke konto? Lag bruker
-        </button>
-      </p>
-
-      <div class="status" id="loginStatus"></div>
-    </div>
-
-    <!-- REGISTRERING -->
-    <div id="registerBox" hidden>
-<!-- Skjult select (brukes av JS/registrering) -->
-<select id="registerName" aria-hidden="true" tabindex="-1" class="native-select"></select>
-
-
-<!-- Custom dropdown -->
-<div class="form-grid">
-
-  <div class="player-picker" id="playerPicker">
-    <button type="button" class="player-toggle" id="playerToggle" aria-haspopup="listbox" aria-expanded="false">
-      <span id="playerLabel">Velg navnet ditt</span>
-      <span class="chev" aria-hidden="true">▾</span>
-    </button>
-
-    <ul class="player-list" id="playerList" role="listbox" aria-label="Velg spiller"></ul>
-  </div>
-
-  <input id="registerEmail" placeholder="Brukernavn" />
-  <input id="registerPassword" type="password" placeholder="Passord" />
-  <input id="registerPasswordConfirm" type="password" placeholder="Gjenta passord" />
-
-</div>
-
-
-      <p class="hint">
-        Skriv samme passord to ganger for å være sikker.
-      </p>
-
-      <button id="registerBtn">Opprett bruker</button>
-
-      <p>
-        <button id="showLoginBtn" class="secondary">
-          ← Tilbake
-        </button>
-      </p>
-
-      <div class="status" id="registerStatus"></div>
-    </div>
-	  </div>
-
-  </div>
-</div>
-
-
-</main>
-
-<script type="module" src="login.js"></script>
-
+  <nav class="bottom-nav" aria-label="Hovedmeny">
+    <a class="nav-item active" href="index.html"><b>⌂</b>Hjem</a>
+    <a class="nav-item" href="trening.html"><b>⚡</b>Trening</a>
+    <a class="nav-item" href="skade.html"><b>＋</b>Rehab</a>
+    <a class="nav-item" href="kampklar.html"><b>⚽</b>Kamp</a>
+  </nav>
 </body>
 </html>
