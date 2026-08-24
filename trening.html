@@ -1,48 +1,47 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Trening</title>
-
-  <link rel="stylesheet" href="trening.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Trening · Spillerhjelpen</title>
+  <meta name="theme-color" content="#07110d">
+  <link rel="stylesheet" href="app.css">
 </head>
 <body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html"><div class="brand-mark">SH</div><div class="brand-copy"><strong>Spillerhjelpen</strong><span>Trening</span></div></a>
+      <a class="icon-btn" href="index.html" aria-label="Hjem">⌂</a>
+    </header>
 
-<main class="container">
+    <section class="page-head">
+      <div class="eyebrow">Ekstraarbeid</div>
+      <h1 class="page-title">Tren smart.<br>Ikke bare mer.</h1>
+      <p class="page-lead">Korte økter som passer ved siden av lagtrening. Kvalitet, gode pauser og friske bein er viktigere enn å samle flest mulig minutter.</p>
+    </section>
 
-  <!-- TILBAKE -->
-  <button class="back-btn" onclick="goBack()">←</button>
-
-  <!-- HEADER -->
-  <section class="header">
-    <h1>Trening</h1>
-    <p>Bli raskere, sterkere og bedre</p>
-  </section>
-
-  <!-- MENY -->
-  <section class="menu">
-
-    <button class="card speed" onclick="goTo('hurtighet.html')">
-      <div class="icon">⚡</div>
-      <div>
-        <h2>Hurtighet</h2>
-        <p>Fart og eksplosivitet</p>
+    <section class="section">
+      <div class="section-head"><h2>Velg økt</h2><p>Start enkelt</p></div>
+      <div class="list-stack">
+        <a class="list-card" href="hurtighet.html"><div class="list-icon">⚡</div><div class="list-copy"><strong>Hurtighet og eksplosivitet</strong><span>Ca. 15 min · sprint, reaksjon og spenst</span></div><div class="arrow">›</div></a>
+        <a class="list-card" href="ovelser.html"><div class="list-icon">◎</div><div class="list-copy"><strong>Ukens fokus</strong><span>Se øvelser og videoer treneren har valgt</span></div><div class="arrow">›</div></a>
       </div>
-    </button>
+    </section>
 
-    <button class="card focus" onclick="goTo('ovelser.html')">
-      <div class="icon">🔥</div>
-      <div>
-        <h2>Ukens fokus</h2>
-        <p>Øvelser og utvikling denne uka</p>
+    <section class="section">
+      <div class="section-head"><h2>Før du starter</h2></div>
+      <div class="mini-grid">
+        <div class="mini-card"><div class="mini-icon">✓</div><strong>Vær frisk</strong><span>Ikke legg maks sprint oppå smerter eller tydelig tung kropp.</span></div>
+        <div class="mini-card"><div class="mini-icon">⏱</div><strong>Ta pauser</strong><span>Hurtighet krever kvalitet. Hvil nok mellom raske drag.</span></div>
       </div>
-    </button>
+    </section>
+  </main>
 
-  </section>
-
-</main>
-
-<script src="trening.js"></script>
+  <nav class="bottom-nav" aria-label="Hovedmeny">
+    <a class="nav-item" href="index.html"><b>⌂</b>Hjem</a>
+    <a class="nav-item active" href="trening.html"><b>⚡</b>Trening</a>
+    <a class="nav-item" href="skade.html"><b>＋</b>Rehab</a>
+    <a class="nav-item" href="kampklar.html"><b>⚽</b>Kamp</a>
+  </nav>
 </body>
 </html>
