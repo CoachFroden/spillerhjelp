@@ -63,6 +63,25 @@
       if (next) nextBtn.innerText = nextText;
     }
 
+    function setAnswerMode(yesIsPositive, context = "test") {
+      if (!yesBtn || !noBtn) return;
+
+      yesBtn.innerText = context === "safety" ? "JA – DET GJELDER MEG" : context === "return" ? "JA – JEG KJENTE DET" : "JA";
+      noBtn.innerText = "NEI";
+
+      if (yesIsPositive) {
+        yesBtn.style.background = "linear-gradient(90deg, #22c55e, #16a34a)";
+        yesBtn.style.color = "#000";
+        noBtn.style.background = "linear-gradient(90deg, #ef4444, #b91c1c)";
+        noBtn.style.color = "#fff";
+      } else {
+        yesBtn.style.background = "linear-gradient(90deg, #ef4444, #b91c1c)";
+        yesBtn.style.color = "#fff";
+        noBtn.style.background = "linear-gradient(90deg, #22c55e, #16a34a)";
+        noBtn.style.color = "#000";
+      }
+    }
+
     function showWorkout() {
       startScreen.classList.remove("active");
       workoutScreen.classList.add("active");
@@ -76,6 +95,7 @@
       workoutScreen.classList.remove("active");
       if (modal) modal.classList.remove("show");
       setButtons({ next: false, yes: false, no: false });
+      document.body.classList.remove("testMode");
       window.scrollTo(0, 0);
     }
 
@@ -85,6 +105,7 @@
     }
 
     function setHeader(level) {
+      document.body.classList.remove("testMode");
       const info = levels[level] || ["", ""];
       if (levelHeader) levelHeader.style.display = "block";
       if (levelBig) levelBig.innerText = info[0];
@@ -94,6 +115,7 @@
     }
 
     function setTestHeader(label, current, total) {
+      document.body.classList.add("testMode");
       if (levelHeader) levelHeader.style.display = "none";
       if (progressWrap) progressWrap.style.display = "none";
       if (testHeader) testHeader.style.display = "block";
@@ -207,6 +229,7 @@
       desc.innerText = q.d;
       tipEl.innerText = q.i || "Svar JA hvis ett av punktene passer.";
       if (hint) hint.style.display = "none";
+      setAnswerMode(false, "safety");
       setButtons({ yes: true, no: true });
     }
 
@@ -253,6 +276,7 @@
       desc.innerText = q.d;
       tipEl.innerText = q.i || "Test kontrollert. Ikke press for å få et JA.";
       if (hint) hint.style.display = "none";
+      setAnswerMode(true, "test");
       setButtons({ yes: true, no: true });
     }
 
@@ -313,6 +337,7 @@
       desc.innerText = questions[state.returnIndex];
       tipEl.innerText = "Her betyr JA at du ikke bør gå videre ennå.";
       if (hint) hint.style.display = "none";
+      setAnswerMode(false, "return");
       setButtons({ yes: true, no: true });
     }
 
