@@ -1,121 +1,111 @@
 import { db } from "./firebase-refleksjon.js";
-import { doc, getDoc } 
-from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
-/* ================= UKENUMMER ================= */
-
-function getWeekNumber() {
-  const date = new Date();
-  const firstJan = new Date(date.getFullYear(), 0, 1);
-  const days = Math.floor((date - firstJan) / (24 * 60 * 60 * 1000));
-  return Math.ceil((date.getDay() + 1 + days) / 7);
-}
-
-const currentWeek = getWeekNumber();
-
-/* ================= ELEMENTER ================= */
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 const weekSelect = document.getElementById("weekSelect");
 const exerciseList = document.getElementById("exerciseList");
 const focusDiv = document.getElementById("focusText");
 
-/* ================= FYLL UKEVELGER ================= */
+function getISOWeek(date) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const day = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - day);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+}
 
-if (weekSelect) {
+function weekAtOffset(offset) {
+  const date = new Date();
+  date.setDate(date.getDate() + offset * 7);
+  return getISOWeek(date);
+}
 
+function buildWeekSelect() {
+  if (!weekSelect) return;
   weekSelect.innerHTML = "";
 
-  const firstOption = document.createElement("option");
-  firstOption.text = "Velg uke";
-  firstOption.value = "";
-  weekSelect.appendChild(firstOption);
-
   for (let i = 0; i < 8; i++) {
+    const weekNumber = weekAtOffset(i);
     const option = document.createElement("option");
-    const weekNumber = currentWeek + i;
-
-    if (i === 0) option.text = "Denne uken";
-    else if (i === 1) option.text = "Neste uke";
-    else option.text = "Uke " + weekNumber;
-
-    option.value = "week" + weekNumber;
+    option.value = `week${weekNumber}`;
+    option.textContent = i === 0 ? `Denne uken · uke ${weekNumber}` : i === 1 ? `Neste uke · uke ${weekNumber}` : `Uke ${weekNumber}`;
     weekSelect.appendChild(option);
   }
-
 }
 
-/* ================= LAST ØVELSER ================= */
-
-async function loadExercises() {
-	if (!exerciseList || !weekSelect) return;
-
-  const weekChoice = weekSelect.value;
-
-  if (!weekChoice) {
-    exerciseList.innerHTML = `
-      <div style="padding:20px;text-align:center;">
-        <h3>Ingen øvelser klar for denne uken</h3>
-      </div>
-    `;
-    return;
+function showMessage(title, text = "") {
+  if (!exerciseList) return;
+  exerciseList.innerHTML = "";
+  const box = document.createElement("div");
+  box.className = "no-exercises";
+  const strong = document.createElement("strong");
+  strong.textContent = title;
+  box.appendChild(strong);
+  if (text) {
+    const p = document.createElement("p");
+    p.textContent = text;
+    p.style.margin = "7px 0 0";
+    p.style.lineHeight = "1.45";
+    box.appendChild(p);
   }
+  exerciseList.appendChild(box);
+}
 
-  const ref = doc(db, "weeklyExercises", weekChoice);
-  const snap = await getDoc(ref);
-
+function renderExercises(exercises) {
   exerciseList.innerHTML = "";
 
-  if (!snap.exists()) {
-exerciseList.innerHTML = `
-  <div class="no-exercises">
-    <h3>Ingen øvelser klar for denne uken</h3>
-  </div>
-`;
-    return;
-  }
+  exercises.forEach(ex => {
+    const card = document.createElement("article");
+    card.className = "exercise-card";
 
-  const data = snap.data();
+    const title = document.createElement("div");
+    title.className = "exercise-title";
+    title.textContent = `⚽ ${ex.title || "Øvelse"}`;
+    card.appendChild(title);
 
-if (focusDiv) {
-  if (data.focus) {
-    focusDiv.textContent = "Ukens fokus: " + data.focus;
-  } else {
-    focusDiv.textContent = "";
-  }
-}
+    if (ex.video) {
+      const video = document.createElement("video");
+      video.controls = true;
+      video.preload = "metadata";
+      video.playsInline = true;
+      video.src = ex.video;
+      card.appendChild(video);
+    }
 
-  if (!data.exercises || data.exercises.length === 0) {
-    exerciseList.innerHTML = `
-      <div style="padding:20px;text-align:center;">
-        <h3>Ingen øvelser klar for denne uken</h3>
-      </div>
-    `;
-    return;
-  }
-
-  data.exercises.forEach(ex => {
-
-    const div = document.createElement("div");
-    div.className = "exercise-card";
-
-    div.innerHTML = `
-      <div class="exercise-title">⚽ ${ex.title}</div>
-      <video controls>
-        <source src="${ex.video}" type="video/mp4">
-      </video>
-    `;
-
-    exerciseList.appendChild(div);
-
+    exerciseList.appendChild(card);
   });
-
 }
 
-/* ================= VELG UKE ================= */
+async function loadExercises() {
+  if (!exerciseList || !weekSelect) return;
+  const weekChoice = weekSelect.value;
+  if (!weekChoice) return;
 
-if (weekSelect && exerciseList) {
-  weekSelect.addEventListener("change", loadExercises);
+  showMessage("Laster ukens fokus …");
+  if (focusDiv) focusDiv.textContent = "";
 
-  weekSelect.value = "week" + currentWeek;
-  loadExercises();
+  try {
+    const snap = await getDoc(doc(db, "weeklyExercises", weekChoice));
+
+    if (!snap.exists()) {
+      showMessage("Ingen øvelser lagt ut ennå", "Sjekk igjen senere, eller velg en annen uke.");
+      return;
+    }
+
+    const data = snap.data();
+    if (focusDiv && data.focus) focusDiv.textContent = `Fokus: ${data.focus}`;
+
+    if (!Array.isArray(data.exercises) || data.exercises.length === 0) {
+      showMessage("Ingen øvelser lagt ut ennå", "Det er ikke publisert ekstraarbeid for denne uka.");
+      return;
+    }
+
+    renderExercises(data.exercises);
+  } catch (error) {
+    console.error("Kunne ikke laste ukens fokus:", error);
+    showMessage("Kunne ikke laste øvelsene", "Prøv igjen når du har nettforbindelse.");
+  }
 }
+
+buildWeekSelect();
+weekSelect?.addEventListener("change", loadExercises);
+loadExercises();
