@@ -1,29 +1,44 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Øvelser</title>
-<link rel="stylesheet" href="ovelser.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Ukens fokus · Spillerhjelpen</title>
+  <meta name="theme-color" content="#07110d">
+  <link rel="stylesheet" href="ovelser.css">
 </head>
-
 <body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html"><div class="brand-mark">SH</div><div class="brand-copy"><strong>Spillerhjelpen</strong><span>Ukens fokus</span></div></a>
+      <a class="icon-btn" href="index.html" aria-label="Hjem">⌂</a>
+    </header>
 
-<div class="container">
+    <section class="page-head">
+      <div class="eyebrow">Ekstraarbeid</div>
+      <h1 class="page-title">Ukens<br>fokus</h1>
+      <p class="page-lead">Her ligger øvelsene treneren vil at du skal ha ekstra oppmerksomhet på denne uka.</p>
+    </section>
 
-<h1>Ukens fokus</h1>
+    <section class="week-panel">
+      <label class="week-label" for="weekSelect">Velg uke</label>
+      <select id="weekSelect"></select>
+      <div id="focusText"></div>
+    </section>
 
-<h2>Velg uke</h2>
+    <section class="section">
+      <div class="section-head"><h2>Øvelser</h2><p>Se video og prøv selv</p></div>
+      <div id="exerciseList" class="exercise-list"></div>
+    </section>
+  </main>
 
-<select id="weekSelect"></select>
+  <nav class="bottom-nav" aria-label="Hovedmeny">
+    <a class="nav-item" href="index.html"><b>⌂</b>Hjem</a>
+    <a class="nav-item active" href="trening.html"><b>⚡</b>Trening</a>
+    <a class="nav-item" href="skade.html"><b>＋</b>Rehab</a>
+    <a class="nav-item" href="kampklar.html"><b>⚽</b>Kamp</a>
+  </nav>
 
-<div id="exerciseList"></div>
-
-<button class="back-btn" onclick="history.back()">← Tilbake</button>
-
-</div>
-
-<script type="module" src="ovelser.js"></script>
-
+  <script type="module" src="ovelser.js"></script>
 </body>
 </html>
