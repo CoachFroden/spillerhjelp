@@ -49,7 +49,9 @@
       safetyIndex: 0,
       testIndex: 0,
       returnIndex: 0,
-      returnFailed: false
+      returnFailed: false,
+      safetyCleared: false,
+      pendingLevel: null
     };
 
     const levels = Object.assign({}, DEFAULT_LEVELS, config.levels || {});
@@ -171,7 +173,7 @@
       nextBtn.onclick = showMenu;
     }
 
-    function startPhase(level) {
+    function startPhaseInternal(level) {
       if (!config.phases[level]) return;
       state.mode = "workout";
       state.level = level;
@@ -179,6 +181,20 @@
       state.items = [scopeCard(), loadRuleCard(), ...config.phases[level]];
       showWorkout();
       renderExercise();
+    }
+
+    function startPhase(level) {
+      if (!config.phases[level]) return;
+
+      // Forebygging er for spillere uten pågående skade og kan åpnes direkte.
+      // Alle rehab-/testnivåer må først passere sikkerhetssjekken i denne økten.
+      if (level !== "prevent" && !state.safetyCleared) {
+        state.pendingLevel = level;
+        state.safetyIndex = 0;
+        return showSafetyQuestion();
+      }
+
+      startPhaseInternal(level);
     }
 
     function showSafetyQuestion() {
@@ -212,6 +228,15 @@
       if (answerYes) return stopForAssessment(q);
       state.safetyIndex += 1;
       if (state.safetyIndex >= config.safetyQuestions.length) {
+        state.safetyCleared = true;
+
+        if (state.pendingLevel) {
+          const level = state.pendingLevel;
+          state.pendingLevel = null;
+          startPhaseInternal(level);
+          return;
+        }
+
         state.testIndex = 0;
         showFunctionalTest();
       } else {
@@ -257,8 +282,15 @@
     }
 
     function startTest() {
-      state.safetyIndex = 0;
+      state.pendingLevel = null;
       state.testIndex = 0;
+
+      if (state.safetyCleared) {
+        showFunctionalTest();
+        return;
+      }
+
+      state.safetyIndex = 0;
       showSafetyQuestion();
     }
 
