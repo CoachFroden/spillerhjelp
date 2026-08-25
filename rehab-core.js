@@ -44,6 +44,45 @@
     const state = { mode: "menu", level: null, items: [], index: 0, safetyIndex: 0, testIndex: 0, returnIndex: 0, returnFailed: false, safetyCleared: false, pendingLevel: null };
     const levels = Object.assign({}, DEFAULT_LEVELS, config.levels || {});
 
+    function setupStartMenu() {
+      const menu = startScreen.querySelector(".menu");
+      if (!menu) return;
+      const buttons = Array.from(menu.querySelectorAll("button"));
+      const primary = buttons.find(btn => btn.classList.contains("primary"));
+      if (!primary || buttons.length < 2) return;
+
+      const primaryTitle = primary.querySelector("strong");
+      const primaryText = primary.querySelector("span");
+      if (primaryTitle) primaryTitle.textContent = "Finn mitt nivå";
+      if (primaryText) primaryText.textContent = "Svar på noen enkle spørsmål – vi finner hvor du bør starte";
+
+      const levelClasses = ["level-pain", "level-better", "level-almost", "level-ready", "level-prevent"];
+      const manualButtons = buttons.filter(btn => btn !== primary);
+      manualButtons.forEach((btn, i) => {
+        btn.classList.add("manual-level");
+        if (levelClasses[i]) btn.classList.add(levelClasses[i]);
+        btn.hidden = true;
+      });
+
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "level-toggle";
+      toggle.innerHTML = "<strong>Jeg vet nivået mitt</strong><span>Vis nivåene og velg selv</span>";
+      primary.insertAdjacentElement("afterend", toggle);
+
+      toggle.addEventListener("click", () => {
+        const shouldShow = manualButtons.some(btn => btn.hidden);
+        manualButtons.forEach(btn => { btn.hidden = !shouldShow; });
+        const strong = toggle.querySelector("strong");
+        const span = toggle.querySelector("span");
+        if (strong) strong.textContent = shouldShow ? "Skjul nivåene" : "Jeg vet nivået mitt";
+        if (span) span.textContent = shouldShow ? "Bruk heller testen hvis du er usikker" : "Vis nivåene og velg selv";
+        toggle.classList.toggle("open", shouldShow);
+      });
+    }
+
+    setupStartMenu();
+
     function setButtons({ next = false, yes = false, no = false, nextText = "NESTE" } = {}) {
       nextBtn.style.display = next ? "block" : "none";
       yesBtn.style.display = yes ? "block" : "none";
@@ -86,11 +125,13 @@
       if (testProgress) testProgress.innerText = `${current} / ${total}`; if (step) step.innerText = "";
     }
 
-    function scopeCard() {
-      return { t: "Før du starter", d: config.scopeShort, i: `${config.scope}\n\nDette er en veileder for gradert trening – ikke en diagnose eller medisinsk klarering. Ved usikkerhet, tydelig skade eller vedvarende plager bør du få vurdering av fysioterapeut eller lege.`, tip: "Bruk riktig modul. Feil type skade bør ikke trenes etter dette opplegget." };
-    }
-    function loadRuleCard() {
-      return { t: "Belastningsregel", d: config.painRuleShort || "Rolig belastning – følg reaksjonen", i: config.painRule, tip: "Viktigere enn én økt: hvordan det kjennes senere samme dag og neste morgen." };
+    function prepCard() {
+      return {
+        t: "Før økta",
+        d: config.painRuleShort || "Start rolig og følg reaksjonen under og etter økta.",
+        i: `${config.scope}\n\n${config.painRule}\n\nDette er en veileder for gradert trening – ikke en diagnose eller medisinsk klarering. Ved usikkerhet, tydelig skade eller vedvarende plager bør du få vurdering av fysioterapeut eller lege.`,
+        tip: "Viktigst: ikke press gjennom tydelig forverring. Sjekk også hvordan det kjennes senere og neste morgen."
+      };
     }
     function preventionCard() {
       return { t: "Før forebygging", d: "Dette nivået er for deg som er symptomfri eller tilbake i normal trening.", i: "Forebygging er vedlikehold og robusthet – ikke behandling av en ny eller tydelig pågående skade. Har du smerte, hevelse, halting, svikt eller andre aktuelle symptomer, bruk sikkerhetssjekken og et passende rehabnivå i stedet.", tip: "Forebygging skal støtte normal trening, ikke skjule en skade." };
@@ -124,7 +165,7 @@
     function startPhaseInternal(level) {
       if (!config.phases[level]) return;
       state.mode = "workout"; state.level = level; state.index = 0;
-      state.items = level === "prevent" ? [preventionCard(), ...config.phases[level]] : [scopeCard(), loadRuleCard(), ...config.phases[level]];
+      state.items = level === "prevent" ? [preventionCard(), ...config.phases[level]] : [prepCard(), ...config.phases[level]];
       showWorkout(); renderExercise();
     }
     function startPhase(level) {
@@ -157,7 +198,7 @@
     }
 
     function showFunctionalTest() {
-      state.mode = "test"; const q = config.tests[state.testIndex]; setTestHeader("FINN RIKTIG NIVÅ", state.testIndex + 1, config.tests.length); cleanCardClasses();
+      state.mode = "test"; const q = config.tests[state.testIndex]; setTestHeader("FINN MITT NIVÅ", state.testIndex + 1, config.tests.length); cleanCardClasses();
       title.innerText = q.t; desc.innerText = q.d; tipEl.innerText = q.i || "Test kontrollert. Ikke press for å få et JA.";
       if (hint) hint.style.display = "none"; setAnswerMode(true, "test"); setButtons({ yes: true, no: true });
     }
