@@ -118,6 +118,7 @@
     const desc = document.getElementById("desc");
     const step = document.getElementById("step");
     const modal = document.getElementById("modal");
+    const modalText = document.getElementById("modalText");
     const nextBtn = document.getElementById("next");
     const exerciseBox = document.getElementById("exerciseBox");
     const backBtn = document.getElementById("backBtn");
@@ -168,6 +169,9 @@
     menu.querySelectorAll("[data-level]").forEach(btn => {
       btn.addEventListener("click", () => startPhase(btn.dataset.level));
     });
+
+    exerciseBox.setAttribute("role", "button");
+    exerciseBox.setAttribute("tabindex", "0");
 
     function setButtons({ next = false, yes = false, no = false, nextText = "NESTE" } = {}) {
       nextBtn.style.display = next ? "block" : "none";
@@ -245,34 +249,44 @@
 
       const steps = instructionSteps(item.i);
       if (steps.length) {
-        const howLabel = document.createElement("span");
-        howLabel.className = "how-label";
-        howLabel.textContent = "SLIK GJØR DU";
-        desc.append(howLabel);
-
-        steps.forEach((text, i) => {
-          const row = document.createElement("span");
-          row.className = "how-step";
-
-          const number = document.createElement("b");
-          number.textContent = String(i + 1);
-
-          const instruction = document.createElement("span");
-          instruction.textContent = text;
-
-          row.append(number, instruction);
-          desc.append(row);
-        });
+        const shortCue = document.createElement("span");
+        shortCue.className = "exercise-short";
+        shortCue.textContent = steps[0];
+        desc.append(shortCue);
       }
 
       if (step) step.innerText = `${state.index + 1} av ${state.items.length}`;
-      if (hint) hint.style.display = "none";
+      if (hint) {
+        hint.style.display = steps.length ? "block" : "none";
+        hint.innerText = "TRYKK PÅ KORTET FOR STEG-FOR-STEG";
+      }
       if (tipEl) tipEl.innerText = "";
       setButtons({ next: true, nextText: state.index === state.items.length - 1 ? "FERDIG" : "NESTE" });
       nextBtn.onclick = nextExercise;
     }
 
+    function showGuide() {
+      if (state.mode !== "workout" || !modal || !modalText) return;
+      const item = state.items[state.index];
+      if (!item?.i) return;
+
+      const steps = instructionSteps(item.i);
+      if (!steps.length) return;
+
+      const guide = [
+        friendlyText(item.t).toUpperCase(),
+        friendlyText(item.d),
+        "",
+        "SLIK GJØR DU",
+        ...steps.map((text, i) => `${i + 1}. ${text}`)
+      ];
+
+      modalText.innerText = guide.join("\n\n");
+      modal.classList.add("show");
+    }
+
     function nextExercise() {
+      modal?.classList.remove("show");
       if (state.index < state.items.length - 1) {
         state.index += 1;
         renderExercise();
@@ -337,6 +351,14 @@
       nextBtn.onclick = showMenu;
     }
 
+    exerciseBox.addEventListener("click", showGuide);
+    exerciseBox.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        showGuide();
+      }
+    });
+    modal?.addEventListener("click", () => modal.classList.remove("show"));
     backBtn?.addEventListener("click", showMenu);
     homeBack?.addEventListener("click", () => { window.location.href = "skade.html"; });
 
