@@ -52,6 +52,11 @@ Reduser eller stopp løping/hopping dersom smerten blir tydelig, spilleren begyn
         i: "Målet er ikke å stoppe all aktivitet. Behold aktivitet som ikke gir halting eller tydelig forverring, men reduser midlertidig sprint, hopping og lange økter dersom det provoserer hælen."
       },
       {
+        t: "Kald flaske / tennisball",
+        d: "2–5 min ved behov – rolig rulling under foten",
+        i: "Sitt på en stol og rull undersiden av foten rolig frem og tilbake over en avkjølt vannflaske eller en tennisball. En kald flaske kan være behagelig etter aktivitet. Bruk en avkjølt, ikke frossen, flaske ved rulling.\n\nDette er et valgfritt tiltak for å dempe ubehag – ikke noe som gjør selve vekstsonen friskere. Ikke press hardt direkte inn i det mest ømme punktet på hælen, og stopp hvis det øker smerten."
+      },
+      {
         t: "Isometrisk tåhev",
         d: "4 x 20 sek – begge bein",
         i: "Stå med støtte. Løft hælene litt fra gulvet og hold rolig. Bruk begge bein. Holdet skal kjennes i leggen, ikke gi skarp smerte i hælen."
