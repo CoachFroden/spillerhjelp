@@ -114,7 +114,7 @@
 
     menu.innerHTML = `
       <button class="pain-choice pain-high" data-level="pain">
-        <span class="choice-dot">●</span><strong>MYE VONDT</strong><small>Vondt å gå eller du halter</small>
+        <span class="choice-dot">●</span><strong>MYE VONDT</strong><small>Vondt, men du kan gå</small>
       </button>
       <button class="pain-choice pain-mid" data-level="better">
         <span class="choice-dot">●</span><strong>LITT VONDT</strong><small>Du kan gå, men jogging eller hopp gjør vondt</small>
@@ -128,7 +128,7 @@
       <button class="pain-choice pain-prevent" data-level="prevent">
         <span class="choice-dot">●</span><strong>IKKE VONDT</strong><small>Forebygging</small>
       </button>
-      <div class="quick-warning"><strong>STOPP:</strong> Smell/knepp, stor hevelse, nummenhet eller klarer du ikke å gå? Si fra til en voksen og få det vurdert.</div>
+      <div class="quick-warning"><strong>STOPP:</strong> Smell/knepp, stor hevelse, nummenhet eller klarer du ikke å gå normalt? Si fra til en voksen og få det vurdert.</div>
     `;
 
     menu.querySelectorAll("[data-level]").forEach(btn => {
