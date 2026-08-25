@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ankel</title>
-<link rel="stylesheet" href="ankel.css">
+<link rel="stylesheet" href="ankel.css?v=20260825c">
 </head>
 <body>
 <div id="app">
@@ -12,17 +12,10 @@
   <div id="homeBack">←</div>
   <div class="hero">
     <h1>Ankel</h1>
-    <p class="intro">For typisk lett–moderat overtråkk og gradvis retur når smerte, hevelse og funksjon bedres.</p>
-    <p class="intro small">Mulig brudd, stor hevelse eller manglende evne til å gå skal vurderes før rehabtesten.</p>
+    <p class="intro">Vondt etter overtråkk eller belastning.</p>
+    <p class="intro small">Dette er en treningsveileder, ikke en diagnose.</p>
   </div>
-  <div class="menu">
-    <button class="primary" onclick="startTest()"><strong>Test nivå</strong><br><span>Sikkerhetssjekk + finn riktig start</span></button>
-    <button onclick="startPhase('pain')"><strong>Har vondt</strong><br><span>Bevegelse og gradvis belastning</span></button>
-    <button onclick="startPhase('better')"><strong>Føles bedre</strong><br><span>Styrke og balanse</span></button>
-    <button onclick="startPhase('almost')"><strong>Tilbake mot fotball</strong><br><span>Hopp, løp og vending</span></button>
-    <button onclick="startPhase('ready')"><strong>Testøkt</strong><br><span>Kontrollert test før lagtrening</span></button>
-    <button onclick="startPhase('prevent')"><strong>Forebygging</strong><br><span>Balanse, styrke og landingskontroll</span></button>
-  </div>
+  <div class="menu"></div>
 </section>
 <section id="workout" class="screen">
   <div id="backBtn">✕</div>
@@ -30,7 +23,7 @@
   <div class="progressWrap"><div id="step"></div></div>
   <div id="testHeader" class="testHeader"><div id="testTitle" class="testTitle"></div><div id="testProgress" class="testProgress"></div></div>
   <div class="card" id="exerciseBox"><h2 id="title"></h2><p id="desc"></p></div>
-  <div id="hint">Trykk på kortet for forklaring</div>
+  <div id="hint"></div>
   <button id="next">START</button>
   <button id="yesBtn" style="display:none;">JA</button>
   <button id="noBtn" style="display:none;">NEI</button>
@@ -38,7 +31,7 @@
 </section>
 <div id="modal" class="modal"><div class="modalContent"><p id="modalText"></p></div></div>
 </div>
-<script src="rehab-core.js"></script>
-<script src="ankel.js"></script>
+<script src="rehab-core.js?v=20260825c"></script>
+<script src="ankel.js?v=20260825c"></script>
 </body>
 </html>
