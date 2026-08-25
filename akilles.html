@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Akilles</title>
-<link rel="stylesheet" href="hamstring.css">
+<link rel="stylesheet" href="hamstring.css?v=20260825c">
 </head>
 <body>
 <div id="app">
@@ -15,14 +15,7 @@
     <p class="intro">Gradvis senebelastning, leggstyrke og trygg retur til løping og fotball.</p>
     <p class="intro small">For typiske belastningsplager i akillessenen – ikke ved akutt smell, mulig ruptur eller annen alvorlig skade.</p>
   </div>
-  <div class="menu">
-    <button class="primary" onclick="startTest()"><strong>Test nivå</strong><br><span>Sikkerhetssjekk og finn passende startnivå</span></button>
-    <button onclick="startPhase('pain')"><strong>Har vondt</strong><br><span>Start kontrollert senebelastning</span></button>
-    <button onclick="startPhase('better')"><strong>Føles bedre</strong><br><span>Bygg styrke og toleranse</span></button>
-    <button onclick="startPhase('almost')"><strong>Tilbake mot fotball</strong><br><span>Tyngre styrke, hopp og løping</span></button>
-    <button onclick="startPhase('ready')"><strong>Testøkt</strong><br><span>Test før gradert lagtrening</span></button>
-    <button onclick="startPhase('prevent')"><strong>Forebygging</strong><br><span>Leggkapasitet, spenst og belastningsstyring</span></button>
-  </div>
+  <div class="menu"></div>
 </section>
 <section id="workout" class="screen">
   <div id="backBtn">✕</div>
@@ -30,7 +23,7 @@
   <div class="progressWrap"><div id="step"></div></div>
   <div id="testHeader" class="testHeader"><div id="testTitle" class="testTitle"></div><div id="testProgress" class="testProgress"></div></div>
   <div class="card" id="exerciseBox"><h2 id="title"></h2><p id="desc"></p></div>
-  <div id="hint">Trykk på kortet for forklaring</div>
+  <div id="hint"></div>
   <button id="next">START</button>
   <button id="yesBtn" style="display:none;">JA</button>
   <button id="noBtn" style="display:none;">NEI</button>
@@ -38,7 +31,7 @@
 </section>
 <div id="modal" class="modal"><div class="modalContent"><p id="modalText"></p></div></div>
 </div>
-<script src="rehab-core.js"></script>
-<script src="akilles.js"></script>
+<script src="rehab-core.js?v=20260825c"></script>
+<script src="akilles.js?v=20260825c"></script>
 </body>
 </html>
