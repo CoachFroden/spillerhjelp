@@ -23,6 +23,7 @@
     [/\bnordic\b/gi, "len deg rolig frem"],
     [/ettbeins rdl/gi, "ettbeins hoftebøy"],
     [/\brdl\b/gi, "hoftebøy"],
+    [/aktiv knebøy/gi, "bøy og strekk kneet"],
     [/adduktor squeeze/gi, "klem ball mellom knærne"],
     [/bent-knee fallout/gi, "før kneet rolig ut til siden"],
     [/side-liggende adduksjon/gi, "løft nederste bein"],
@@ -31,10 +32,26 @@
     [/\bcopenhagen\b/gi, "sideplanke med bein på stol"],
     [/lateral shuffle/gi, "raske sidesteg"],
     [/isometrisk tåhev/gi, "hold deg på tå"],
+    [/bøyd-kne ettbeins tåhev/gi, "stå på tå på ett bein med bøyd kne"],
+    [/ettbeins tåhev/gi, "stå på tå på ett bein"],
+    [/tåhev – begge bein/gi, "stå på tå – begge bein"],
+    [/tåhev – strakt kne/gi, "stå på tå med strake knær"],
+    [/tåhev – bøyd kne/gi, "stå på tå med bøyde knær"],
+    [/bøyd-kne tåhev/gi, "stå på tå med bøyde knær"],
+    [/sittende tåhev/gi, "løft hælene sittende"],
+    [/rolige tåhev – begge bein/gi, "rolige løft på tå – begge bein"],
+    [/langsomme tåhev/gi, "rolige løft på tå"],
+    [/tyngre ettbeins tåhev/gi, "stå på tå på ett bein med ekstra vekt"],
+    [/tyngre bøyd-kne tåhev/gi, "stå på tå med bøyde knær og ekstra vekt"],
+    [/tung tåhev – strakt kne/gi, "stå på tå med ekstra vekt"],
+    [/tung tåhev – bøyd kne/gi, "stå på tå med bøyde knær og ekstra vekt"],
+    [/tåhev-kapasitet/gi, "stå på tå"],
+    [/\btåhev\b/gi, "løft på tå"],
     [/bøyd-kne leggpress/gi, "press foten ned med bøyd kne"],
     [/\bsoleus\b/gi, "leggen"],
     [/ankelpump/gi, "beveg foten opp og ned"],
     [/kne-over-tå mobilitet/gi, "kne frem over tærne"],
+    [/kne-over-tå/gi, "kne frem over tærne"],
     [/wall sit – grunn/gi, "sitt mot veggen"],
     [/\bwall sit\b/gi, "sitt mot veggen"],
     [/step-up/gi, "gå opp på et trinn"],
@@ -43,7 +60,6 @@
     [/\bsplit squat\b/gi, "utfall på stedet"],
     [/pogohopp/gi, "små raske hopp"],
     [/\bpogos?\b/gi, "små raske hopp"],
-    [/tåhev-kapasitet/gi, "tåhev"],
     [/adduktorrelatert/gi, "på innsiden av låret"],
     [/adduktorene/gi, "innsiden av låret"],
     [/adduktor/gi, "innsiden av låret"],
@@ -57,7 +73,23 @@
     [/progressiv oppvarming/gi, "rolig oppvarming"],
     [/retning og fotballsekvens/gi, "vendinger med ball"],
     [/fotballsekvens/gi, "øvelser med ball"],
-    [/ettbeins kontroll/gi, "øvelser på ett bein"]
+    [/ettbeins kontroll/gi, "øvelser på ett bein"],
+    [/hoppserie/gi, "hopp"],
+    [/retningendring/gi, "vending"],
+    [/retningsendring/gi, "vending"],
+    [/bekkenet/gi, "hofta"],
+    [/bekken/gi, "hofta"],
+    [/bevegelsesutslag/gi, "bevegelsen"],
+    [/provoserer/gi, "gjør mer vondt"],
+    [/provosere/gi, "gjøre mer vondt"],
+    [/symptomfri/gi, "uten smerte"],
+    [/eksponering/gi, "trening"],
+    [/kapasitet/gi, "styrke"],
+    [/reaktivt/gi, "på signal"],
+    [/reaktive/gi, "på signal"],
+    [/spaklengde/gi, "vanskelighetsgrad"],
+    [/kort spak/gi, "lett variant"],
+    [/lengre spak/gi, "tyngre variant"]
   ];
 
   function friendlyText(value) {
@@ -66,11 +98,17 @@
     return text;
   }
 
-  function firstInstruction(text) {
-    const clean = friendlyText(text).replace(/\s+/g, " ").trim();
-    if (!clean) return "";
-    const match = clean.match(/^.*?[.!?](?:\s|$)/);
-    return (match ? match[0] : clean).trim();
+  function instructionSteps(text) {
+    const clean = friendlyText(text)
+      .replace(/\n+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (!clean) return [];
+
+    return (clean.match(/[^.!?]+[.!?]?/g) || [clean])
+      .map(s => s.trim())
+      .filter(Boolean)
+      .slice(0, 6);
   }
 
   window.initRehabApp = function initRehabApp(config) {
@@ -80,7 +118,6 @@
     const desc = document.getElementById("desc");
     const step = document.getElementById("step");
     const modal = document.getElementById("modal");
-    const modalText = document.getElementById("modalText");
     const nextBtn = document.getElementById("next");
     const exerciseBox = document.getElementById("exerciseBox");
     const backBtn = document.getElementById("backBtn");
@@ -105,9 +142,6 @@
     if (heroTitle && simpleNames[heroTitle.textContent.trim()]) heroTitle.textContent = simpleNames[heroTitle.textContent.trim()];
     if (intro) intro.textContent = "Hvor vondt er det nå?";
     if (introSmall) introSmall.style.display = "none";
-
-    desc.style.whiteSpace = "pre-line";
-    if (modalText) modalText.style.whiteSpace = "pre-line";
 
     const state = { mode: "menu", level: null, items: [], index: 0 };
     const levels = Object.assign({}, LEVELS, config.levels || {});
@@ -193,17 +227,46 @@
     function renderExercise() {
       const item = state.items[state.index];
       if (!item) return finishPhase();
+
       cleanCard();
       setHeader(state.level);
-      const friendlyTitle = friendlyText(item.t);
-      const how = firstInstruction(item.i);
-      title.innerText = friendlyTitle;
-      desc.innerText = `${friendlyText(item.d)}${how ? `\n\n${how}` : ""}`;
-      if (step) step.innerText = `${state.index + 1} av ${state.items.length}`;
-      if (hint) {
-        hint.style.display = item.i ? "block" : "none";
-        hint.innerText = "Mer forklaring";
+      title.innerText = friendlyText(item.t);
+      desc.replaceChildren();
+
+      const doseLabel = document.createElement("span");
+      doseLabel.className = "dose-label";
+      doseLabel.textContent = "ANTALL / TID";
+
+      const dose = document.createElement("span");
+      dose.className = "exercise-dose";
+      dose.textContent = friendlyText(item.d);
+
+      desc.append(doseLabel, dose);
+
+      const steps = instructionSteps(item.i);
+      if (steps.length) {
+        const howLabel = document.createElement("span");
+        howLabel.className = "how-label";
+        howLabel.textContent = "SLIK GJØR DU";
+        desc.append(howLabel);
+
+        steps.forEach((text, i) => {
+          const row = document.createElement("span");
+          row.className = "how-step";
+
+          const number = document.createElement("b");
+          number.textContent = String(i + 1);
+
+          const instruction = document.createElement("span");
+          instruction.textContent = text;
+
+          row.append(number, instruction);
+          desc.append(row);
+        });
       }
+
+      if (step) step.innerText = `${state.index + 1} av ${state.items.length}`;
+      if (hint) hint.style.display = "none";
       if (tipEl) tipEl.innerText = "";
       setButtons({ next: true, nextText: state.index === state.items.length - 1 ? "FERDIG" : "NESTE" });
       nextBtn.onclick = nextExercise;
@@ -222,14 +285,17 @@
     function finishPhase() {
       cleanCard();
       hideHeaders();
+      desc.replaceChildren();
       if (hint) hint.style.display = "none";
 
       if (state.level === "ready") return showReadyCheck();
 
       title.innerText = "FERDIG ✓";
-      desc.innerText = state.level === "prevent"
+      const finishText = document.createElement("span");
+      finishText.textContent = state.level === "prevent"
         ? "Bra. Du er ferdig."
         : "Er det likt eller bedre i morgen? Gjør samme økt igjen. Er det verre? Velg en roligere økt.";
+      desc.append(finishText);
       if (tipEl) tipEl.innerText = "";
       setButtons({ next: true, nextText: "TILBAKE" });
       nextBtn.onclick = showMenu;
@@ -238,7 +304,10 @@
     function showReadyCheck() {
       state.mode = "readyCheck";
       title.innerText = "GIKK DET BRA?";
-      desc.innerText = "Ingen tydelig smerte og du holdt ikke igjen?";
+      desc.replaceChildren();
+      const text = document.createElement("span");
+      text.textContent = "Ingen tydelig smerte og du holdt ikke igjen?";
+      desc.append(text);
       if (tipEl) tipEl.innerText = "";
       if (yesBtn) {
         yesBtn.innerText = "JA";
@@ -260,20 +329,14 @@
       exerciseBox.classList.add("resultCard", "ready");
       title.innerText = "PRØV LITT TRENING";
       title.className = "resultGood";
-      desc.innerText = "Start rolig på lagtrening. Ikke gå rett til full kamp. Er du like bra i morgen, kan du øke litt.";
+      desc.replaceChildren();
+      const text = document.createElement("span");
+      text.textContent = "Start rolig på lagtrening. Ikke gå rett til full kamp. Er du like bra i morgen, kan du øke litt.";
+      desc.append(text);
       setButtons({ next: true, nextText: "TILBAKE" });
       nextBtn.onclick = showMenu;
     }
 
-    exerciseBox.addEventListener("click", () => {
-      if (state.mode !== "workout") return;
-      const item = state.items[state.index];
-      if (!item?.i || !modal || !modalText) return;
-      modalText.innerText = friendlyText(item.i);
-      modal.classList.add("show");
-    });
-
-    modal?.addEventListener("click", () => modal.classList.remove("show"));
     backBtn?.addEventListener("click", showMenu);
     homeBack?.addEventListener("click", () => { window.location.href = "skade.html"; });
 
