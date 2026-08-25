@@ -38,47 +38,113 @@ async function unlockAudio() {
 function playReactionBeep() {
   const ctx = getAudioContext();
   if (!ctx || ctx.state !== "running") return;
-
   const now = ctx.currentTime;
   const oscillator = ctx.createOscillator();
   const gain = ctx.createGain();
-
   oscillator.type = "sine";
   oscillator.frequency.setValueAtTime(1050, now);
-
   gain.gain.setValueAtTime(0.0001, now);
   gain.gain.exponentialRampToValueAtTime(0.75, now + 0.01);
   gain.gain.setValueAtTime(0.75, now + 0.16);
   gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.24);
-
   oscillator.connect(gain);
   gain.connect(ctx.destination);
   oscillator.start(now);
   oscillator.stop(now + 0.25);
 }
 
-const exercises = [
-  { t: "Før du starter", d: "Ca. 15 min · friske bein · god plass", i: "Hurtighet skal trenes med kvalitet. Ikke gjør maks sprint hvis du har smerter, halter eller er tydelig sliten etter annen hard trening." },
-  { t: "Dynamisk oppvarming", d: "Kneløft + spark bak · 2 x 15 m", i: "Rolig første runde, litt raskere andre runde. Bruk armene aktivt og finn rytmen." },
-  { t: "Bevegelse", d: "Utfall + sideutfall · 6 per side", i: "Kontroller bevegelsen. Dette er oppvarming, ikke en styrketest." },
-  { t: "Progressive løp", d: "3 x 20 m · ca. 60 → 70 → 80 %", i: "Øk farten gradvis. Gå rolig tilbake mellom dragene." },
-  { t: "Fallstart", d: "3 x 10 m", i: "Len kroppen frem til du må ta et steg og akselerer. Tenk kraftige første steg og lav kroppsvinkel." },
-  { t: "Akselerasjon", d: "4 x 10 m · høy kvalitet", i: "Start stående. Sprint hardt, men ta god pause mellom dragene. Når farten faller, er økta ferdig nok." },
-  { t: "Reaksjon", d: "4 starter på tilfeldig pip", r: true, i: "Trykk START REAKSJON, stå klar og vent på signalet. Sprint 5–10 meter. Hvil før neste repetisjon." },
-  { t: "Lengre akselerasjon", d: "3 x 15–20 m · opp mot 90–95 %", i: "Bygg farten gjennom draget. Ikke jag toppfart hvis teknikken eller steget blir dårlig." },
-  { t: "Side → sprint", d: "3 per side", i: "Ta 2–3 raske sidesteg og akselerer 8–10 meter frem. Hold kontroll på fot og kne i retningsskiftet." },
-  { t: "Brems", d: "4 drag · 10 m sprint + kontrollert stopp", i: "Akselerer og brems ned over flere korte steg. Ikke plant ett stivt bein langt foran kroppen." },
-  { t: "Pogo", d: "2 x 12 små raske hopp", i: "Små elastiske hopp med kort bakkekontakt. Stopp hvis legg, hæl eller Akilles blir irritert." },
-  { t: "Lengdehopp", d: "3 gode hopp", i: "Hopp eksplosivt frem og land stabilt. Full kontroll er viktigere enn maksimal lengde." },
-  { t: "Hopp + sprint", d: "3 repetisjoner", i: "Ett kontrollert hopp, stabil landing og direkte akselerasjon 8–10 meter. Ta god pause." },
-  { t: "Ferdig", d: "Stopp mens kvaliteten fortsatt er god", i: "Hurtighet utvikles av raske, gode repetisjoner med nok hvile – ikke ved å gjøre flest mulig drag på slitne bein." }
-];
+function ex(t, d, guide, r = false) { return { t, d, guide, r }; }
 
-const tips = [
-  "Kvalitet før mengde",
-  "Ta god pause mellom raske drag",
-  "Første steg: kraftig og bestemt",
-  "Stopp hvis farten tydelig faller"
+const exercises = [
+  ex("Før du starter", "Ca. 15 min · friske bein · god plass", [
+    "Finn et flatt område med god plass foran deg.",
+    "Bruk sko som sitter godt og et underlag som ikke er glatt.",
+    "Ikke gjør raske sprinter hvis du har smerter eller halter.",
+    "Hvil godt mellom de raske dragene."
+  ]),
+  ex("Kneløft + spark bak", "2 × 15 m", [
+    "Start med rolig jogg fremover.",
+    "Løft knærne annenhver gang mens armene jobber som i løping.",
+    "På vei tilbake: før hælene rolig opp mot rumpa.",
+    "Første runde rolig, andre runde litt raskere."
+  ]),
+  ex("Utfall + sideutfall", "6 per side", [
+    "Ta et steg frem og bøy begge knær.",
+    "Press deg tilbake til start.",
+    "Ta så et steg ut til siden og bøy kneet på den siden.",
+    "Skyv deg tilbake til start og bytt side.",
+    "Gjør alt rolig. Dette er oppvarming."
+  ]),
+  ex("Løp litt raskere", "3 × 20 m · ca. 60 → 70 → 80 %", [
+    "Start første drag i rolig fart.",
+    "Løp hele 20 meter uten å spurte maks.",
+    "Gå rolig tilbake og hvil.",
+    "Løp litt raskere på drag to og tre."
+  ]),
+  ex("Fallstart", "3 × 10 m", [
+    "Stå rett opp med føttene omtrent i hoftebredde.",
+    "Len hele kroppen rolig fremover uten å bøye deg i hofta.",
+    "Når du kjenner at du må ta et steg for ikke å falle, starter du.",
+    "Sprint 10 meter med raske, kraftige første steg.",
+    "Gå tilbake og hvil før neste start."
+  ]),
+  ex("Kort akselerasjon", "4 × 10 m", [
+    "Stå klar med én fot litt foran den andre.",
+    "Skyv hardt fra bakken når du starter.",
+    "Ta raske og kraftige første steg.",
+    "Løp 10 meter og brems rolig etter mål.",
+    "Gå tilbake og hvil godt før neste drag."
+  ]),
+  ex("Reaksjonsstart", "4 starter på tilfeldig pip", [
+    "Trykk på START REAKSJON.",
+    "Stå klar og se fremover.",
+    "Vent helt til du hører pipet.",
+    "Når det piper: sprint 5–10 meter så raskt du kan.",
+    "Gå tilbake og hvil før du prøver igjen."
+  ], true),
+  ex("Lengre akselerasjon", "3 × 15–20 m · opp mot 90–95 %", [
+    "Stå klar med god plass foran deg.",
+    "Start kontrollert og øk farten gjennom de første meterne.",
+    "Fortsett å øke til du er nær toppfart.",
+    "Brems rolig etter mål.",
+    "Ta god pause mellom dragene."
+  ]),
+  ex("Sidesteg + sprint", "3 per side", [
+    "Stå med knærne litt bøyd.",
+    "Ta 2–3 raske sidesteg.",
+    "Snu kroppen fremover.",
+    "Sprint 8–10 meter rett frem.",
+    "Gjør like mange starter begge veier."
+  ]),
+  ex("Sprint + brems", "4 drag · 10 m sprint + stopp", [
+    "Sprint omtrent 10 meter frem.",
+    "Begynn å bremse før du skal stoppe.",
+    "Ta flere korte steg mens du senker farten.",
+    "Stopp med god balanse.",
+    "Ikke prøv å stoppe alt på ett langt steg."
+  ]),
+  ex("Små raske hopp", "2 × 12", [
+    "Stå med føttene omtrent i hoftebredde.",
+    "Hold kroppen ganske høy og knærne bare litt bøyd.",
+    "Gjør små raske hopp rett opp.",
+    "Prøv å være kort tid i bakken mellom hvert hopp.",
+    "Stopp hvis legg, hæl eller Akilles begynner å gjøre vondt."
+  ]),
+  ex("Lengdehopp", "3 gode hopp", [
+    "Stå med føttene omtrent i skulderbredde.",
+    "Bøy litt i knærne og før armene bakover.",
+    "Sving armene frem og hopp så langt frem du klarer.",
+    "Land på begge beina med myke knær.",
+    "Finn balansen før neste hopp."
+  ]),
+  ex("Hopp + sprint", "3 repetisjoner", [
+    "Stå klar med god plass foran deg.",
+    "Gjør ett kraftig hopp rett opp.",
+    "Land på begge beina med myke knær.",
+    "Sprint direkte 8–10 meter frem.",
+    "Gå tilbake og hvil godt før neste repetisjon."
+  ]),
+  ex("Ferdig", "Bra. Økta er ferdig.", [])
 ];
 
 function clearReactionTimer() {
@@ -92,20 +158,27 @@ function clearReactionTimer() {
 }
 
 function show() {
-  const ex = exercises[index];
-  if (title) title.innerText = ex.t;
-  if (desc) desc.innerText = ex.d;
-  if (step) step.innerText = `Øvelse ${index + 1} av ${exercises.length}`;
-  if (tip) tip.innerText = tips[index % tips.length];
+  const current = exercises[index];
+  if (title) title.innerText = current.t;
+  if (desc) desc.innerText = current.d;
+  if (step) step.innerText = `${index + 1} av ${exercises.length}`;
+  if (tip) tip.innerText = "";
 
   if (reaction) {
-    reaction.classList.toggle("hidden", !ex.r);
-    if (!ex.r) clearReactionTimer();
+    reaction.classList.toggle("hidden", !current.r);
+    if (!current.r) clearReactionTimer();
   }
 
-  if (next) {
-    next.innerText = index === exercises.length - 1 ? "AVSLUTT ØKT" : "NESTE";
+  if (hint) {
+    if (current.guide?.length) {
+      hint.classList.remove("hidden");
+      hint.innerText = "TRYKK PÅ KORTET FOR FORKLARING";
+    } else {
+      hint.classList.add("hidden");
+    }
   }
+
+  if (next) next.innerText = index === exercises.length - 1 ? "TILBAKE" : "NESTE";
 }
 
 startBtn.onclick = async () => {
@@ -115,11 +188,11 @@ startBtn.onclick = async () => {
   workoutScreen.classList.add("active");
   await unlockAudio();
   exerciseBox?.classList.remove("hidden");
-  hint?.classList.remove("hidden");
   show();
 };
 
 next.onclick = () => {
+  modal?.classList.add("hidden");
   if (index >= exercises.length - 1) {
     clearReactionTimer();
     workoutScreen.classList.remove("active");
@@ -134,23 +207,19 @@ next.onclick = () => {
 if (reaction) {
   reaction.onclick = async () => {
     if (reactionBusy) return;
-
     const audioReady = await unlockAudio();
     if (!audioReady) {
       reaction.innerText = "LYD BLOKKERT – PRØV IGJEN";
       setTimeout(() => { reaction.innerText = "START REAKSJON"; }, 1600);
       return;
     }
-
     reactionBusy = true;
     reaction.disabled = true;
     reaction.innerText = "VENT …";
-
     const delay = Math.random() * 2500 + 1500;
     reactionTimer = setTimeout(() => {
       playReactionBeep();
       reaction.innerText = "SPRINT!";
-
       setTimeout(() => {
         reactionBusy = false;
         reaction.disabled = false;
@@ -163,15 +232,25 @@ if (reaction) {
 const backBtn = document.getElementById("backBtn");
 backBtn?.addEventListener("click", () => {
   clearReactionTimer();
+  modal?.classList.add("hidden");
   workoutScreen.classList.remove("active");
   startScreen.classList.add("active");
 });
 
-exerciseBox?.addEventListener("click", () => {
-  const ex = exercises[index];
-  if (!ex.i || !modal || !modalText) return;
-  modalText.innerText = ex.i;
+function showGuide() {
+  const current = exercises[index];
+  if (!current?.guide?.length || !modal || !modalText) return;
+  modalText.style.whiteSpace = "pre-line";
+  modalText.innerText = `${current.t.toUpperCase()}\n\n${current.d}\n\nSLIK GJØR DU\n\n${current.guide.map((text, i) => `${i + 1}. ${text}`).join("\n\n")}`;
   modal.classList.remove("hidden");
+}
+
+exerciseBox?.addEventListener("click", showGuide);
+exerciseBox?.addEventListener("keydown", event => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    showGuide();
+  }
 });
 
 modal?.addEventListener("click", e => {
