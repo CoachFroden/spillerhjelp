@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lyske</title>
-<link rel="stylesheet" href="lyske.css">
+<link rel="stylesheet" href="lyske.css?v=20260825c">
 </head>
 <body>
 <div id="app">
@@ -12,17 +12,10 @@
   <div id="homeBack">←</div>
   <div class="hero">
     <h1>Lyske</h1>
-    <p class="intro">For typisk adduktorrelatert smerte på innsiden av låret/lysken etter løping, vendinger eller spark.</p>
-    <p class="intro small">Lyskesmerter kan ha flere årsaker. Opplegget er ikke en diagnose.</p>
+    <p class="intro">Smerte på innsiden av låret eller i lysken.</p>
+    <p class="intro small">Dette er en treningsveileder, ikke en diagnose.</p>
   </div>
-  <div class="menu">
-    <button class="primary" onclick="startTest()"><strong>Test nivå</strong><br><span>Sikkerhetssjekk + finn riktig start</span></button>
-    <button onclick="startPhase('pain')"><strong>Har vondt</strong><br><span>Rolig adduktoraktivering</span></button>
-    <button onclick="startPhase('better')"><strong>Føles bedre</strong><br><span>Bygg styrke og sidebevegelse</span></button>
-    <button onclick="startPhase('almost')"><strong>Tilbake mot fotball</strong><br><span>Vending, fart og spark</span></button>
-    <button onclick="startPhase('ready')"><strong>Testøkt</strong><br><span>Kontrollert test før lagtrening</span></button>
-    <button onclick="startPhase('prevent')"><strong>Forebygging</strong><br><span>Adduktorstyrke og fotballbelastning</span></button>
-  </div>
+  <div class="menu"></div>
 </section>
 <section id="workout" class="screen">
   <div id="backBtn">✕</div>
@@ -30,7 +23,7 @@
   <div class="progressWrap"><div id="step"></div></div>
   <div id="testHeader" class="testHeader"><div id="testTitle" class="testTitle"></div><div id="testProgress" class="testProgress"></div></div>
   <div class="card" id="exerciseBox"><h2 id="title"></h2><p id="desc"></p></div>
-  <div id="hint">Trykk på kortet for forklaring</div>
+  <div id="hint"></div>
   <button id="next">START</button>
   <button id="yesBtn" style="display:none;">JA</button>
   <button id="noBtn" style="display:none;">NEI</button>
@@ -38,7 +31,7 @@
 </section>
 <div id="modal" class="modal"><div class="modalContent"><p id="modalText"></p></div></div>
 </div>
-<script src="rehab-core.js"></script>
-<script src="lyske.js"></script>
+<script src="rehab-core.js?v=20260825c"></script>
+<script src="lyske.js?v=20260825c"></script>
 </body>
 </html>
