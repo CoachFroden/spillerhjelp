@@ -90,4 +90,22 @@
     }
     return originalInit(config);
   };
+
+  function isFinishedCard() {
+    const currentTitle = document.getElementById("title")?.textContent?.trim() || "";
+    return currentTitle.startsWith("FERDIG");
+  }
+
+  document.addEventListener("click", event => {
+    if (!event.target.closest?.("#exerciseBox") || !isFinishedCard()) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }, true);
+
+  document.addEventListener("keydown", event => {
+    if (!event.target.closest?.("#exerciseBox") || !isFinishedCard()) return;
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }, true);
 })();
