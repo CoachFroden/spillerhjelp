@@ -27,7 +27,7 @@ function figure(a,shift){
  const x=i=>a[i]+shift,y=i=>a[i+1];
  const line=(i,j)=>'<path d="M'+x(i)+' '+y(i)+' L'+x(j)+' '+y(j)+'"/>';
  return '<g fill="none" stroke="#dce9fa" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">'+
- '<circle cx="'+x(0)+'" cy="'+y(1)+'" r="10" fill="#e8bfa5" stroke="#e8bfa5"/>'+
+ '<circle cx="'+x(0)+'" cy="'+y(0)+'" r="10" fill="#e8bfa5" stroke="#e8bfa5"/>'+
  line(2,0)+line(2,4)+line(4,6)+line(4,8)+line(8,10)+line(2,12)+line(12,14)+line(2,16)+line(16,18)+'</g>';
 }
 function make(name){
