@@ -1,27 +1,5 @@
 "use strict";
-
-const menuScreen = document.getElementById("menuScreen");
-const workoutScreen = document.getElementById("workoutScreen");
-const programName = document.getElementById("programName");
-const progress = document.getElementById("progress");
-const progressBar = document.getElementById("progressBar");
-const exerciseCard = document.getElementById("exerciseCard");
-const exerciseTag = document.getElementById("exerciseTag");
-const exerciseTitle = document.getElementById("exerciseTitle");
-const exerciseDose = document.getElementById("exerciseDose");
-const exerciseCue = document.getElementById("exerciseCue");
-const qualityTip = document.getElementById("qualityTip");
-const nextExercise = document.getElementById("nextExercise");
-const closeWorkout = document.getElementById("closeWorkout");
-const resetWorkout = document.getElementById("resetWorkout");
-const infoModal = document.getElementById("infoModal");
-const modalTitle = document.getElementById("modalTitle");
-const modalText = document.getElementById("modalText");
-const closeModal = document.getElementById("closeModal");
-const tapHint = exerciseCard?.querySelector(".tap-hint");
-
-if (modalText) modalText.style.whiteSpace = "pre-line";
-
+(function(){
 function item(tag, title, dose, guide) {
   return { tag, title, dose, guide };
 }
@@ -144,116 +122,32 @@ const programs = {
   }
 };
 
-let activeProgram = null;
-let index = 0;
-let finished = false;
 
-function closeInfo() {
-  infoModal.classList.remove("show");
-  infoModal.setAttribute("aria-hidden", "true");
-}
-
-function showMenu() {
-  activeProgram = null;
-  index = 0;
-  finished = false;
-  closeInfo();
-  workoutScreen.classList.remove("active");
-  menuScreen.classList.add("active");
-  window.scrollTo(0, 0);
-}
-
-function startProgram(key) {
-  activeProgram = programs[key];
-  if (!activeProgram) return;
-  index = 0;
-  finished = false;
-  closeInfo();
-  menuScreen.classList.remove("active");
-  workoutScreen.classList.add("active");
-  render();
-  window.scrollTo(0, 0);
-}
-
-function render() {
-  if (!activeProgram) return;
-  closeInfo();
-
-  if (finished) {
-    programName.textContent = activeProgram.name;
-    progress.textContent = "Ferdig";
-    progressBar.style.width = "100%";
-    exerciseTag.textContent = "ØKT FULLFØRT";
-    exerciseTitle.textContent = "FERDIG ✓";
-    exerciseDose.textContent = "Bra. Du er ferdig.";
-    exerciseCue.textContent = "";
-    qualityTip.textContent = "";
-    if (tapHint) tapHint.style.display = "none";
-    nextExercise.textContent = "TILBAKE TIL MENY";
-    exerciseCard.classList.add("finished");
-    return;
-  }
-
-  const current = activeProgram.items[index];
-  exerciseCard.classList.remove("finished");
-  programName.textContent = activeProgram.name;
-  progress.textContent = `${index + 1} / ${activeProgram.items.length}`;
-  progressBar.style.width = `${((index + 1) / activeProgram.items.length) * 100}%`;
-  exerciseTag.textContent = current.tag;
-  exerciseTitle.textContent = current.title;
-  exerciseDose.textContent = current.dose;
-  exerciseCue.textContent = "";
-  qualityTip.textContent = "";
-  if (tapHint) {
-    tapHint.style.display = "block";
-    tapHint.textContent = "Trykk på kortet for forklaring";
-  }
-  nextExercise.textContent = index === activeProgram.items.length - 1 ? "FULLFØR" : "NESTE";
-}
-
-function next() {
-  if (!activeProgram) return;
-  if (finished) return showMenu();
-  if (index < activeProgram.items.length - 1) {
-    index += 1;
-    render();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
-  finished = true;
-  render();
-}
-
-function showInfo() {
-  if (!activeProgram || finished) return;
-  const current = activeProgram.items[index];
-  if (!current?.guide?.length) return;
-  modalTitle.textContent = current.title;
-  modalText.textContent = `${current.dose}\n\nSLIK GJØR DU\n\n${current.guide.map((text, i) => `${i + 1}. ${text}`).join("\n\n")}`;
-  infoModal.classList.add("show");
-  infoModal.setAttribute("aria-hidden", "false");
-}
-
-document.querySelectorAll("[data-program]").forEach(btn => {
-  btn.addEventListener("click", () => startProgram(btn.dataset.program));
-});
-
-nextExercise.addEventListener("click", next);
-closeWorkout.addEventListener("click", showMenu);
-resetWorkout.addEventListener("click", () => {
-  if (!activeProgram) return;
-  index = 0;
-  finished = false;
-  render();
-});
-exerciseCard.addEventListener("click", showInfo);
-exerciseCard.addEventListener("keydown", e => {
-  if (e.key === "Enter" || e.key === " ") {
-    e.preventDefault();
-    showInfo();
-  }
-});
-closeModal.addEventListener("click", closeInfo);
-infoModal.addEventListener("click", e => {
-  if (e.target === infoModal) closeInfo();
-});
+const descriptions={strength:"Styrk bein, legger, overkropp og kjernemuskulatur. Utfør repetisjonene rolig og kontrollert.",jump:"Tren på å hoppe eksplosivt og lande stabilt. Ta god pause mellom hoppene.",combo:"En balansert økt med både kontrollert styrke og korte eksplosive aksjoner."};
+const times={strength:"20–25 min",jump:"15–20 min",combo:"20–25 min"};
+const icons={strength:"🏋️",jump:"↟",combo:"⚡"};
+const cues={
+"Utfall på stedet":["Hold overkroppen rolig og kneet i samme retning som tærne.","Unngå at fremre kne faller innover.","45–75 sekunder"],
+"Ettbeins hoftebøy":["Skyv hoften bakover og hold ryggen lang.","Ikke vri hoften eller rund ryggen.","45–75 sekunder"],
+"Stå på tå på ett bein":["Løft deg høyt og senk hælen langsomt.","Ikke sprett gjennom repetisjonene.","45–60 sekunder"],
+"Armhevinger":["Hold mage og sete aktive gjennom hele bevegelsen.","Ikke la hoften synke.","45–75 sekunder"],
+"Sideplanke med kne på stol":["Hold kroppen på linje og løft hoften kontrollert.","Ikke la hoften synke. Start med få repetisjoner.","60–90 sekunder"],
+"Sideplanke":["Hold kroppen rett og pust rolig.","Ikke vri overkroppen.","30–60 sekunder"],
+"Små raske hopp":["Hold hoppene lave og land lett.","Ikke fortsett når hoppene blir tunge.","60–90 sekunder"],
+"Hopp rett opp":["Hopp kraftfullt, land mykt og finn balansen.","Ikke la knærne falle innover.","60–90 sekunder"],
+"Lengdehopp":["Bruk armene og land med myke knær.","Ikke hopp videre før du har kontroll på landingen.","60–90 sekunder"],
+"Hopp frem på ett bein":["Start med korte hopp og stabil landing.","Ikke la kneet falle innover.","60–90 sekunder"],
+"Hopp side til side":["Hold balansen etter hver landing.","Ikke øk lengden før du mestrer korte hopp.","60–90 sekunder"],
+"Hopp + kort sprint":["Land kontrollert og sprint først når du har balansen.","Sørg for god plass til å bremse.","90–120 sekunder"]
+};
+const $=id=>document.getElementById(id);let key=null,completed=new Set(),single=false,index=0;
+function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
+function update(){const n=programs[key].items.length;$("progressBar").style.width=(completed.size/n*100)+"%";$("progressText").textContent=completed.size+" av "+n+" øvelser fullført"+(completed.size===n?" · Bra jobbet!":"");[...$("exerciseList").children].forEach((e,i)=>e.hidden=single&&i!==index);$("exerciseNav").hidden=!single;$("position").textContent=(index+1)+" av "+n;$("prev").disabled=index===0;$("next").disabled=index===n-1;$("allView").classList.toggle("selected",!single);$("oneView").classList.toggle("selected",single);$("allView").setAttribute("aria-pressed",String(!single));$("oneView").setAttribute("aria-pressed",String(single))}
+function render(){$("exerciseList").replaceChildren();programs[key].items.forEach((ex,i)=>{const card=el("article","exercise-card");const header=el("div","exercise-heading");header.append(el("span","number",String(i+1)));const label=el("div","exercise-label");label.append(el("span","tag",ex.tag),el("h3","",ex.title),el("strong","dose",ex.dose));header.append(label);card.append(header);
+const guidance=el("div","guidance");guidance.hidden=i!==0;guidance.append(el("h4","","Slik gjør du"));const steps=el("ol");ex.guide.forEach(t=>steps.append(el("li","",t)));guidance.append(steps);const tip=cues[ex.title];if(tip){guidance.append(el("p","focus","✓ Viktig: "+tip[0]),el("p","avoid","Pass på: "+tip[1]));card.append(el("p","rest","Anbefalt pause mellom sett: "+tip[2]))}else{guidance.append(el("p","focus","✓ Start rolig og bli varm uten å bli sliten."));card.append(el("p","rest","Oppvarming · ingen fast pause"))}
+const actions=el("div","exercise-actions"),expand=el("button","expand",i===0?"Skjul forklaring ▴":"Slik gjør du ▾"),done=el("button","done","Marker fullført");expand.type=done.type="button";expand.setAttribute("aria-expanded",String(i===0));expand.addEventListener("click",()=>{guidance.hidden=!guidance.hidden;expand.textContent=guidance.hidden?"Slik gjør du ▾":"Skjul forklaring ▴";expand.setAttribute("aria-expanded",String(!guidance.hidden))});done.addEventListener("click",()=>{if(completed.has(i))completed.delete(i);else completed.add(i);done.classList.toggle("checked",completed.has(i));done.textContent=completed.has(i)?"✓ Fullført":"Marker fullført";update()});actions.append(expand,done);card.append(actions,guidance);$("exerciseList").append(card)});update()}
+function open(k){if(!programs[k])return;key=k;completed.clear();single=false;index=0;$("sessionTitle").textContent=programs[k].name;$("sessionLead").textContent=descriptions[k];$("sessionMeta").textContent=times[k]+" · "+programs[k].items.length+" øvelser inkludert oppvarming";$("menu").hidden=true;$("session").hidden=false;render();history.replaceState(null,"","#"+k);window.scrollTo(0,0)}
+function back(){$("session").hidden=true;$("menu").hidden=false;history.replaceState(null,"",location.pathname);window.scrollTo(0,0)}
+Object.entries(programs).forEach(([k,p])=>{const b=el("button","program-card");b.type="button";b.append(el("span","program-icon",icons[k]));const copy=el("span","program-copy");copy.append(el("strong","",p.name),el("small","",descriptions[k]),el("em","",times[k]+" · "+p.items.length+" øvelser"));b.append(copy,el("span","chevron","›"));b.addEventListener("click",()=>open(k));$("programList").append(b)});
+$("backToMenu").addEventListener("click",back);$("allView").addEventListener("click",()=>{single=false;update()});$("oneView").addEventListener("click",()=>{single=true;update()});$("prev").addEventListener("click",()=>{index=Math.max(0,index-1);update();$("sessionTitle").scrollIntoView({behavior:"smooth"})});$("next").addEventListener("click",()=>{index=Math.min(programs[key].items.length-1,index+1);update();$("sessionTitle").scrollIntoView({behavior:"smooth"})});$("restart").addEventListener("click",()=>{completed.clear();index=0;render()});const hash=location.hash.slice(1);if(programs[hash])open(hash);
+})();
