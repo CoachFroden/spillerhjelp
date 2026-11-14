@@ -553,7 +553,7 @@
       <button class="pain-choice pain-mid" data-level="better"><strong>LITT VONDT</strong><small>Du kan gå, men jogging eller hopp gjør vondt</small></button>
       <button class="pain-choice pain-low" data-level="almost"><strong>NESTEN BRA</strong><small>Du kan jogge, men ikke løpe fullt</small></button>
       <button class="pain-choice pain-ready" data-level="ready"><strong>NESTEN TILBAKE</strong><small>Du kan løpe nesten normalt</small></button>
-      <button class="pain-choice pain-prevent" data-level="prevent"><strong>IKKE VONDT</strong><small>Forebygging</small></button>
+      <a class="pain-choice pain-prevent" href="forebygging.html"><strong>IKKE VONDT?</strong><small>Gå til egne forebyggende øvelser →</small></a>
       <div class="quick-warning"><strong>STOPP:</strong> Smell/knepp, stor hevelse, nummenhet eller klarer du ikke å gå normalt? Si fra til en voksen og få det vurdert.</div>
     `;
 
