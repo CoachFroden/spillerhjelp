@@ -519,10 +519,10 @@
     const area=config.name==="Hamstring"?"Bakside lår":(config.name||"Skadeområde");
     const phases=config.phases||{};
     const choices=[
-      {key:"pain",name:"Mye vondt",hint:"Vanlig bevegelse gjør vondt"},
-      {key:"better",name:"Litt vondt",hint:"Jeg kan gå, men løping eller hopp gjør vondt"},
-      {key:"almost",name:"På bedringens vei",hint:"Jeg kan jogge, men ikke løpe i full fart"},
-      {key:"ready",name:"Nesten tilbake",hint:"Jeg kan løpe nesten normalt"}
+      {key:"pain",name:"Mye vondt",hint:"Det gjør vondt å gå"},
+      {key:"better",name:"Litt vondt",hint:"Løping eller hopp gjør vondt"},
+      {key:"almost",name:"På bedringens vei",hint:"Jeg kan jogge rolig"},
+      {key:"ready",name:"Nesten tilbake",hint:"Jeg kan løpe nesten som før"}
     ].filter(x=>Array.isArray(phases[x.key])&&phases[x.key].length);
     let current=null,confirmed=false;
     const el=(tag,cls,content)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(content!==undefined)e.textContent=content;return e};
@@ -533,7 +533,7 @@
     const hero=el("section","r-hero");
     const kicker=el("span","r-kicker","HAR DU VONDT?");
     const heading=el("h1","",area);
-    const sub=el("p","","Velg hvordan det kjennes i dag. Du får en oversikt over øvelsene, uten å måtte bla gjennom ett og ett kort.");
+    const sub=el("p","","Velg nivå. Se øvelsene med en gang.");
     hero.append(kicker,heading,sub);
     const section=el("main","r-main");
     root.replaceChildren(header,hero,section);
@@ -547,7 +547,7 @@
     }
     function choose(){
       current=null;confirmed=false;clear();
-      section.append(el("h2","r-section-title","Hvordan kjennes det?"),el("p","r-muted","Trykk på det alternativet som passer best akkurat nå."));
+      section.append(el("h2","r-section-title","Hvordan kjennes det?"),el("p","r-muted","Velg det som passer best."));
       const grid=el("div","r-levels");
       choices.forEach((x,i)=>{
         const b=btn("","r-level r-level-"+x.key,()=>safety(x));
@@ -580,9 +580,9 @@
       if(/balanse|star reach/.test(t))return "Balanse og kontroll på ett bein";
       if(/knebøy|utfall|step-up|step-down|wall sit/.test(t))return "Lår, rumpe og kontroll rundt kneet";
       if(/hopp|pogo/.test(t))return "Spenst og kontroll når du lander";
-      if(/løp|sprint|jogg|akselerasjon/.test(t))return "Gradvis tilbake til løping";
+      if(/løp|sprint|jogg|akselerasjon/.test(t))return "Løping";
       if(/spark|fotball|vending|retningsendring/.test(t))return "Kontroll i fotballbevegelser";
-      return "Rolig bevegelse og gradvis opptrening";
+      return "Bevegelse og styrke";
     }
     function showExercises(){
       if(!current||!confirmed){choose();return;}
@@ -590,7 +590,7 @@
       section.append(btn("← Velg annet nivå","r-text-button",choose));
       const top=el("div","r-plan-heading");
       top.append(el("div","",current.name),el("span","",phases[current.key].length+" øvelser"));
-      section.append(top,el("p","r-muted","Alle øvelsene ligger på samme side. Trykk «Slik gjør du» for å se teknikken."));
+      section.append(top,el("p","r-muted","Trykk på en øvelse for forklaring."));
       const list=el("div","r-exercise-list");
       phases[current.key].forEach((item,i)=>{
         const card=el("article","r-exercise");
