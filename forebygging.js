@@ -9,58 +9,58 @@
   const programs = {
     hamstring: [
       warmup,
-      { t: "Nordic (bakside lår)", d: "2 x 4", i: "Få en annen person til å holde anklene. Len deg rolig frem og ta imot med hendene før du mister kontrollen." },
-      { t: "Ettbeins hoftebøy", d: "2 x 6 per side", i: "Stå på ett bein. Skyv rumpa bakover mens overkroppen går frem. Reis deg rolig opp igjen." },
-      { t: "Hofteløft med hælene langt unna", d: "2 x 8", i: "Ligg på ryggen med føttene litt lenger fra rumpa enn ved vanlig hofteløft. Press hælene ned og løft rumpa opp." },
-      { t: "Høyfartsløp", d: "3 x 20 m · ca. 70–85 %", i: "Start kontrollert og løp litt raskere for hvert drag. Gå tilbake og hvil mellom dragene." }
+      { t: "Nordic (bakside lår)", d: "2 x 4", i: "Legg deg på knærne på en myk matte, og få en partner til å holde anklene godt fast. Hold kroppen mest mulig rett fra knær til skuldre og stram magen. Len hele kroppen langsomt fremover mens du prøver å bremse med musklene på baksiden av lårene. Når du ikke klarer å holde igjen mer, tar du imot med hendene på gulvet. Skyv deg rolig tilbake til start. Begynn med få repetisjoner og stopp ved smerte." },
+      { t: "Ettbeins hoftebøy", d: "2 x 6 per side", i: "Stå på ett bein med kneet litt bøyd og se rett frem. Skyv hoften bakover mens overkroppen heller frem og det andre beinet strekkes bakover. Hold ryggen lang og hoftene vendt mot gulvet. Gå bare så langt ned som du klarer uten å miste balansen. Press gjennom standfoten og reis deg rolig opp igjen. Bytt bein." },
+      { t: "Hofteløft med hælene langt unna", d: "2 x 8", i: "Ligg på ryggen med knærne bøyd og føttene i gulvet. Flytt hælene litt lenger bort fra rumpa enn i et vanlig hofteløft. Ha armene i gulvet ved siden av kroppen. Press hælene ned og løft hoftene til kroppen danner en omtrent rett linje fra skuldre til knær. Hold et øyeblikk uten å svaie i korsryggen. Senk rumpa rolig tilbake." },
+      { t: "Høyfartsløp", d: "3 x 20 m · ca. 70–85 %", i: "Finn en flat, trygg strekning på minst 20 meter og varm godt opp først. Start hvert drag kontrollert og øk farten gradvis gjennom løpet. Hold blikket fremover og løp med naturlige armbevegelser. Løp raskt, men ikke alt du klarer; målet er god teknikk. Brems gradvis etter målstreken. Gå rolig tilbake og hvil før neste drag." }
     ],
 
     legg: [
       warmup,
-      { t: "Tåhev – strakt kne", d: "2 x 12", i: "Stå ved en vegg. Løft hælene opp så du står på tå og senk rolig ned igjen." },
-      { t: "Tåhev – bøyd kne", d: "2 x 12", i: "Bøy knærne litt og hold dem bøyd mens du løfter hælene opp og ned." },
-      { t: "Ettbeins tåhev", d: "2 x 8 per side", i: "Stå på ett bein ved en vegg. Løft hælen høyt opp og senk rolig ned." },
-      { t: "Små raske hopp", d: "2 x 15", i: "Gjør små raske hopp rett opp. Hold hoppene lave og lette." }
+      { t: "Tåhev – strakt kne", d: "2 x 12", i: "Stå på flatt gulv med føttene omtrent i hoftebredde og knærne strake, men ikke låste. Hold lett i en vegg eller stol for balansen. Press deg rolig opp på tå med vekten over stortåballen og resten av forfoten. Hold øverst et kort øyeblikk uten å lene kroppen fremover. Senk hælene langsomt helt ned igjen. Gjør 12 repetisjoner, hvil litt og gjenta." },
+      { t: "Tåhev – bøyd kne", d: "2 x 12", i: "Stå på flatt gulv med føttene omtrent i hoftebredde og hold lett i en vegg. Bøy begge knærne litt, som om du skal sette deg på en høy stol. Hold knærne like mye bøyd mens du løfter hælene rolig fra gulvet. Hold et kort øyeblikk på tå og senk hælene kontrollert ned. Unngå at knærne faller innover eller at du retter dem ut underveis." },
+      { t: "Ettbeins tåhev", d: "2 x 8 per side", i: "Stå på flatt gulv på ett bein og hold lett i en vegg for balansen. Løft den andre foten fra gulvet og hold kroppen oppreist. Press deg rolig opp på tå på standbeinet uten å vri ankelen. Hold et kort øyeblikk og senk hælen langsomt ned. Bytt bein etter antall repetisjoner. Er dette for vanskelig, start med tåhev på begge bein." },
+      { t: "Små raske hopp", d: "2 x 15", i: "Stå med føttene omtrent i hoftebredde og myke knær. Gjør små hopp rett opp med begge bein samtidig. Land lett på forfoten og la hælene nærme seg gulvet mellom hoppene. Hold hoppene lave og finn en jevn rytme. Stopp hvis du får vondt eller mister kontrollen." }
     ],
 
     akilles: [
       warmup,
-      { t: "Tåhev – strakt kne", d: "2 x 12", i: "Stå på flatt gulv. Løft hælene kontrollert opp og senk rolig ned." },
-      { t: "Tåhev – bøyd kne", d: "2 x 12", i: "Bøy knærne litt og hold dem bøyd mens du løfter hælene." },
-      { t: "Ettbeins tåhev", d: "2 x 8 per side", i: "Bruk vegg eller stol for balanse. Løft hælen høyt og senk rolig ned." },
-      { t: "Små raske hopp", d: "2 x 15", i: "Små raske hopp med begge bein. Stopp hvis Akilles eller hælen begynner å gjøre vondt." }
+      { t: "Tåhev – strakt kne", d: "2 x 12", i: "Stå på flatt gulv med føttene omtrent i hoftebredde og knærne strake, men ikke låste. Hold lett i en vegg eller stol for balansen. Press deg rolig opp på tå med vekten over stortåballen og resten av forfoten. Hold øverst et kort øyeblikk uten å lene kroppen fremover. Senk hælene langsomt helt ned igjen. Gjør 12 repetisjoner, hvil litt og gjenta." },
+      { t: "Tåhev – bøyd kne", d: "2 x 12", i: "Stå på flatt gulv med føttene omtrent i hoftebredde og hold lett i en vegg. Bøy begge knærne litt, som om du skal sette deg på en høy stol. Hold knærne like mye bøyd mens du løfter hælene rolig fra gulvet. Hold et kort øyeblikk på tå og senk hælene kontrollert ned. Unngå at knærne faller innover eller at du retter dem ut underveis." },
+      { t: "Ettbeins tåhev", d: "2 x 8 per side", i: "Stå på flatt gulv på ett bein og hold lett i en vegg for balansen. Løft den andre foten fra gulvet og hold kroppen oppreist. Press deg rolig opp på tå på standbeinet uten å vri ankelen. Hold et kort øyeblikk og senk hælen langsomt ned. Bytt bein etter antall repetisjoner. Er dette for vanskelig, start med tåhev på begge bein." },
+      { t: "Små raske hopp", d: "2 x 15", i: "Stå med føttene omtrent i hoftebredde og myke knær. Gjør små hopp rett opp med begge bein samtidig. Land lett på forfoten og la hælene nærme seg gulvet mellom hoppene. Hold hoppene lave og finn en jevn rytme. Stopp hvis du får vondt eller mister kontrollen." }
     ],
 
     hael: [
       warmup,
-      { t: "Tåhev – begge bein", d: "2 x 12", i: "Stå på flatt gulv. Løft begge hælene opp og senk rolig ned." },
-      { t: "Tåhev – bøyd kne", d: "2 x 12", i: "Bøy knærne litt og hold dem bøyd mens du løfter hælene." },
-      { t: "Ettbeins balanse", d: "2 x 30 sek per side", i: "Stå ved en vegg. Løft én fot og stå rolig på det andre beinet." },
-      { t: "Hopp og landing", d: "2 x 8", i: "Gjør små rolige hopp og land mykt med litt bøy i knærne." }
+      { t: "Tåhev – begge bein", d: "2 x 12", i: "Stå med føttene omtrent i hoftebredde på flatt gulv. Hold lett i en vegg eller stol hvis du trenger balanse. Løft begge hælene samtidig og press deg rolig opp på tå. Hold øverst et kort øyeblikk og senk kontrollert helt ned. Hold kroppen oppreist og unngå å rulle anklene utover." },
+      { t: "Tåhev – bøyd kne", d: "2 x 12", i: "Stå på flatt gulv med føttene omtrent i hoftebredde og hold lett i en vegg. Bøy begge knærne litt, som om du skal sette deg på en høy stol. Hold knærne like mye bøyd mens du løfter hælene rolig fra gulvet. Hold et kort øyeblikk på tå og senk hælene kontrollert ned. Unngå at knærne faller innover eller at du retter dem ut underveis." },
+      { t: "Ettbeins balanse", d: "2 x 30 sek per side", i: "Stå på flatt gulv ved siden av en vegg eller stol. Flytt vekten over på ett bein og løft den andre foten litt fra gulvet. Se på et fast punkt foran deg og hold kneet på standbeinet litt mykt. Prøv å holde hoften rett og kroppen mest mulig i ro. Sett ned foten hvis du mister balansen, og prøv igjen." },
+      { t: "Hopp og landing", d: "2 x 8", i: "Stå med føttene omtrent i hoftebredde og litt bøy i knærne. Gjør et lite hopp rett opp med begge bein. Land stille og mykt med hofter og knær lett bøyd. Pass på at knærne peker samme vei som tærne. Finn balansen før neste hopp, og øk ikke høyden før du lander kontrollert." }
     ],
 
     lyske: [
       warmup,
-      { t: "Klem ball mellom knærne", d: "2 x 20 sek", i: "Ligg på ryggen med en ball eller pute mellom knærne. Klem rolig sammen og hold." },
-      { t: "Copenhagen-planke (lett)", d: "2 x 6 per side", i: "Ligg på siden med kneet på en stol eller benk. Løft hofta opp og senk rolig ned." },
-      { t: "Sideutfall", d: "2 x 6 per side", i: "Ta et steg til siden, bøy kneet på beinet du går mot og skyv deg tilbake til start." },
-      { t: "Raske sidesteg", d: "3 x 10 m", i: "Flytt deg sidelengs med korte raske steg uten å krysse beina." }
+      { t: "Klem ball mellom knærne", d: "2 x 20 sek", i: "Ligg på ryggen med bøyde knær og begge føtter i gulvet. Legg en myk ball eller pute mellom knærne. Stram forsiktig på innsiden av lårene ved å presse knærne mot ballen. Hold et jevnt trykk mens du puster normalt. Slipp rolig opp etter angitt tid. Ikke klem så hardt at du får vondt." },
+      { t: "Copenhagen-planke (lett)", d: "2 x 6 per side", i: "Legg en myk matte ved siden av en lav, stabil benk. Ligg på siden og støtt deg på underarmen med albuen under skulderen. Legg kneet på det øverste beinet oppå benken, mens det nederste beinet er under. Stram magen og løft hoften forsiktig fra gulvet. Hold kroppen mest mulig rett et kort øyeblikk og senk kontrollert ned igjen. Begynn med kort bevegelse og få repetisjoner." },
+      { t: "Sideutfall", d: "2 x 6 per side", i: "Stå med føttene omtrent i hoftebredde og blikket frem. Ta et kontrollert steg langt ut til siden. Bøy kneet på beinet du steg ut med, og skyv hoften bakover mens det andre beinet er mer strakt. Hold hele foten i gulvet og la kneet peke samme vei som tærne. Press deg tilbake til start og gjenta på andre siden." },
+      { t: "Raske sidesteg", d: "3 x 10 m", i: "Stå med litt bøy i knærne og føttene omtrent i hoftebredde. Senk hoften litt og se fremover. Ta korte, raske steg sidelengs over en strekning på 10 meter. Skyv fra med beinet lengst fra retningen du beveger deg i. Hold føttene fra hverandre og unngå å krysse beina. Gå rolig tilbake før neste drag." }
     ],
 
     kne: [
       warmup,
-      { t: "Knebøy til benk", d: "2 x 8", i: "Stå foran en stol. Senk rumpa rolig ned til stolen og reis deg opp igjen." },
-      { t: "Splittknebøy", d: "2 x 6 per side", i: "Stå med én fot foran og én bak. Senk kroppen rett ned og press deg opp igjen." },
-      { t: "Gå ned fra lavt trinn", d: "2 x 6 per side", i: "Stå på et lavt trinn på ett bein. Senk den andre hælen rolig mot gulvet og press deg opp igjen." },
-      { t: "Hopp og landing", d: "2 x 6", i: "Gjør små hopp og land mykt med knærne litt bøyd. Hold balansen før neste hopp." }
+      { t: "Knebøy til benk", d: "2 x 8", i: "Stå foran en stabil stol eller benk med føttene omtrent i skulderbredde. Hold blikket fremover og strekk armene litt frem for balansen. Skyv rumpa bakover og bøy knærne kontrollert som om du skal sette deg. Berør stolen lett uten å falle ned på den. Press gjennom hele foten og reis deg opp igjen. Hold knærne i samme retning som tærne." },
+      { t: "Splittknebøy", d: "2 x 6 per side", i: "Stå med én fot foran den andre, med god avstand mellom føttene. Hold overkroppen oppreist og blikket frem. Bøy begge knærne og senk kroppen rolig rett ned. Gå bare så dypt som du klarer med kontroll. Press gjennom den fremre foten og reis deg opp igjen. Hold fremre kne i samme retning som tærne og bytt bein etter repetisjonene." },
+      { t: "Gå ned fra lavt trinn", d: "2 x 6 per side", i: "Stå på et lavt, stabilt trinn med én fot, og la den andre foten henge utenfor kanten. Hold gjerne i et rekkverk eller en vegg for balansen. Bøy kneet på standbeinet langsomt slik at hælen på det frie beinet nærmer seg gulvet. Berør gulvet lett uten å legge vekten over på den frie foten. Press deg kontrollert opp igjen. Hold kneet over foten og hoften stabil." },
+      { t: "Hopp og landing", d: "2 x 6", i: "Stå med føttene omtrent i hoftebredde og litt bøy i knærne. Gjør et lite hopp rett opp med begge bein. Land stille og mykt med hofter og knær lett bøyd. Pass på at knærne peker samme vei som tærne. Finn balansen før neste hopp, og øk ikke høyden før du lander kontrollert." }
     ],
 
     ankel: [
       warmup,
-      { t: "Ettbeins balanse", d: "2 x 30 sek per side", i: "Stå ved en vegg. Løft én fot og stå rolig på det andre beinet." },
-      { t: "Balanse med fotstrekk", d: "2 runder per side", i: "Stå på ett bein og berør gulvet lett med den andre foten foran, til siden og skrått bak." },
-      { t: "Ettbeins tåhev", d: "2 x 10 per side", i: "Stå på ett bein ved en vegg. Løft hælen høyt opp og senk rolig ned." },
-      { t: "Hopp og landing", d: "2 x 8", i: "Gjør små hopp og land mykt og stabilt. Start rett opp og legg senere inn litt sideveis hopp." }
+      { t: "Ettbeins balanse", d: "2 x 30 sek per side", i: "Stå på flatt gulv ved siden av en vegg eller stol. Flytt vekten over på ett bein og løft den andre foten litt fra gulvet. Se på et fast punkt foran deg og hold kneet på standbeinet litt mykt. Prøv å holde hoften rett og kroppen mest mulig i ro. Sett ned foten hvis du mister balansen, og prøv igjen." },
+      { t: "Balanse med fotstrekk", d: "2 runder per side", i: "Stå på ett bein ved siden av en vegg hvis du trenger støtte. Bøy kneet på standbeinet litt og hold hoften rett. Strekk den frie foten frem og berør gulvet lett med tærne. Før foten tilbake og strekk den deretter ut til siden og skrått bak. Flytt vekten minst mulig bort fra standbeinet. Gjør bevegelsene sakte og bytt bein." },
+      { t: "Ettbeins tåhev", d: "2 x 10 per side", i: "Stå på flatt gulv på ett bein og hold lett i en vegg for balansen. Løft den andre foten fra gulvet og hold kroppen oppreist. Press deg rolig opp på tå på standbeinet uten å vri ankelen. Hold et kort øyeblikk og senk hælen langsomt ned. Bytt bein etter antall repetisjoner. Er dette for vanskelig, start med tåhev på begge bein." },
+      { t: "Hopp og landing", d: "2 x 8", i: "Stå med føttene omtrent i hoftebredde og litt bøy i knærne. Gjør et lite hopp rett opp med begge bein. Land stille og mykt med hofter og knær lett bøyd. Pass på at knærne peker samme vei som tærne. Finn balansen før neste hopp, og øk ikke høyden før du lander kontrollert." }
     ]
   };
 
