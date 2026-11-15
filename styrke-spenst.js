@@ -13,12 +13,12 @@ const commonWarmup = item("Oppvarming", "Gjør kroppen klar", "3–4 minutter", 
 ]);
 
 const strengthItems = {
-  split: item("Bein", "Utfall på stedet", "3 × 8 per bein", [
-    "Stå med én fot foran og én bak, omtrent i hoftebredde sideveis, slik at du står stødig.",
-    "Hold føttene på samme sted under hele settet. Fordel vekten mellom beina.",
-    "Bøy begge knær og senk hoften kontrollert mot gulvet. Bakre kne går nedover, mens fremre kne følger tærnes retning.",
-    "Press deg opp gjennom fremre fot og hjelp til med bakre bein, uten å miste balansen.",
-    "Fullfør repetisjonene på én side før du bytter hvilket bein som står foran."
+  split: item("Bein", "Utfall bakover", "3 × 8 per bein", [
+    "Stå oppreist med føttene omtrent i hoftebredde.",
+    "Ta et kontrollert steg bakover med det ene beinet, og sett tærne i gulvet.",
+    "Bøy begge knær og senk hoften rett ned. Fremre kne skal følge tærnes retning, og overkroppen holdes stabil.",
+    "Press gjennom fremre fot og før bakre bein frem igjen til stående utgangsstilling.",
+    "Gjenta kontrollert, og bytt bein. Gjør 8 repetisjoner på hvert bein per sett."
   ]),
   hip: item("Bakside", "Ettbeins hoftebøy", "3 × 8 per bein", [
     "Stå på ett bein med en liten bøy i kneet. Hold lett i en vegg hvis du trenger balanse.",
@@ -112,7 +112,7 @@ const programs = {
     name: "Kombi",
     items: [
       commonWarmup,
-      item("Styrke", "Utfall på stedet", "2 × 6 per bein", strengthItems.split.guide),
+      item("Styrke", "Utfall bakover", "2 × 6 per bein", strengthItems.split.guide),
       item("Spenst", "Hopp rett opp", "3 × 3", strengthItems.up.guide),
       item("Bakside", "Ettbeins hoftebøy", "2 × 8 per bein", strengthItems.hip.guide),
       item("Spenst", "Små raske hopp", "2 × 10", strengthItems.pogo.guide),
@@ -127,7 +127,7 @@ const descriptions={strength:"Styrk bein, legger, overkropp og kjernemuskulatur.
 const times={strength:"25–35 min",jump:"20–30 min",combo:"25–35 min"};
 const icons={strength:"🏋️",jump:"↟",combo:"⚡"};
 const cues={
-"Utfall på stedet":["Hold føttene i ro, overkroppen stabil og fremre kne i samme retning som tærne.","Unngå at fremre kne faller innover.","45–75 sekunder"],
+"Utfall bakover":["Ta et steg bakover for hver repetisjon, og hold fremre kne i samme retning som tærne.","Unngå at fremre kne faller innover.","45–75 sekunder"],
 "Ettbeins hoftebøy":["Skyv hoften bakover og hold ryggen lang.","Ikke vri hoften eller rund ryggen.","45–75 sekunder"],
 "Stå på tå på ett bein":["Løft deg høyt og senk hælen langsomt.","Ikke sprett gjennom repetisjonene.","45–60 sekunder"],
 "Armhevinger":["Hold mage og sete aktive gjennom hele bevegelsen.","Ikke la hoften synke.","45–75 sekunder"],
