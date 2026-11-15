@@ -512,274 +512,105 @@
     return sentences.length ? sentences : ["Gjør øvelsen rolig og kontrollert.", stop];
   }
 
-  window.initRehabApp = function initRehabApp(config) {
-    const startScreen = document.getElementById("start");
-    const workoutScreen = document.getElementById("workout");
-    const title = document.getElementById("title");
-    const desc = document.getElementById("desc");
-    const step = document.getElementById("step");
-    const modal = document.getElementById("modal");
-    const modalText = document.getElementById("modalText");
-    const nextBtn = document.getElementById("next");
-    const exerciseBox = document.getElementById("exerciseBox");
-    const backBtn = document.getElementById("backBtn");
-    const homeBack = document.getElementById("homeBack");
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const levelBig = document.getElementById("levelBig");
-    const levelSmall = document.getElementById("levelSmall");
-    const levelHeader = document.getElementById("levelHeader");
-    const progressWrap = document.querySelector(".progressWrap");
-    const testHeader = document.getElementById("testHeader");
-    const hint = document.getElementById("hint");
-    const tipEl = document.getElementById("tip");
-    const menu = startScreen?.querySelector(".menu");
-    const intro = startScreen?.querySelector(".intro");
-    const introSmall = startScreen?.querySelector(".intro.small");
-    const heroTitle = startScreen?.querySelector(".hero h1");
 
-    if (!startScreen || !workoutScreen || !title || !desc || !nextBtn || !exerciseBox || !menu) return;
-
-    const simpleNames = { Hamstring: "Bakside lår" };
-    if (heroTitle && simpleNames[heroTitle.textContent.trim()]) heroTitle.textContent = simpleNames[heroTitle.textContent.trim()];
-    if (intro) intro.textContent = "Hvor vondt er det nå?";
-    if (introSmall) introSmall.style.display = "none";
-
-    const state = { mode: "menu", level: null, items: [], index: 0 };
-    const levels = Object.assign({}, LEVELS, config.levels || {});
-
-    menu.innerHTML = `
-      <button class="pain-choice pain-high" data-level="pain"><strong>Det gjør mye vondt</strong><small>Vanlig bevegelse gjør vondt. Si fra til en voksen.</small></button>
-      <button class="pain-choice pain-mid" data-level="better"><strong>Det gjør litt vondt</strong><small>Jeg kan gå, men løping eller hopp gjør vondt</small></button>
-      <button class="pain-choice pain-low" data-level="almost"><strong>Det begynner å bli bedre</strong><small>Jeg kan jogge, men ikke løpe i full fart</small></button>
-      <button class="pain-choice pain-ready" data-level="ready"><strong>Jeg tåler nesten vanlig trening</strong><small>Jeg kan løpe nesten normalt, men er ikke klar for kamp</small></button>
-      <a class="pain-choice pain-prevent" href="forebygging.html"><span class="prevent-symbol" aria-hidden="true">🛡️</span><span><strong>Forebygg skader</strong><small>For deg som ikke har vondt nå</small></span></a>
-      <div class="quick-warning"><strong>Viktig før du begynner</strong><span>Fortell en voksen hvor du har vondt. Ved kraftig skade, stor hevelse, nummenhet eller problemer med å gå: Ikke tren videre – få hjelp til å vurdere skaden.</span></div>
-    `;
-
-    const areaHelp = document.createElement("p");
-    areaHelp.className = "area-help";
-    areaHelp.textContent = "Her finner du rolige øvelser og råd for " + (config.name || "området").toLowerCase() + ". Det er ikke en diagnose.";
-    heroTitle?.after(areaHelp);
-    const flowSteps = document.createElement("div");
-    flowSteps.className = "rehab-flow-steps";
-    flowSteps.innerHTML = '<span class="active">1 · Velg nivå</span><span>2 · Sjekk</span><span>3 · Øvelser</span>';
-    startScreen.querySelector(".hero")?.after(flowSteps);
-    const guideIntro = document.createElement("p");
-    guideIntro.className = "rehab-intro-note";
-    guideIntro.textContent = "Hvordan kjennes det akkurat nå? Velg det som passer best.";
-    menu.before(guideIntro);
-    const safetyGate = document.createElement("section");
-    safetyGate.className = "safety-gate";
-    safetyGate.hidden = true;
-    startScreen.append(safetyGate);
-    function chooseLevel(level) {
-      if (!config.phases?.[level]) return;
-      state.pendingLevel = level;
-      menu.hidden = true;
-      guideIntro.hidden = true;
-      flowSteps.classList.add("checking");
-      if (intro) intro.textContent = "Sjekk dette før du begynner";
-      safetyGate.hidden = false;
-      safetyGate.replaceChildren();
-      const heading = document.createElement("h2");
-      heading.textContent = "Er det trygt å prøve rolige øvelser?";
-      const lead = document.createElement("p");
-      lead.textContent = "Les spørsmålene. Svarer du ja på ett av dem, skal du ikke fortsette med dette opplegget uten å snakke med en voksen og få skaden vurdert.";
-      safetyGate.append(heading, lead);
-      (config.safetyQuestions || []).forEach(q => {
-        const row = document.createElement("div");
-        row.className = "safety-question";
-        const title = document.createElement("strong");
-        title.textContent = q.t;
-        const detail = document.createElement("p");
-        detail.textContent = q.d;
-        row.append(title, detail);
-        safetyGate.append(row);
+  window.initRehabApp = function(config) {
+    const root=document.getElementById("app");
+    if(!root)return;
+    const area=config.name==="Hamstring"?"Bakside lår":(config.name||"Skadeområde");
+    const phases=config.phases||{};
+    const choices=[
+      {key:"pain",name:"Mye vondt",hint:"Vanlig bevegelse gjør vondt"},
+      {key:"better",name:"Litt vondt",hint:"Jeg kan gå, men løping eller hopp gjør vondt"},
+      {key:"almost",name:"På bedringens vei",hint:"Jeg kan jogge, men ikke løpe i full fart"},
+      {key:"ready",name:"Nesten tilbake",hint:"Jeg kan løpe nesten normalt"}
+    ].filter(x=>Array.isArray(phases[x.key])&&phases[x.key].length);
+    let current=null,confirmed=false;
+    const el=(tag,cls,content)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(content!==undefined)e.textContent=content;return e};
+    const header=el("header","r-header");
+    const back=el("a","r-back","←  Alle områder");back.href="skade.html";
+    const brand=el("span","r-brand","SPILLERHJELPEN");
+    header.append(back,brand);
+    const hero=el("section","r-hero");
+    const kicker=el("span","r-kicker","HAR DU VONDT?");
+    const heading=el("h1","",area);
+    const sub=el("p","","Velg hvordan det kjennes i dag. Du får en oversikt over øvelsene, uten å måtte bla gjennom ett og ett kort.");
+    hero.append(kicker,heading,sub);
+    const section=el("main","r-main");
+    root.replaceChildren(header,hero,section);
+    function clear(){section.replaceChildren();}
+    function btn(label,cls,click){const b=el("button",cls,label);b.type="button";b.addEventListener("click",click);return b;}
+    function alertBox(){
+      const n=el("aside","r-warning");
+      const title=el("strong","","Når skal du stoppe?");
+      const body=el("p","","Si fra til en voksen hvis du har vondt. Ved kraftig smerte, stor hevelse, feber, nummenhet eller problemer med å gå: ikke prøv øvelsene før skaden er vurdert. Dette er ikke en diagnose.");
+      n.append(title,body);return n;
+    }
+    function choose(){
+      current=null;confirmed=false;clear();
+      section.append(el("h2","r-section-title","Hvordan kjennes det?"),el("p","r-muted","Trykk på det alternativet som passer best akkurat nå."));
+      const grid=el("div","r-levels");
+      choices.forEach((x,i)=>{
+        const b=btn("","r-level r-level-"+x.key,()=>safety(x));
+        const num=el("span","r-level-number",String(i+1).padStart(2,"0"));
+        const copy=el("span","r-level-copy");
+        copy.append(el("strong","",x.name),el("small","",x.hint));
+        const arrow=el("span","r-chevron","›");b.append(num,copy,arrow);grid.append(b);
       });
-      const warning = document.createElement("p");
-      warning.className = "safety-stop";
-      warning.textContent = "Ved kraftige smerter, stor hevelse, nummenhet, feber eller problemer med å gå: stopp og si fra til en voksen. Ved akutt alvorlig skade må du få rask medisinsk hjelp.";
-      safetyGate.append(warning);
-      const proceed = document.createElement("button");
-      proceed.className = "gate-proceed";
-      proceed.textContent = "Nei på alle – vis øvelsene";
-      proceed.addEventListener("click", () => { safetyGate.hidden = true; menu.hidden = false; guideIntro.hidden = false; flowSteps.classList.remove("checking"); startPhase(level); });
-      const stop = document.createElement("button");
-      stop.className = "gate-stop";
-      stop.textContent = "Ja på ett eller flere – gå tilbake";
-      stop.addEventListener("click", () => { safetyGate.hidden = true; menu.hidden = false; guideIntro.hidden = false; flowSteps.classList.remove("checking"); if(intro)intro.textContent="Hvor vondt er det nå?"; });
-      safetyGate.append(proceed, stop);
+      section.append(grid);
+      const prevent=el("a","r-prevent");prevent.href="forebygging.html";
+      prevent.append(el("span","r-prevent-icon","↗"),el("span","","Ingen smerter? Se skadeforebyggende øvelser"),el("span","","›"));
+      section.append(prevent,alertBox());
     }
-    menu.querySelectorAll("[data-level]").forEach(btn => btn.addEventListener("click", () => chooseLevel(btn.dataset.level)));
-    exerciseBox.removeAttribute("role");
-    exerciseBox.removeAttribute("tabindex");
-    const guideButton = document.createElement("button");
-    guideButton.type = "button";
-    guideButton.className = "rehab-guide-button";
-    guideButton.textContent = "Se hvordan du gjør øvelsen";
-    exerciseBox.after(guideButton);
-    const trained = document.createElement("p");
-    trained.className = "rehab-purpose";
-    desc.after(trained);
-    const inlineGuide = document.createElement("div");
-    inlineGuide.className = "rehab-inline-guide";
-    inlineGuide.hidden = true;
-    guideButton.after(inlineGuide);
-    const sessionReminder = document.createElement("aside");
-    sessionReminder.className = "rehab-session-reminder";
-    sessionReminder.innerHTML = '<strong>Ta vare på kroppen</strong><p>Stopp ved skarp eller økende smerte, eller hvis du begynner å halte. Snakk med en voksen hvis du er usikker.</p>';
-    inlineGuide.after(sessionReminder);
-    const progressBar = document.createElement("div");
-    progressBar.className = "rehab-progress-bar";
-    progressWrap?.append(progressBar);
-    const exitButton = document.createElement("button");
-    exitButton.type = "button";
-    exitButton.className = "rehab-exit";
-    exitButton.textContent = "Avslutt økten";
-    exitButton.addEventListener("click", showMenu);
-    workoutScreen.append(exitButton);
-    const purposeFor = (item) => {
-      const t = String(item?.t || "").toLowerCase();
-      if (/tåhev|leggpress/.test(t)) return "Trener: Legger og styrke rundt ankelen.";
-      if (/bridge|heel press|slider|nordic|hamstring/.test(t)) return "Trener: Baksiden av lårene og rumpa.";
-      if (/copenhagen|adduktor|side-liggende adduksjon/.test(t)) return "Trener: Innsiden av lårene (lysken).";
-      if (/balanse|star reach/.test(t)) return "Trener: Balanse og kontroll på ett bein.";
-      if (/knebøy|step-|split squat|utfall|wall sit/.test(t)) return "Trener: Lår, rumpe og kontroll rundt kneet.";
-      if (/hopp|pogo/.test(t)) return "Trener: Spenst og kontroll når du lander.";
-      if (/løp|sprint|jogg|akselerasjon/.test(t)) return "Trener: Å tåle løping og gradvis høyere fart.";
-      if (/spark|fotball|vending/.test(t)) return "Trener: Fotballbevegelser i kontrollert tempo.";
-      if (/bevegel|ankelpump|mobilitet/.test(t)) return "Hjelper deg å bevege det vonde området rolig.";
-      return "Mål: Å tåle litt mer bevegelse uten at smerten øker.";
-    };
-
-    function setButtons({ next = false, yes = false, no = false, nextText = "NESTE" } = {}) {
-      nextBtn.style.display = next ? "block" : "none";
-      if (yesBtn) yesBtn.style.display = yes ? "block" : "none";
-      if (noBtn) noBtn.style.display = no ? "block" : "none";
-      if (next) nextBtn.innerText = nextText;
+    function safety(x){
+      current=x;clear();
+      section.append(btn("← Endre nivå","r-text-button",choose),el("h2","r-section-title","Sjekk dette først"),el("p","r-muted","Før du ser øvelsene, les spørsmålene under."));
+      const questions=el("div","r-questions");
+      (config.safetyQuestions||[]).forEach(q=>{
+        const row=el("div","r-question");row.append(el("strong","",q.t),el("p","",q.d));questions.append(row);
+      });
+      section.append(questions,alertBox());
+      section.append(btn("Nei på alle – vis øvelsene","r-primary",()=>{confirmed=true;showExercises();}));
+      section.append(btn("Ja på ett eller flere – tilbake","r-secondary",choose));
     }
-
-    function showWorkout() { startScreen.classList.remove("active"); workoutScreen.classList.add("active"); window.scrollTo(0, 0); }
-    function showMenu() {
-      safetyGate.hidden = true; menu.hidden = false; guideIntro.hidden = false; flowSteps.classList.remove("checking");
-      if(intro) intro.textContent = "Hvor vondt er det nå?";
-      state.mode = "menu"; state.level = null; state.items = []; state.index = 0;
-      startScreen.classList.add("active"); workoutScreen.classList.remove("active");
-      modal?.classList.remove("show"); setButtons(); window.scrollTo(0, 0);
+    function purpose(item){
+      const t=String(item.t||"").toLowerCase();
+      if(/copenhagen|adduktor|lyske|squeeze/.test(t))return "Innsiden av lårene (lysken)";
+      if(/tåhev|leggpress|soleus/.test(t))return "Legger og styrke rundt ankelen";
+      if(/bridge|slider|nordic|hamstring|heel press/.test(t))return "Baksiden av lårene og rumpa";
+      if(/balanse|star reach/.test(t))return "Balanse og kontroll på ett bein";
+      if(/knebøy|utfall|step-up|step-down|wall sit/.test(t))return "Lår, rumpe og kontroll rundt kneet";
+      if(/hopp|pogo/.test(t))return "Spenst og kontroll når du lander";
+      if(/løp|sprint|jogg|akselerasjon/.test(t))return "Gradvis tilbake til løping";
+      if(/spark|fotball|vending|retningsendring/.test(t))return "Kontroll i fotballbevegelser";
+      return "Rolig bevegelse og gradvis opptrening";
     }
-    function cleanCard() { exerciseBox.classList.remove("resultCard", "ready", "pain"); title.className = ""; exerciseBox.querySelectorAll(".rehab-number").forEach(el=>el.remove()); }
-    function setHeader(level) {
-      if (testHeader) testHeader.style.display = "none";
-      if (progressWrap) progressWrap.style.display = "block";
-      if (levelHeader) levelHeader.style.display = "block";
-      const info = levels[level] || ["", ""];
-      if (levelBig) levelBig.innerText = info[0];
-      if (levelSmall) levelSmall.innerText = info[1];
+    function showExercises(){
+      if(!current||!confirmed){choose();return;}
+      clear();
+      section.append(btn("← Velg annet nivå","r-text-button",choose));
+      const top=el("div","r-plan-heading");
+      top.append(el("div","",current.name),el("span","",phases[current.key].length+" øvelser"));
+      section.append(top,el("p","r-muted","Alle øvelsene ligger på samme side. Trykk «Slik gjør du» for å se teknikken."));
+      const list=el("div","r-exercise-list");
+      phases[current.key].forEach((item,i)=>{
+        const card=el("article","r-exercise");
+        const topRow=el("div","r-exercise-top");
+        const number=el("span","r-exercise-number",String(i+1));
+        const content=el("div","r-exercise-content");
+        content.append(el("h3","",friendlyText(item.t)),el("p","r-dose",friendlyText(item.d)),el("p","r-purpose","Trener: "+purpose(item)));
+        topRow.append(number,content);
+        const details=el("details","r-details");
+        const summary=el("summary","","Slik gjør du");
+        const ol=el("ol","");
+        guideFor(item).forEach(line=>ol.append(el("li","",line)));
+        details.append(summary,ol);
+        card.append(topRow,details);list.append(card);
+      });
+      section.append(list);
+      const reminder=el("aside","r-reminder");
+      reminder.append(el("strong","","Viktig"),el("p","","Stopp hvis smerten blir skarp eller øker, eller du begynner å halte. Ikke bruk dette som klarsignal for kamp. Snakk med en voksen og trener før du øker belastningen."));
+      section.append(reminder,btn("Tilbake til nivåvalg","r-secondary",choose));
     }
-    function hideHeaders() {
-      if (levelHeader) levelHeader.style.display = "none";
-      if (progressWrap) progressWrap.style.display = "none";
-      if (testHeader) testHeader.style.display = "none";
-    }
-
-    function startPhase(level) {
-      if (!config.phases?.[level]) return;
-      state.mode = "workout"; state.level = level; state.items = config.phases[level]; state.index = 0;
-      showWorkout(); renderExercise();
-    }
-
-    function renderExercise() {
-      const item = state.items[state.index];
-      if (!item) return finishPhase();
-      cleanCard(); setHeader(state.level);
-      exerciseBox.querySelectorAll(".rehab-number").forEach(el => el.remove());
-      const number = document.createElement("span"); number.className="rehab-number"; number.textContent="ØVELSE "+(state.index+1)+" AV "+state.items.length; title.before(number);
-      title.innerText = friendlyText(item.t);
-      desc.replaceChildren();
-      trained.textContent = purposeFor(item);
-      trained.hidden = false;
-      if (progressBar) progressBar.style.width = ((state.index + 1) / state.items.length * 100) + "%";
-      guideButton.hidden = false;
-      inlineGuide.hidden = true;
-      guideButton.setAttribute("aria-expanded","false");
-      sessionReminder.hidden = false;
-      guideButton.textContent = "Slik gjør du øvelsen ↓";
-      guideButton.setAttribute("aria-label", "Vis forklaring for " + friendlyText(item.t));
-      const doseLabel = document.createElement("span");
-      doseLabel.className = "dose-label";
-      doseLabel.textContent = "ANTALL / TID";
-      const dose = document.createElement("span");
-      dose.className = "exercise-dose";
-      dose.textContent = friendlyText(item.d);
-      desc.append(doseLabel, dose);
-
-      if (step) step.innerText = `${state.index + 1} av ${state.items.length}`;
-      if (hint) { hint.style.display = "none"; }
-      if (tipEl) tipEl.innerText = "";
-      setButtons({ next: true, nextText: state.index === state.items.length - 1 ? "FERDIG" : "NESTE" });
-      nextBtn.onclick = nextExercise;
-    }
-
-    function showGuide() {
-      if (state.mode !== "workout") return;
-      const item = state.items[state.index];
-      if (!item) return;
-      if (!inlineGuide.hidden) {
-        inlineGuide.hidden = true;
-        guideButton.textContent = "Slik gjør du øvelsen ↓";
-        guideButton.setAttribute("aria-expanded","false");
-        return;
-      }
-      const heading = document.createElement("h3");
-      heading.textContent = "Slik gjør du";
-      const list = document.createElement("ol");
-      guideFor(item).forEach(line => { const li = document.createElement("li"); li.textContent = line; list.append(li); });
-      inlineGuide.replaceChildren(heading,list);
-      inlineGuide.hidden = false;
-      guideButton.textContent = "Skjul forklaringen ↑";
-      guideButton.setAttribute("aria-expanded","true");
-    }
-
-    function nextExercise() {
-      modal?.classList.remove("show");
-      if (state.index < state.items.length - 1) { state.index += 1; renderExercise(); window.scrollTo(0, 0); return; }
-      finishPhase();
-    }
-
-    function finishPhase() {
-      guideButton.hidden = true; trained.hidden = true; inlineGuide.hidden = true; sessionReminder.hidden = true;
-      cleanCard(); hideHeaders(); desc.replaceChildren(); if (hint) hint.style.display = "none";
-      if (state.level === "ready") return showReadyCheck();
-      title.innerText = "FERDIG ✓";
-      const text = document.createElement("span");
-      text.textContent = state.level === "prevent" ? "Bra. Du er ferdig." : "Er det likt eller bedre i morgen? Gjør samme økt igjen. Er det verre? Velg en roligere økt.";
-      desc.append(text); if (tipEl) tipEl.innerText = "";
-      setButtons({ next: true, nextText: "TILBAKE" }); nextBtn.onclick = showMenu;
-    }
-
-    function showReadyCheck() {
-      guideButton.hidden = true; trained.hidden = true; inlineGuide.hidden = true; sessionReminder.hidden = true;
-      state.mode = "readyCheck"; title.innerText = "GIKK DET BRA?"; desc.replaceChildren();
-      const text = document.createElement("span"); text.textContent = "Ingen tydelig smerte og du holdt ikke igjen?"; desc.append(text);
-      if (tipEl) tipEl.innerText = "";
-      if (yesBtn) { yesBtn.innerText = "JA"; yesBtn.style.background = "linear-gradient(90deg,#22c55e,#16a34a)"; yesBtn.style.color = "#000"; yesBtn.onclick = showReadyResult; }
-      if (noBtn) { noBtn.innerText = "NEI"; noBtn.style.background = "linear-gradient(90deg,#ef4444,#b91c1c)"; noBtn.style.color = "#fff"; noBtn.onclick = () => startPhase("almost"); }
-      setButtons({ yes: true, no: true });
-    }
-
-    function showReadyResult() {
-      inlineGuide.hidden = true; sessionReminder.hidden = true; guideButton.hidden = true; trained.hidden = true;
-      cleanCard(); exerciseBox.classList.add("resultCard", "ready"); title.innerText = "PRØV LITT TRENING"; title.className = "resultGood"; desc.replaceChildren();
-      const text = document.createElement("span"); text.textContent = "Dette er ikke en klarering for kamp. Snakk med foresatte og trener, og gjerne fysioterapeut ved skade, før du øker til lagtrening. Start rolig og øk bare hvis du tåler belastningen også neste dag."; desc.append(text);
-      setButtons({ next: true, nextText: "TILBAKE" }); nextBtn.onclick = showMenu;
-    }
-
-    guideButton.addEventListener("click", showGuide);
-    modal?.addEventListener("click", event => { if (event.target === modal) modal.classList.remove("show"); });
-    backBtn?.addEventListener("click", showMenu);
-    homeBack?.addEventListener("click", () => { window.location.href = "skade.html"; });
-    window.startTest = () => startPhase("pain");
-    window.startPhase = startPhase;
+    choose();
   };
 })();
