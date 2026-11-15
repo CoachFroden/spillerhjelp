@@ -553,13 +553,13 @@
       <button class="pain-choice pain-mid" data-level="better"><strong>LITT VONDT</strong><small>Du kan gå, men løping eller hopp gjør vondt</small></button>
       <button class="pain-choice pain-low" data-level="almost"><strong>NESTEN BRA</strong><small>Du kan jogge, men ikke løpe fullt</small></button>
       <button class="pain-choice pain-ready" data-level="ready"><strong>NESTEN TILBAKE</strong><small>Du kan løpe nesten normalt, men er ikke klar for full kamp</small></button>
-      <a class="pain-choice pain-prevent" href="forebygging.html"><strong>IKKE VONDT?</strong><small>Gå til egne forebyggende øvelser →</small></a>
-      <div class="quick-warning"><strong>FØR DU STARTER:</strong> Si fra til en voksen om smerten. Velg ikke øvelser hvis du er usikker på skaden. <strong>STOPP:</strong> Smell/knepp, stor hevelse, nummenhet eller klarer du ikke å gå normalt? Si fra til en voksen og få det vurdert.</div>
+      <a class="pain-choice pain-prevent" href="forebygging.html"><span class="prevent-symbol" aria-hidden="true">🛡️</span><span><strong>Vil du forebygge skader?</strong><small>Se egne øvelser for å holde deg skadefri</small></span></a>
+      <div class="quick-warning"><strong>Viktig før du begynner</strong><span>Fortell en voksen hvor du har vondt. Ved kraftig skade, stor hevelse, nummenhet eller problemer med å gå: Ikke tren videre – få hjelp til å vurdere skaden.</span></div>
     `;
 
     const guideIntro = document.createElement("p");
     guideIntro.className = "rehab-intro-note";
-    guideIntro.textContent = "Velg det som passer best i dag. Dette er ikke en test du må bestå.";
+    guideIntro.textContent = "Velg hvordan det kjennes i dag. Du får øvelser som passer til nivået ditt.";
     menu.before(guideIntro);
     const safetyGate = document.createElement("section");
     safetyGate.className = "safety-gate";
