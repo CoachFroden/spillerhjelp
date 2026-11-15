@@ -5,97 +5,97 @@ function item(tag, title, dose, guide) {
 }
 
 const commonWarmup = item("Oppvarming", "Gjør kroppen klar", "3–4 minutter", [
-  "Start med rolig jogg på stedet i 30–45 sekunder.",
-  "Gjør kneløft i 20–30 sekunder.",
-  "Gjør spark bak i 20–30 sekunder.",
-  "Ta noen rolige utfall fremover.",
-  "Avslutt med noen små lette hopp. Du skal bli varm, ikke sliten."
+  "Start med 1–2 minutter rolig jogg på stedet eller fremover.",
+  "Gjør rolige kneløft i 20–30 sekunder.",
+  "Gjør rolig hælspark i 20–30 sekunder.",
+  "Ta 4–5 kontrollerte utfall med hvert bein.",
+  "Avslutt med 5–8 små, lette hopp. Du skal være varm og klar, ikke sliten."
 ]);
 
 const strengthItems = {
   split: item("Bein", "Utfall på stedet", "3 × 8 per bein", [
-    "Stå med én fot foran og én fot bak.",
-    "Hold føttene på samme sted hele tiden.",
-    "Bøy begge knær og senk kroppen rett ned.",
-    "Press deg opp igjen gjennom den fremste foten.",
-    "Gjør alle repetisjonene og bytt deretter bein."
+    "Stå med én fot foran og én bak, omtrent i hoftebredde sideveis, slik at du står stødig.",
+    "Hold føttene på samme sted under hele settet. Fordel vekten mellom beina.",
+    "Bøy begge knær og senk hoften kontrollert mot gulvet. Bakre kne går nedover, mens fremre kne følger tærnes retning.",
+    "Press deg opp gjennom fremre fot og hjelp til med bakre bein, uten å miste balansen.",
+    "Fullfør repetisjonene på én side før du bytter hvilket bein som står foran."
   ]),
   hip: item("Bakside", "Ettbeins hoftebøy", "3 × 8 per bein", [
-    "Stå på ett bein. Hold i en vegg eller stol hvis du trenger balanse.",
-    "Bøy kneet du står på litt.",
-    "Skyv rumpa bakover mens overkroppen går frem.",
-    "La det andre beinet gå bak deg.",
-    "Reis deg rolig opp igjen. Hold ryggen rett."
+    "Stå på ett bein med en liten bøy i kneet. Hold lett i en vegg hvis du trenger balanse.",
+    "Hold knevinkelen omtrent lik gjennom hele bevegelsen.",
+    "Bøy i hoften ved å skyve setet bakover, slik at overkroppen lener seg frem med lang, nøytral rygg.",
+    "La det frie beinet strekke seg bakover som motvekt. Hold begge hoftekammene vendt ned mot gulvet.",
+    "Press gjennom foten du står på og strekk hoften for å komme opp igjen. Stopp før ryggen rundes eller bekkenet vrir seg."
   ]),
   calf: item("Legg", "Stå på tå på ett bein", "3 × 12 per bein", [
     "Stå ved en vegg eller stol.",
     "Stå på ett bein og hold lett med hånden hvis du trenger balanse.",
-    "Løft hælen så høyt du kan.",
-    "Senk hælen rolig ned til gulvet.",
+    "Press gjennom stortåballen og løft hælen kontrollert så høyt du klarer uten å vri ankelen.",
+    "Senk hælen langsomt til gulvet før neste repetisjon. Hold kneet nesten strakt.",
     "Gjør alle repetisjonene og bytt bein."
   ]),
   push: item("Overkropp", "Armhevinger", "3 × 8–15", [
-    "Sett hendene i gulvet litt bredere enn skuldrene.",
-    "Strekk beina bak deg og hold kroppen rett.",
-    "Bøy albuene og senk brystet rolig mot gulvet.",
-    "Press deg opp igjen uten at hofta synker.",
-    "Blir det for tungt, sett hendene på en benk eller stol i stedet."
+    "Plasser hendene omtrent i skulderbredde eller litt bredere, med fingrene fremover.",
+    "Strekk beina bakover og spenn mage og sete, slik at kroppen danner en rett linje.",
+    "Bøy albuene kontrollert, omtrent 30–60 grader ut fra kroppen, og senk brystet mot gulvet.",
+    "Press deg opp igjen mens kroppen holdes stabil, uten at hoften siger ned.",
+    "Er øvelsen for tung, sett hendene på en stabil benk eller mot en vegg i stedet."
   ]),
-  groin: item("Lyske", "Sideplanke med kne på stol", "2 × 6–8 per side", [
-    "Ligg på siden ved en lav stol eller benk.",
-    "Legg kneet på det øverste beinet oppå stolen.",
-    "Støtt overkroppen på albuen.",
-    "Løft hofta opp fra gulvet.",
-    "Senk rolig ned igjen. Bytt side når du er ferdig."
+  groin: item("Lyske", "Sideplanke med kne på stol", "2 × 4–6 per side", [
+    "Legg deg på siden ved en solid, stabil benk som ikke kan gli eller velte.",
+    "Legg innsiden av kneet på det øverste beinet på benken. Det nederste beinet ligger under.",
+    "Plasser underarmen i gulvet med albuen rett under skulderen.",
+    "Press det øverste kneet ned mot benken og løft hoften, samtidig som det nederste beinet løftes fra gulvet.",
+    "Hold kroppen mest mulig rett i toppstillingen, og senk hoften og nederste bein rolig ned. Bytt side etter settet."
   ]),
   sideplank: item("Mage / side", "Sideplanke", "2 × 25–35 sek per side", [
     "Ligg på siden og støtt deg på albuen.",
-    "Ha beina strake og føttene oppå hverandre.",
-    "Løft hofta opp fra gulvet.",
-    "Hold kroppen så rett som mulig mens tiden går.",
-    "Blir det for tungt, bøy knærne og støtt på kneet."
+    "Hold beina strake med føttene stablet, eller sett øverste fot litt foran for bedre balanse.",
+    "Press det øverste kneet ned mot benken og løft hoften, samtidig som det nederste beinet løftes fra gulvet.",
+    "Hold hode, skuldre, hofter og ankler på linje mens du puster normalt.",
+    "Er øvelsen for tung, bøy begge knær og støtt på det nederste kneet."
   ]),
-  pogo: item("Spenst", "Små raske hopp", "3 × 15", [
+  pogo: item("Spenst", "Små raske hopp", "2 × 10–15", [
     "Stå med føttene omtrent i hoftebredde.",
-    "Hold kroppen ganske høy og knærne bare litt bøyd.",
-    "Gjør små raske hopp rett opp.",
-    "Prøv å være kort tid i gulvet mellom hvert hopp.",
-    "Stopp hvis hoppene blir tunge eller du får smerte."
+    "Hold kroppen oppreist med en liten, myk bøy i knærne.",
+    "Gjør lave, rytmiske hopp hovedsakelig ved å bruke anklene.",
+    "Ha kort bakkekontakt, men land kontrollert og stille.",
+    "Avslutt settet hvis hoppene blir tunge, landingen mister kontroll eller du får vondt."
   ]),
   up: item("Spenst", "Hopp rett opp", "3 × 3", [
     "Stå med føttene omtrent i skulderbredde.",
     "Bøy litt i knær og hofter og før armene bakover.",
-    "Sving armene frem og hopp så høyt du kan.",
-    "Land på begge beina med myke knær.",
-    "Finn balansen og ta en kort pause før neste hopp."
+    "Sving armene frem og hopp eksplosivt oppover med kontroll.",
+    "Land på begge føtter med bøy i hofter og knær. Knærne skal følge tærnes retning.",
+    "Stå stødig etter landingen. Ta deg tid til å hente deg inn før neste hopp."
   ]),
   broad: item("Spenst", "Lengdehopp", "3 × 3", [
     "Stå med føttene omtrent i skulderbredde.",
     "Bøy litt i knærne og før armene bakover.",
-    "Sving armene frem og hopp så langt frem du klarer.",
-    "Land på begge beina med myke knær.",
-    "Stå stille et øyeblikk før neste hopp."
+    "Sving armene frem og hopp kraftfullt fremover, men ikke lenger enn at du kan lande kontrollert.",
+    "Land på begge føtter med bøy i hofter og knær. Knærne skal følge tærnes retning.",
+    "Hold landingen i 1–2 sekunder før du går tilbake til start og hviler."
   ]),
-  onelegjump: item("Spenst", "Hopp frem på ett bein", "2 × 4 per bein", [
-    "Stå på ett bein.",
-    "Bøy kneet litt.",
-    "Hopp kontrollert fremover.",
-    "Land på samme bein med kneet litt bøyd.",
-    "Finn balansen før neste hopp. Start med korte hopp."
+  onelegjump: item("Spenst", "Hopp frem på ett bein", "2 × 3 per bein", [
+    "Stå stødig på ett bein, med kneet lett bøyd.",
+    "Bøy litt i hofte og kne før du skyver fra.",
+    "Hopp et kort stykke fremover med et eksplosivt, men kontrollert fraspark.",
+    "Land på samme bein med myk bøy i hofte og kne, og hold kneet over foten.",
+    "Hold balansen i 1–2 sekunder før neste hopp. Begynn med korte avstander."
   ]),
-  sidejump: item("Spenst", "Hopp side til side", "2 × 5 per side", [
-    "Stå på ett bein.",
-    "Hopp kontrollert sidelengs og land på det andre beinet.",
-    "Bøy kneet litt når du lander.",
-    "Finn balansen før du hopper tilbake.",
-    "Start med korte hopp og øk bare når du har kontroll."
+  sidejump: item("Spenst", "Hopp side til side", "2 × 4 per side", [
+    "Stå stødig på ett bein, med kneet lett bøyd.",
+    "Skyv fra sidelengs og land på motsatt bein med kne og hofte lett bøyd.",
+    "La kneet følge tærnes retning og hold hoften stabil når du lander.",
+    "Stå stødig i 1–2 sekunder før du hopper tilbake.",
+    "Start med korte sidehopp. Øk avstanden først når du klarer stabile landinger på begge sider."
   ]),
   jumpsprint: item("Spenst + fart", "Hopp + kort sprint", "4 repetisjoner", [
-    "Stå klar med god plass foran deg.",
-    "Gjør ett kraftig hopp rett opp.",
-    "Land på begge beina med myke knær.",
-    "Sprint direkte 5–8 meter frem.",
-    "Gå rolig tilbake og hvil 60–90 sekunder før neste gang."
+    "Finn en flat, trygg strekning med plass til både 5–8 meter sprint og rolig nedbremsing.",
+    "Gjør ett eksplosivt vertikalt hopp med armene som hjelp.",
+    "Land på begge føtter med bøy i hofter og knær. Knærne skal følge tærnes retning.",
+    "Når du har landet stabilt, akselererer du raskt 5–8 meter fremover og bremser gradvis.",
+    "Gå rolig tilbake og hvil minst 90 sekunder, eller lenger om du trenger det for å kunne løpe raskt igjen."
   ])
 };
 
@@ -115,7 +115,7 @@ const programs = {
       item("Styrke", "Utfall på stedet", "2 × 6 per bein", strengthItems.split.guide),
       item("Spenst", "Hopp rett opp", "3 × 3", strengthItems.up.guide),
       item("Bakside", "Ettbeins hoftebøy", "2 × 8 per bein", strengthItems.hip.guide),
-      item("Spenst", "Små raske hopp", "3 × 12", strengthItems.pogo.guide),
+      item("Spenst", "Små raske hopp", "2 × 10", strengthItems.pogo.guide),
       item("Legg", "Stå på tå på ett bein", "2 × 12 per bein", strengthItems.calf.guide),
       item("Spenst + fart", "Hopp + kort sprint", "3 repetisjoner", strengthItems.jumpsprint.guide)
     ]
@@ -124,21 +124,21 @@ const programs = {
 
 
 const descriptions={strength:"Styrk bein, legger, overkropp og kjernemuskulatur. Utfør repetisjonene rolig og kontrollert.",jump:"Tren på å hoppe eksplosivt og lande stabilt. Ta god pause mellom hoppene.",combo:"En balansert økt med både kontrollert styrke og korte eksplosive aksjoner."};
-const times={strength:"20–25 min",jump:"15–20 min",combo:"20–25 min"};
+const times={strength:"25–35 min",jump:"20–30 min",combo:"25–35 min"};
 const icons={strength:"🏋️",jump:"↟",combo:"⚡"};
 const cues={
-"Utfall på stedet":["Hold overkroppen rolig og kneet i samme retning som tærne.","Unngå at fremre kne faller innover.","45–75 sekunder"],
+"Utfall på stedet":["Hold føttene i ro, overkroppen stabil og fremre kne i samme retning som tærne.","Unngå at fremre kne faller innover.","45–75 sekunder"],
 "Ettbeins hoftebøy":["Skyv hoften bakover og hold ryggen lang.","Ikke vri hoften eller rund ryggen.","45–75 sekunder"],
 "Stå på tå på ett bein":["Løft deg høyt og senk hælen langsomt.","Ikke sprett gjennom repetisjonene.","45–60 sekunder"],
 "Armhevinger":["Hold mage og sete aktive gjennom hele bevegelsen.","Ikke la hoften synke.","45–75 sekunder"],
-"Sideplanke med kne på stol":["Hold kroppen på linje og løft hoften kontrollert.","Ikke la hoften synke. Start med få repetisjoner.","60–90 sekunder"],
+"Sideplanke med kne på stol":["Hold kroppen på linje og løft hoften kontrollert.","Nederste bein skal også løftes. Start med få repetisjoner og en trygg, stabil benk.","60–90 sekunder"],
 "Sideplanke":["Hold kroppen rett og pust rolig.","Ikke vri overkroppen.","30–60 sekunder"],
 "Små raske hopp":["Hold hoppene lave og land lett.","Ikke fortsett når hoppene blir tunge.","60–90 sekunder"],
 "Hopp rett opp":["Hopp kraftfullt, land mykt og finn balansen.","Ikke la knærne falle innover.","60–90 sekunder"],
 "Lengdehopp":["Bruk armene og land med myke knær.","Ikke hopp videre før du har kontroll på landingen.","60–90 sekunder"],
 "Hopp frem på ett bein":["Start med korte hopp og stabil landing.","Ikke la kneet falle innover.","60–90 sekunder"],
 "Hopp side til side":["Hold balansen etter hver landing.","Ikke øk lengden før du mestrer korte hopp.","60–90 sekunder"],
-"Hopp + kort sprint":["Land kontrollert og sprint først når du har balansen.","Sørg for god plass til å bremse.","90–120 sekunder"]
+"Hopp + kort sprint":["Land på begge føtter, finn stabilitet og akselerer deretter raskt.","Sørg for god plass til å bremse.","90–120 sekunder"]
 };
 const $=id=>document.getElementById(id);let key=null,completed=new Set(),single=false,index=0;
 function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
