@@ -41,7 +41,7 @@ const strengthItems = {
     "Press deg opp igjen mens kroppen holdes stabil, uten at hoften siger ned.",
     "Er øvelsen for tung, sett hendene på en stabil benk eller mot en vegg i stedet."
   ]),
-  groin: item("Lyske", "Sideplanke med kne på stol", "2 × 4–6 per side", [
+  groin: item("Lyske", "Copenhagen-planke (lett variant)", "2 × 4–6 per side", [
     "Legg deg på siden ved en solid, stabil benk som ikke kan gli eller velte.",
     "Legg innsiden av kneet på det øverste beinet på benken. Det nederste beinet ligger under.",
     "Plasser underarmen i gulvet med albuen rett under skulderen.",
@@ -124,19 +124,19 @@ const programs = {
 
 
 const trained={
-  "Gjør kroppen klar": "Øker kroppstemperaturen og gjør muskler og ledd klare for aktivitet.",
-  "Utfall bakover": "Forside lår, setemuskler og balanse på ett bein.",
-  "Ettbeins hoftebøy": "Bakside lår, setemuskler og stabilitet i hofte og ankel.",
-  "Stå på tå på ett bein": "Leggmuskler, akillessene og kontroll rundt ankelen.",
-  "Armhevinger": "Bryst, skuldre, triceps og stabilitet i mage og rygg.",
-  "Sideplanke med kne på stol": "Lyskemuskler (innside lår), hofte og kjernestabilitet.",
-  "Sideplanke": "Skrå magemuskler og stabilitet i mage, rygg og hofte.",
-  "Små raske hopp": "Legger, ankelstivhet og raskt fraspark fra bakken.",
-  "Hopp rett opp": "Eksplosiv styrke i lår, sete og legger.",
-  "Lengdehopp": "Eksplosiv kraft fremover fra hofter, lår og legger.",
-  "Hopp frem på ett bein": "Ettbeins spenst, fot- og ankelkontroll og balanse.",
-  "Hopp side til side": "Sideveis spenst, hoftekontroll og stabil landing.",
-  "Hopp + kort sprint": "Eksplosiv kraft, akselerasjon og overgang fra hopp til løp."
+  "Gjør kroppen klar":"Varmer opp kroppen og gjør deg klar for trening.",
+  "Utfall bakover":"Lår, rumpe og balanse.",
+  "Ettbeins hoftebøy":"Baksiden av lårene, rumpe og balanse.",
+  "Stå på tå på ett bein":"Legger og styrke rundt ankelen.",
+  "Armhevinger":"Bryst, skuldre, baksiden av overarmene og mage.",
+  "Copenhagen-planke (lett variant)":"Innsiden av lårene (lysken), hofter og mage.",
+  "Sideplanke":"Sidene av magen og musklene som holder hoften stabil.",
+  "Små raske hopp":"Legger og evnen til å hoppe raskt opp igjen.",
+  "Hopp rett opp":"Spenst i lår, rumpe og legger.",
+  "Lengdehopp":"Kraft i lår, rumpe og legger når du hopper fremover.",
+  "Hopp frem på ett bein":"Spenst på ett bein og balanse ved landing.",
+  "Hopp side til side":"Spenst sidelengs og kontroll når du lander.",
+  "Hopp + kort sprint":"Spenst og evnen til å komme raskt i gang med løping."
 };
 
 const descriptions={strength:"Styrk bein, legger, overkropp og kjernemuskulatur. Utfør repetisjonene rolig og kontrollert.",jump:"Tren på å hoppe eksplosivt og lande stabilt. Ta god pause mellom hoppene.",combo:"En balansert økt med både kontrollert styrke og korte eksplosive aksjoner."};
@@ -144,17 +144,17 @@ const times={strength:"25–35 min",jump:"20–30 min",combo:"25–35 min"};
 const icons={strength:"🏋️",jump:"↟",combo:"⚡"};
 const cues={
 "Utfall bakover":["Ta et steg bakover for hver repetisjon, og hold fremre kne i samme retning som tærne.","Unngå at fremre kne faller innover.","45–75 sekunder"],
-"Ettbeins hoftebøy":["Skyv hoften bakover og hold ryggen lang.","Ikke vri hoften eller rund ryggen.","45–75 sekunder"],
+"Ettbeins hoftebøy":["Skyv rumpa bakover og hold ryggen rett.","Ikke vri hoften eller krum ryggen.","45–75 sekunder"],
 "Stå på tå på ett bein":["Løft deg høyt og senk hælen langsomt.","Ikke sprett gjennom repetisjonene.","45–60 sekunder"],
 "Armhevinger":["Hold mage og sete aktive gjennom hele bevegelsen.","Ikke la hoften synke.","45–75 sekunder"],
-"Sideplanke med kne på stol":["Hold kroppen på linje og løft hoften kontrollert.","Nederste bein skal også løftes. Start med få repetisjoner og en trygg, stabil benk.","60–90 sekunder"],
+"Copenhagen-planke (lett variant)":["Hold kroppen rett og løft hoften rolig.","Nederste bein skal også løftes. Start med få repetisjoner og en trygg, stabil benk.","60–90 sekunder"],
 "Sideplanke":["Hold kroppen rett og pust rolig.","Ikke vri overkroppen.","30–60 sekunder"],
 "Små raske hopp":["Hold hoppene lave og land lett.","Ikke fortsett når hoppene blir tunge.","60–90 sekunder"],
 "Hopp rett opp":["Hopp kraftfullt, land mykt og finn balansen.","Ikke la knærne falle innover.","60–90 sekunder"],
 "Lengdehopp":["Bruk armene og land med myke knær.","Ikke hopp videre før du har kontroll på landingen.","60–90 sekunder"],
 "Hopp frem på ett bein":["Start med korte hopp og stabil landing.","Ikke la kneet falle innover.","60–90 sekunder"],
 "Hopp side til side":["Hold balansen etter hver landing.","Ikke øk lengden før du mestrer korte hopp.","60–90 sekunder"],
-"Hopp + kort sprint":["Land på begge føtter, finn stabilitet og akselerer deretter raskt.","Sørg for god plass til å bremse.","90–120 sekunder"]
+"Hopp + kort sprint":["Land på begge føtter, finn balansen og løp deretter raskt fremover.","Sørg for god plass til å bremse.","90–120 sekunder"]
 };
 const $=id=>document.getElementById(id);let key=null,completed=new Set(),single=false,index=0;
 function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
