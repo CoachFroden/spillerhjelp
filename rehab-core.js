@@ -562,25 +562,55 @@
       section.append(prevent,alertBox());
     }
     function safety(x){
-      current=x;clear();
+      current=x;confirmed=false;clear();
       section.append(btn("← Endre nivå","r-text-button",choose));
+      const messages={
+        pain:{title:"Det høres vondt ut ❤️",text:"Ikke press deg gjennom smerte. Ta pause fra fotballen og fortell en voksen hvordan du har det.",questions:["Kan du gå og støtte på beinet?","Kom smerten etter et fall, en vridning eller et sammenstøt?","Har du mye hevelse eller veldig vondt?"],yes:"Snakk med en voksen før du prøver øvelser.",allow:false},
+        better:{title:"Litt vondt? Vi tar det rolig ⚽",text:"Du trenger ikke teste hvor mye du tåler. Sjekk først at det er greit å bevege seg rolig.",questions:["Kan du gå vanlig uten å halte?","Er det lite eller ingen hevelse?","Blir smerten ikke verre ved rolig bevegelse?"],yes:"Hvis du svarte nei eller er usikker på noe, snakk med en voksen før øvelser.",allow:true},
+        almost:{title:"På vei tilbake 💪",text:"Fint at det kjennes bedre. Det viktigste er at aktiviteten ikke gjør vondt verre.",questions:["Kan du gå og jogge rolig uten å halte?","Kjennes det like bra eller bedre etter rolig aktivitet?","Er det ingen tydelig hevelse eller økende smerte?"],yes:"Hvis du svarte nei eller er usikker på noe, snakk med en voksen før øvelser.",allow:true},
+        ready:{title:"Snart kampklar? ⚽",text:"Ta det gradvis. Å føle seg bedre er ikke det samme som å være klar for full kamp.",questions:["Kan du løpe og bremse uten smerte?","Kan du vende og bevege deg normalt uten å halte?","Kjennes det fortsatt bra senere samme dag og dagen etter?"],yes:"Hvis du svarte nei eller er usikker på noe, snakk med en voksen og trener før du øker.",allow:true}
+      };
+      const m=messages[x.key]||messages.better;
       const intro=el("div","r-calm-intro");
-      intro.append(el("span","r-calm-icon","⚽"),el("h2","r-section-title","Vi tar det rolig"),el("p","r-muted","Litt vondt etter fotball kan skje. Før du prøver noe, sjekk om du trenger hjelp fra en voksen."));
+      intro.append(el("h2","r-section-title",m.title),el("p","r-muted",m.text));
       section.append(intro);
-      const check=el("div","r-simple-check");
-      check.append(el("h3","","Er noe av dette riktig?"));
-      const list=el("ul","");
-      ["Du har veldig vondt, eller klarer ikke å gå normalt.","Det er mye hevelse, eller foten eller beinet ser annerledes ut.","Du kjenner nummenhet, eller foten er kald eller har endret farge."].forEach(t=>list.append(el("li","",t)));
-      check.append(list);section.append(check);
-      section.append(el("p","r-muted","Er du usikker, spør en voksen. Du trenger ikke finne ut av dette alene."));
-      section.append(btn("Ja eller usikker – jeg spør en voksen","r-secondary",()=>{
-        clear();
-        section.append(el("div","r-calm-intro"),el("h2","r-section-title","Bra at du sier fra ❤️"),el("p","r-muted","Fortell en voksen hvordan det kjennes. Vent med øvelsene til dere vet hva som er lurt. Hvis du har sterke smerter, tydelig feilstilling, nummenhet eller ikke kan støtte på foten, bør en voksen hjelpe deg med å få medisinsk vurdering."));
-        section.append(btn("← Tilbake","r-secondary",choose));
-      }));
-      section.append(btn("Nei, ingen av disse – se rolige øvelser","r-primary",()=>{
-        confirmed=true;showExercises();
-      }));
+      if(x.key==="pain"){
+        const note=el("aside","r-simple-check");
+        note.append(el("strong","","Før du gjør noe mer"),el("p","","Fortell en voksen hvor vondt du har og hva som skjedde. Ved sterke smerter, stor hevelse, feilstilling, nummenhet eller hvis du ikke kan støtte på beinet, bør en voksen hjelpe deg å få medisinsk vurdering."));
+        section.append(note,btn("← Tilbake til nivåene","r-secondary",choose));
+        return;
+      }
+      const note=el("p","r-muted","Svar på tre korte spørsmål. Er du usikker, velg «Nei / usikker».");
+      section.append(note);
+      const answers=[];
+      const questionBox=el("div","r-simple-check");
+      m.questions.forEach((q,i)=>{
+        const row=el("div","r-check-row");
+        row.append(el("strong","",q));
+        const actions=el("div","r-check-actions");
+        const yes=btn("Ja","r-check-choice",()=>setAnswer(i,true));
+        const no=btn("Nei / usikker","r-check-choice",()=>setAnswer(i,false));
+        actions.append(yes,no);row.append(actions);questionBox.append(row);answers.push(null);
+        function setAnswer(index,value){
+          answers[index]=value;
+          yes.classList.toggle("chosen",value===true);
+          no.classList.toggle("chosen",value===false);
+          update();
+        }
+      });
+      section.append(questionBox);
+      const result=el("div","r-check-result");section.append(result);
+      const proceed=btn("Se rolige øvelser →","r-primary",()=>{if(answers.every(v=>v===true)){confirmed=true;showExercises();}});
+      proceed.disabled=true;section.append(proceed);
+      function update(){
+        const failed=answers.some(v=>v===false);
+        proceed.disabled=failed||!answers.every(v=>v===true);
+        result.textContent=failed?m.yes:answers.every(v=>v===true)?"Fint. Start forsiktig, og stopp hvis smerten øker.":"Velg et svar på hvert spørsmål.";
+      }
+      update();
+      section.append(btn("Jeg vil heller spørre en voksen","r-secondary",choose));
+      const warning=el("p","r-muted","Sterke smerter, stor hevelse, feilstilling, nummenhet eller problemer med å støtte på beinet? Si fra til en voksen og få medisinsk råd før øvelser.");
+      section.append(warning);
     }
     function purpose(item){
       const t=String(item.t||"").toLowerCase();
