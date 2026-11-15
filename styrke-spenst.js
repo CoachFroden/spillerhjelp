@@ -123,6 +123,22 @@ const programs = {
 };
 
 
+const trained={
+  "Gjør kroppen klar": "Øker kroppstemperaturen og gjør muskler og ledd klare for aktivitet.",
+  "Utfall bakover": "Forside lår, setemuskler og balanse på ett bein.",
+  "Ettbeins hoftebøy": "Bakside lår, setemuskler og stabilitet i hofte og ankel.",
+  "Stå på tå på ett bein": "Leggmuskler, akillessene og kontroll rundt ankelen.",
+  "Armhevinger": "Bryst, skuldre, triceps og stabilitet i mage og rygg.",
+  "Sideplanke med kne på stol": "Lyskemuskler (innside lår), hofte og kjernestabilitet.",
+  "Sideplanke": "Skrå magemuskler og stabilitet i mage, rygg og hofte.",
+  "Små raske hopp": "Legger, ankelstivhet og raskt fraspark fra bakken.",
+  "Hopp rett opp": "Eksplosiv styrke i lår, sete og legger.",
+  "Lengdehopp": "Eksplosiv kraft fremover fra hofter, lår og legger.",
+  "Hopp frem på ett bein": "Ettbeins spenst, fot- og ankelkontroll og balanse.",
+  "Hopp side til side": "Sideveis spenst, hoftekontroll og stabil landing.",
+  "Hopp + kort sprint": "Eksplosiv kraft, akselerasjon og overgang fra hopp til løp."
+};
+
 const descriptions={strength:"Styrk bein, legger, overkropp og kjernemuskulatur. Utfør repetisjonene rolig og kontrollert.",jump:"Tren på å hoppe eksplosivt og lande stabilt. Ta god pause mellom hoppene.",combo:"En balansert økt med både kontrollert styrke og korte eksplosive aksjoner."};
 const times={strength:"25–35 min",jump:"20–30 min",combo:"25–35 min"};
 const icons={strength:"🏋️",jump:"↟",combo:"⚡"};
@@ -143,7 +159,7 @@ const cues={
 const $=id=>document.getElementById(id);let key=null,completed=new Set(),single=false,index=0;
 function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
 function update(){const n=programs[key].items.length;$("progressBar").style.width=(completed.size/n*100)+"%";$("progressText").textContent=completed.size+" av "+n+" øvelser fullført"+(completed.size===n?" · Bra jobbet!":"");[...$("exerciseList").children].forEach((e,i)=>e.hidden=single&&i!==index);$("exerciseNav").hidden=!single;$("position").textContent=(index+1)+" av "+n;$("prev").disabled=index===0;$("next").disabled=index===n-1;$("allView").classList.toggle("selected",!single);$("oneView").classList.toggle("selected",single);$("allView").setAttribute("aria-pressed",String(!single));$("oneView").setAttribute("aria-pressed",String(single))}
-function render(){$("exerciseList").replaceChildren();programs[key].items.forEach((ex,i)=>{const card=el("article","exercise-card");const header=el("div","exercise-heading");header.append(el("span","number",String(i+1)));const label=el("div","exercise-label");label.append(el("span","tag",ex.tag),el("h3","",ex.title),el("strong","dose",ex.dose));header.append(label);card.append(header);
+function render(){$("exerciseList").replaceChildren();programs[key].items.forEach((ex,i)=>{const card=el("article","exercise-card");const header=el("div","exercise-heading");header.append(el("span","number",String(i+1)));const label=el("div","exercise-label");label.append(el("span","tag",ex.tag),el("h3","",ex.title),el("p","trains","Trener: "+(trained[ex.title]||ex.tag)),el("strong","dose",ex.dose));header.append(label);card.append(header);
 const guidance=el("div","guidance");guidance.hidden=i!==0;guidance.append(el("h4","","Slik gjør du"));const steps=el("ol");ex.guide.forEach(t=>steps.append(el("li","",t)));guidance.append(steps);const tip=cues[ex.title];if(tip){guidance.append(el("p","focus","✓ Viktig: "+tip[0]),el("p","avoid","Pass på: "+tip[1]));card.append(el("p","rest","Anbefalt pause mellom sett: "+tip[2]))}else{guidance.append(el("p","focus","✓ Start rolig og bli varm uten å bli sliten."));card.append(el("p","rest","Oppvarming · ingen fast pause"))}
 const actions=el("div","exercise-actions"),expand=el("button","expand",i===0?"Skjul forklaring ▴":"Slik gjør du ▾"),done=el("button","done","Marker fullført");expand.type=done.type="button";expand.setAttribute("aria-expanded",String(i===0));expand.addEventListener("click",()=>{guidance.hidden=!guidance.hidden;expand.textContent=guidance.hidden?"Slik gjør du ▾":"Skjul forklaring ▴";expand.setAttribute("aria-expanded",String(!guidance.hidden))});done.addEventListener("click",()=>{if(completed.has(i))completed.delete(i);else completed.add(i);done.classList.toggle("checked",completed.has(i));done.textContent=completed.has(i)?"✓ Fullført":"Marker fullført";update()});actions.append(expand,done);card.append(actions,guidance);$("exerciseList").append(card)});update()}
 function open(k){if(!programs[k])return;key=k;completed.clear();single=false;index=0;$("sessionTitle").textContent=programs[k].name;$("sessionLead").textContent=descriptions[k];$("sessionMeta").textContent=times[k]+" · "+programs[k].items.length+" øvelser inkludert oppvarming";$("menu").hidden=true;$("session").hidden=false;render();history.replaceState(null,"","#"+k);window.scrollTo(0,0)}
