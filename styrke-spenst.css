@@ -2,3 +2,8 @@
 .illustration-wrap{margin:16px 0 4px}.exercise-illustration{display:block;width:100%;height:auto;border-radius:14px;border:1px solid #34465c}.illustration-wrap+ .rest{margin-top:10px}@media(min-width:480px){.exercise-illustration{max-height:220px}}
 
 .exercise-photo{display:block;width:100%;height:auto;border-radius:14px;margin:16px 0 4px;border:1px solid #4b3c58;object-fit:contain;background:#081827}
+
+/* Show the movement photographs at readable size; hide the tiny duplicated infographic copy on the right. */
+.exercise-photo-frame{position:relative;overflow:hidden;width:100%;aspect-ratio:1.6;border-radius:14px;margin:16px 0 4px;border:1px solid #4b3c58;background:#081827}
+.exercise-photo-frame .exercise-photo{display:block;width:150%;max-width:none;height:auto;margin:0;border:0;border-radius:0;object-fit:initial}
+@media(max-width:380px){.exercise-photo-frame{aspect-ratio:1.6}}
