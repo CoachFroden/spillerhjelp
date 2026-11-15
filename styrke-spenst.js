@@ -23,8 +23,8 @@ const strengthItems = {
   hip: item("Bakside", "Ettbeins hoftebøy", "3 × 8 per bein", [
     "Stå på ett bein med en liten bøy i kneet. Hold lett i en vegg hvis du trenger balanse.",
     "Hold knevinkelen omtrent lik gjennom hele bevegelsen.",
-    "Bøy i hoften ved å skyve setet bakover, slik at overkroppen lener seg frem med lang, nøytral rygg.",
-    "La det frie beinet strekke seg bakover som motvekt. Hold begge hoftekammene vendt ned mot gulvet.",
+    "Bøy i hoften ved å skyve setet bakover, slik at overkroppen lener seg frem med rett rygg.",
+    "La det frie beinet strekke seg bakover som motvekt. Hold hoftene rett frem.",
     "Press gjennom foten du står på og strekk hoften for å komme opp igjen. Stopp før ryggen rundes eller bekkenet vrir seg."
   ]),
   calf: item("Legg", "Stå på tå på ett bein", "3 × 12 per bein", [
