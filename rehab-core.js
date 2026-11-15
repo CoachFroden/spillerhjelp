@@ -533,7 +533,7 @@
     const hero=el("section","r-hero");
     const kicker=el("span","r-kicker","HAR DU VONDT?");
     const heading=el("h1","",area);
-    const sub=el("p","","Velg nivå. Se øvelsene med en gang.");
+    const sub=el("p","","Velg det som passer best. Du trenger ikke presse deg gjennom smerte.");
     hero.append(kicker,heading,sub);
     const section=el("main","r-main");
     root.replaceChildren(header,hero,section);
@@ -542,7 +542,7 @@
     function alertBox(){
       const n=el("aside","r-warning");
       const title=el("strong","","Når skal du stoppe?");
-      const body=el("p","","Si fra til en voksen hvis du har vondt. Ved kraftig smerte, stor hevelse, feber, nummenhet eller problemer med å gå: ikke prøv øvelsene før skaden er vurdert. Dette er ikke en diagnose.");
+      const body=el("p","","Snakk med en voksen om smerter som varer eller blir verre. Ved sterke smerter, stor hevelse, nummenhet eller problemer med å gå bør dere få medisinsk råd. Øvelsene er generelle råd, ikke en diagnose.");
       n.append(title,body);return n;
     }
     function choose(){
@@ -563,14 +563,24 @@
     }
     function safety(x){
       current=x;clear();
-      section.append(btn("← Endre nivå","r-text-button",choose),el("h2","r-section-title","Sjekk dette først"),el("p","r-muted","Før du ser øvelsene, les spørsmålene under."));
-      const questions=el("div","r-questions");
-      (config.safetyQuestions||[]).forEach(q=>{
-        const row=el("div","r-question");row.append(el("strong","",q.t),el("p","",q.d));questions.append(row);
-      });
-      section.append(questions,alertBox());
-      section.append(btn("Nei på alle – vis øvelsene","r-primary",()=>{confirmed=true;showExercises();}));
-      section.append(btn("Ja på ett eller flere – tilbake","r-secondary",choose));
+      section.append(btn("← Endre nivå","r-text-button",choose));
+      const intro=el("div","r-calm-intro");
+      intro.append(el("span","r-calm-icon","⚽"),el("h2","r-section-title","Vi tar det rolig"),el("p","r-muted","Litt vondt etter fotball kan skje. Før du prøver noe, sjekk om du trenger hjelp fra en voksen."));
+      section.append(intro);
+      const check=el("div","r-simple-check");
+      check.append(el("h3","","Er noe av dette riktig?"));
+      const list=el("ul","");
+      ["Du har veldig vondt, eller klarer ikke å gå normalt.","Det er mye hevelse, eller foten eller beinet ser annerledes ut.","Du kjenner nummenhet, eller foten er kald eller har endret farge."].forEach(t=>list.append(el("li","",t)));
+      check.append(list);section.append(check);
+      section.append(el("p","r-muted","Er du usikker, spør en voksen. Du trenger ikke finne ut av dette alene."));
+      section.append(btn("Ja eller usikker – jeg spør en voksen","r-secondary",()=>{
+        clear();
+        section.append(el("div","r-calm-intro"),el("h2","r-section-title","Bra at du sier fra ❤️"),el("p","r-muted","Fortell en voksen hvordan det kjennes. Vent med øvelsene til dere vet hva som er lurt. Hvis du har sterke smerter, tydelig feilstilling, nummenhet eller ikke kan støtte på foten, bør en voksen hjelpe deg med å få medisinsk vurdering."));
+        section.append(btn("← Tilbake","r-secondary",choose));
+      }));
+      section.append(btn("Nei, ingen av disse – se rolige øvelser","r-primary",()=>{
+        confirmed=true;showExercises();
+      }));
     }
     function purpose(item){
       const t=String(item.t||"").toLowerCase();
