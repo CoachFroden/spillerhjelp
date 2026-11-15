@@ -51,7 +51,7 @@ const strengthItems = {
   sideplank: item("Mage / side", "Sideplanke", "2 × 25–35 sek per side", [
     "Ligg på siden og støtt deg på albuen.",
     "Hold beina strake med føttene stablet, eller sett øverste fot litt foran for bedre balanse.",
-    "Press det øverste kneet ned mot benken og løft hoften, samtidig som det nederste beinet løftes fra gulvet.",
+    "Press underarmen og utsiden av nederste fot mot underlaget, og løft hoften til kroppen danner en rett linje.",
     "Hold hode, skuldre, hofter og ankler på linje mens du puster normalt.",
     "Er øvelsen for tung, bøy begge knær og støtt på det nederste kneet."
   ]),
