@@ -2,8 +2,8 @@
 (function(){
   const warmup = {
     t: "Rolig oppvarming",
-    d: "2 min",
-    i: "Start med rolig jogg på stedet eller lett bevegelse. Målet er bare å bli varm før styrkeøvelsene."
+    d: "3–4 min",
+    i: "Start med 1 minutt rolig gange eller lett jogg på stedet. Beveg armene naturlig og øk tempoet litt etter hvert. Fortsett med 30 sekunder rolige høye kneløft, der du løfter ett kne om gangen uten å lene deg bakover. Ta deretter 30 sekunder rolige hælspark, der du fører hælene mot rumpa uten å sparke hardt. Gjør 30 sekunder sidesteg til høyre og venstre med litt bøy i knærne. Avslutt med 30–60 sekunder lett jogg og noen rolige ankel- og hoftebevegelser. Du skal kjenne deg varm og klar, ikke sliten eller andpusten. Stopp hvis en bevegelse gjør vondt."
   };
 
   const programs = {
