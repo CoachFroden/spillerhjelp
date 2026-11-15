@@ -1,0 +1,35 @@
+/* Metallic football identity — mobile and desktop */
+:root{--metal:#dce5ef;--silver:#f7fbff;--steel:#73879c;--navy:#0c1827;--electric:#3fa5ff;--gold:#e5b75c}
+html,body{background:#0b1523!important;color:#f4f7fb!important}
+body{background:radial-gradient(ellipse at 12% 12%,rgba(60,128,198,.25),transparent 38%),radial-gradient(ellipse at 87% 55%,rgba(151,178,210,.15),transparent 42%),repeating-linear-gradient(130deg,transparent 0 76px,rgba(255,255,255,.012) 77px 78px),linear-gradient(125deg,#0a1321,#172c44 52%,#09131f)!important;background-attachment:fixed!important}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(110deg,transparent 0 46%,rgba(255,255,255,.035) 49%,transparent 52%);opacity:.65}
+main,nav{position:relative;z-index:1}
+.app-shell{max-width:1100px!important;padding:20px 22px 90px!important}
+.topbar{margin-bottom:22px!important}.brand,.brand strong,.brand-copy strong{color:#f5f8fd!important}.brand-copy span,.brand small{color:#a9bbcf!important}
+.brand-mark,.brand-icon{background:linear-gradient(140deg,#e8eff6,#7f94aa 53%,#dfeaf4)!important;color:#0d1a2a!important;border-radius:11px!important;box-shadow:0 4px 20px #0005!important}
+.status-pill{background:linear-gradient(120deg,#f4d993,#ae7c30,#ffe5a7)!important;color:#17202d!important;border-radius:99px!important;padding:8px 12px!important}
+.sh-hero-band{background:linear-gradient(118deg,#1b3653,#0d1c2f 70%)!important;border:1px solid #68819c!important;border-left:4px solid #d7ac61!important;border-radius:20px!important;padding:28px 32px!important;min-height:195px;box-shadow:inset 0 1px #ffffff3b,0 18px 45px #0004!important}
+.sh-hero-band:after{content:"⚽"!important;font-size:150px!important;top:-18px!important;right:35px!important;opacity:.11!important}
+.sh-hero-band h1{color:#fff!important;font-size:clamp(30px,4vw,49px)!important;max-width:580px!important}
+.sh-hero-band .eyebrow{color:#e7bd74!important}.sh-hero-band p{color:#d1dfed!important}
+.sh-tiles{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+.sh-tile{background:linear-gradient(130deg,#f8fbff,#dce5ee)!important;color:#101d2e!important;border:1px solid #c5d5e6!important;border-left:4px solid #5486c5!important;border-radius:13px!important;min-height:84px!important;padding:16px 18px!important;box-shadow:inset 0 1px #fff,0 6px 20px #0003!important;transition:transform .16s,filter .16s}
+.sh-tile:hover,.sh-wide:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.sh-tile:nth-child(2){border-left-color:#8b92a2!important}.sh-tile:nth-child(3){border-left-color:#c6a055!important}.sh-tile:nth-child(4){border-left-color:#bc6870!important}
+.sh-tile strong{color:#142437!important;font-size:17px!important}.sh-tile small{color:#4b6177!important;font-size:12px!important}.sh-tile:after{color:#3b638e!important}
+.sh-wide{background:linear-gradient(115deg,#f4d995,#b68a42 50%,#ffe6a9)!important;border:1px solid #f7dfaa!important;color:#1c2431!important;border-radius:14px!important;min-height:72px;padding:14px 18px!important;box-shadow:inset 0 1px #fff8,0 8px 22px #0003!important}
+.sh-wide small{color:#483e2f!important}.sh-note{color:#b3c2d0!important}
+.bottom-nav{background:#102138!important;border-top:1px solid #718ba5!important}.nav-item{color:#b2c6da!important}.nav-item.active{color:#f0c778!important}
+.page-title,.hero h1,h1,.section-title,.section-head h2{color:#f4f8fc!important}
+.page-lead,.hero p,.lead,.section-head p{color:#b8c9da!important}.eyebrow{color:#e8bf79!important}
+.category-card,.program-card,.prevention-step,.exercise-card,.exercise-item,.exercise-row,.home-action,.list-card{background:linear-gradient(125deg,#f9fbfe,#e4ebf3)!important;color:#15243a!important;border:1px solid #c4d1df!important;border-radius:12px!important;box-shadow:inset 0 1px #fff,0 5px 16px #0002!important}
+.category-card h3,.program-card strong,.prevention-step h3,.exercise-card h3,.home-action strong{color:#142337!important}
+.category-card p,.program-card small,.program-card em,.prevention-step p,.exercise-card p,.home-action small{color:#536579!important}
+.category-icon,.program-icon,.step-number{background:linear-gradient(140deg,#d8e5f2,#a6bad0)!important;color:#153654!important;border-radius:9px!important}
+.notice,.intro-notice,.safety,.about{background:#eaf0f7!important;color:#33465c!important;border:1px solid #aabdd0!important;border-radius:10px!important}
+.notice strong,.intro-notice strong,.safety strong{color:#15263a!important}
+.icon-btn,.back-link,.top-back,.home-btn{background:#243b54!important;color:#f2f6fb!important;border:1px solid #738aa2!important;border-radius:10px!important}
+.pain-hub-prevent{background:linear-gradient(115deg,#d5e3f0,#a5bed6)!important;color:#18283c!important;border-radius:12px!important}.pain-hub-prevent small,.pain-hub-prevent b{color:#304a65!important}
+@media(min-width:780px){.sh-tiles{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sh-hero-band{margin-bottom:18px!important}.sh-tile{min-height:92px!important}.sh-wide{margin-top:12px!important}}
+@media(max-width:650px){.app-shell{padding:12px 13px 95px!important}.topbar{margin-bottom:12px!important}.sh-hero-band{min-height:150px;padding:20px!important;border-radius:15px!important}.sh-hero-band h1{font-size:30px!important}.sh-hero-band:after{right:-20px!important;font-size:125px!important}.sh-tiles{grid-template-columns:1fr!important;gap:7px!important}.sh-tile{min-height:59px!important;padding:9px 12px!important;border-radius:10px!important}.sh-tile strong{font-size:15px!important}.sh-tile small{font-size:11px!important}.sh-wide{min-height:60px;padding:10px 12px!important}.category-card,.program-card,.prevention-step,.exercise-card{border-radius:10px!important}}
+@media(prefers-reduced-motion:reduce){.sh-tile,.sh-wide{transition:none!important}}
