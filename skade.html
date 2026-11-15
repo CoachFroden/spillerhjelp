@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Har du vondt? · Spillerhjelpen</title>
   <meta name="theme-color" content="#07110d">
-  <link rel="stylesheet" href="app.css"><link rel="stylesheet" href="pain-hub.css?v=2">
+  <link rel="stylesheet" href="app.css"><link rel="stylesheet" href="pain-hub.css?v=2"><link rel="stylesheet" href="spiller-ny.css?v=1">
 </head>
 <body>
   <main class="app-shell">
@@ -16,23 +16,23 @@
 
     <section class="page-head">
       <div class="eyebrow">Når noe gjør vondt</div>
-      <h1 class="page-title">Har du<br>vondt?</h1>
-      <p class="page-lead">Finn området som gjør vondt, og få enkle råd. Øvelsene er ikke en diagnose. Fortell en voksen om smerten før du begynner.</p>
+      <h1 class="page-title">Hvor gjør det vondt?</h1>
+      <p class="page-lead">Velg området. Si fra til en voksen hvis du har vondt.</p>
     </section>
 
-    <a class="pain-hub-prevent" href="forebygging.html"><span>🛡️</span><span><strong>Vil du forebygge skader?</strong><small>Gå til øvelser for spillere uten smerter</small></span><b>›</b></a><div class="search-wrap"><input id="rehabSearch" type="search" placeholder="Søk: hæl, kne, lyske …" aria-label="Søk i rehabområder"></div>
-    <div class="pain-hub-steps"><span><b>1</b> Velg område</span><span><b>2</b> Sjekk smerten</span><span><b>3</b> Se øvelser</span></div>
+    <a class="pain-hub-prevent" href="forebygging.html"><span>🛡️</span><span><strong>Vil du forebygge skader?</strong><small>Gå til øvelser for spillere uten smerter</small></span><b>›</b></a>
+    
 
     <section class="section">
       <div class="section-head"><h2>Hvor har du vondt?</h2><p id="rehabCount">7 områder</p></div>
       <div id="rehabGrid" class="category-grid">
-        <button class="category-card" data-search="hamstring bakside lår strekk sprint" onclick="goTo('hamstring.html')"><div class="category-icon">⚡</div><div><h3>Bakside lår</h3><p>Vondt på baksiden av låret, for eksempel etter løping</p></div></button>
-        <button class="category-card" data-search="legg calf muskel smerte" onclick="goTo('legg.html')"><div class="category-icon">🦵</div><div><h3>Legg</h3><p>Vondt i leggen når du løper eller hopper</p></div></button>
-        <button class="category-card" data-search="akilles sene hæl senebelastning" onclick="goTo('akilles.html')"><div class="category-icon">↟</div><div><h3>Akilles</h3><p>Vondt eller stivt i senen bak ankelen</p></div></button>
-        <button class="category-card" data-search="hæl sever vekst barn ungdom heel" onclick="goTo('hael.html')"><div class="category-icon">👟</div><div><h3>Hæl</h3><p>Vondt i hælen, ofte ved løping og hopping i vekstperioden</p></div></button>
-        <button class="category-card" data-search="lyske adduktor groin innside lår" onclick="goTo('lyske.html')"><div class="category-icon">◆</div><div><h3>Lyske</h3><p>Vondt på innsiden av låret eller i lysken</p></div></button>
-        <button class="category-card" data-search="kne knesmerte foran patellofemoral" onclick="goTo('kne.html')"><div class="category-icon">◉</div><div><h3>Kne</h3><p>Vondt foran eller rundt kneskålen</p></div></button>
-        <button class="category-card" data-search="ankel overtråkk fot leddbånd" onclick="goTo('ankel.html')"><div class="category-icon">⌁</div><div><h3>Ankel</h3><p>Vondt etter overtråkk eller når ankelen belastes</p></div></button>
+        <button class="category-card" data-search="hamstring bakside lår strekk sprint" onclick="goTo('hamstring.html')"><div class="category-icon">⚡</div><div><h3>Bakside lår</h3><p>Bak på låret</p></div></button>
+        <button class="category-card" data-search="legg calf muskel smerte" onclick="goTo('legg.html')"><div class="category-icon">🦵</div><div><h3>Legg</h3><p>Bak på leggen</p></div></button>
+        <button class="category-card" data-search="akilles sene hæl senebelastning" onclick="goTo('akilles.html')"><div class="category-icon">↟</div><div><h3>Akilles</h3><p>Senen bak ankelen</p></div></button>
+        <button class="category-card" data-search="hæl sever vekst barn ungdom heel" onclick="goTo('hael.html')"><div class="category-icon">👟</div><div><h3>Hæl</h3><p>Under eller bak hælen</p></div></button>
+        <button class="category-card" data-search="lyske adduktor groin innside lår" onclick="goTo('lyske.html')"><div class="category-icon">◆</div><div><h3>Lyske</h3><p>Innsiden av låret</p></div></button>
+        <button class="category-card" data-search="kne knesmerte foran patellofemoral" onclick="goTo('kne.html')"><div class="category-icon">◉</div><div><h3>Kne</h3><p>Rundt kneet</p></div></button>
+        <button class="category-card" data-search="ankel overtråkk fot leddbånd" onclick="goTo('ankel.html')"><div class="category-icon">⌁</div><div><h3>Ankel</h3><p>Rundt ankelen</p></div></button>
       </div>
       <div id="rehabEmpty" class="empty-state hide">Fant ikke noe område som passer søket.</div>
     </section>
