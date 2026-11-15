@@ -1,0 +1,50 @@
+/* Forebygging — stadionstil, kompakt og responsiv */
+#preventionChooser,#preventionDetail{width:100%;max-width:1050px;margin:0 auto}
+#preventionDetail .page-head{padding:8px 0 12px!important}
+#preventionDetail .page-title{font-size:clamp(30px,4.5vw,48px)!important;line-height:1.05!important}
+#preventionDetail .page-lead{font-size:13px!important;margin:5px 0 10px!important}
+.prevention-back{display:inline-flex;align-items:center;min-height:36px;padding:8px 12px;margin:5px 0 12px;border-radius:10px;background:#213d58;color:#f0cf97;border:1px solid #7890a7;font-weight:800;text-decoration:none;cursor:pointer}
+.session-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0 8px;color:#e7c48c!important;font-size:13px}
+.session-toolbar strong{color:#f2d29b!important}
+.session-toolbar button{border:1px solid #718ba3;border-radius:8px;background:#213b55;color:#f1f6fb;padding:8px 12px;font-weight:700;cursor:pointer}
+.session-track{height:7px;background:#526a81!important;border-radius:20px;overflow:hidden;margin:0 0 12px}
+#sessionBar{height:100%;background:linear-gradient(90deg,#bd9459,#ffe2a4)!important;border-radius:20px;transition:width .2s}
+.view-switch{display:flex;gap:5px;padding:4px;background:#162c44!important;border:1px solid #607d96!important;border-radius:11px!important;margin:10px 0 13px}
+.view-switch button{flex:1;border:0;border-radius:8px;padding:10px 8px;color:#c8d8e7!important;background:transparent!important;font-size:12px;font-weight:850;cursor:pointer}
+.view-switch button.selected{background:linear-gradient(125deg,#e7f0f8,#aabed2)!important;color:#172d44!important;box-shadow:0 2px 8px #0003}
+#programSteps.prevention-steps{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:10px!important}
+#programSteps .prevention-step{background:linear-gradient(135deg,#29465f,#172e45)!important;color:#f5f9fd!important;border:1px solid #6b879f!important;border-radius:14px!important;padding:13px!important;box-shadow:inset 0 1px #ffffff24,0 6px 18px #0003!important;min-width:0}
+#programSteps .prevention-step[hidden]{display:none!important}
+#programSteps .prevention-step-head{display:flex;align-items:flex-start;gap:11px}
+#programSteps .step-number{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:9px!important;background:linear-gradient(140deg,#e8f0f8,#91abc5)!important;color:#1a344d!important;font-size:14px;font-weight:900}
+#programSteps .exercise-name{min-width:0;flex:1}
+#programSteps .exercise-name h3{color:#f5f8fd!important;font-size:16px!important;line-height:1.25!important;margin:1px 0 4px!important}
+#programSteps .prevention-dose{color:#e7c27e!important;font-size:14px!important;font-weight:900}
+#programSteps .exercise-actions{display:flex;gap:7px;margin:12px 0 0!important}
+#programSteps .exercise-actions button{flex:1;min-width:0;min-height:38px;padding:8px 6px;border-radius:9px!important;font-size:12px!important;line-height:1.2;font-weight:850;cursor:pointer;box-shadow:none!important}
+#programSteps .exercise-expand{background:#355570!important;color:#f3f8fc!important;border:1px solid #829bb1!important}
+#programSteps .exercise-complete{background:linear-gradient(115deg,#f7e4b8,#c99d57)!important;color:#182b3e!important;border:1px solid #e6c387!important}
+#programSteps .exercise-complete.is-done{background:linear-gradient(120deg,#296f5e,#1c5548)!important;color:#fff!important;border:1px solid #70a693!important}
+#programSteps .exercise-guide{border-top:1px solid #68859d!important;margin-top:12px!important;padding-top:10px!important;background:transparent!important;color:#d9e6f2!important}
+#programSteps .exercise-guide[hidden]{display:none!important}
+#programSteps .exercise-guide h4{color:#f0cd90!important;font-size:13px!important;margin:0 0 7px!important}
+#programSteps .exercise-instructions{padding-left:21px!important;margin:0 0 8px!important;color:#e0eaf3!important;font-size:12px!important;line-height:1.5!important}
+#programSteps .exercise-instructions li{color:#e0eaf3!important;margin:5px 0!important}
+#programSteps .exercise-tip,#programSteps .exercise-warning,#programSteps .exercise-equipment{font-size:12px!important;line-height:1.45!important;padding:8px 10px!important;margin:7px 0!important;border-radius:8px!important;background:#203c55!important;color:#d9e7f3!important}
+#programSteps .exercise-tip{border-left:3px solid #83bda5!important}
+#programSteps .exercise-warning{border-left:3px solid #e4b26b!important}
+#programSteps .exercise-equipment{border-left:3px solid #95b7d7!important}
+#preventionDetail .notice,#preventionChooser .notice{background:#183048!important;border:1px solid #69849c!important;border-left:3px solid #e1b56d!important;color:#d0dfec!important;border-radius:11px!important;font-size:12px!important;line-height:1.5!important;padding:12px 14px!important;margin:17px 0!important}
+#preventionDetail .notice strong,#preventionChooser .notice strong{color:#f2ce93!important}
+#preventionDetail .notice a,#preventionChooser .notice a{color:#f2ce93!important}
+#preventionList.home-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+#preventionList .home-action{display:flex!important;align-items:center!important;gap:12px!important;min-height:70px!important;padding:12px!important;border:1px solid #6c889f!important;background:linear-gradient(135deg,#2b4862,#182f47)!important;border-radius:12px!important;color:#f5f9fd!important;box-shadow:inset 0 1px #ffffff22!important}
+#preventionList .home-action-icon{display:grid;place-items:center;width:38px;height:38px;flex:0 0 38px;border-radius:9px;background:linear-gradient(135deg,#e6eff8,#8ca9c4)!important;color:#193650!important}
+#preventionList .home-action-copy strong{color:#f6f9fd!important;font-size:15px!important}
+#preventionList .home-action-copy small{color:#c2d2e1!important;font-size:11px!important}
+#preventionList .home-chevron{color:#f0c883!important}
+.session-navigation{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0;color:#d9e6f2}
+.session-navigation[hidden]{display:none!important}
+.session-navigation button{padding:10px 12px;border:1px solid #829bb0;border-radius:9px;background:#294760;color:#f6f9fd;font-weight:800}
+.session-navigation button:disabled{opacity:.4}
+@media(max-width:720px){#programSteps.prevention-steps,#preventionList.home-actions{grid-template-columns:1fr!important;gap:7px!important}#programSteps .prevention-step{padding:11px!important;border-radius:11px!important}#programSteps .exercise-name h3{font-size:15px!important}#programSteps .step-number{width:31px;height:31px;flex-basis:31px}#programSteps .exercise-actions{margin-top:9px!important}#programSteps .exercise-actions button{min-height:36px!important}#preventionList .home-action{min-height:59px!important;padding:9px 11px!important}.session-toolbar{margin-top:8px}}
