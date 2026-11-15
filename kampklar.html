@@ -1,1 +1,32 @@
-<!doctype html><html lang="no"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101820"><title>Kampklar · Spillerhjelpen</title><link rel="stylesheet" href="kampklar-ny.css?v=4"><link rel="stylesheet" href="metal-kamp.css?v=1"></head><body><main class="camp-app"><header class="camp-top"><a href="index.html">← Hjem</a><strong>⚽ KAMPKLAR</strong></header><section class="camp-hero"><span class="camp-kicker">FØR AVSPARK</span><h1>Er du klar for kamp?</h1><p>7 raske ting å sjekke. Huk av det du har gjort.</p><div class="camp-progress"><span id="campCount">0 av 7 klare</span><div class="camp-track"><div id="campFill"></div></div></div></section><section id="campList" class="camp-list" aria-label="Sjekkliste før kamp"></section><section id="campDone" class="camp-done" hidden><strong>🔥 Klar for avspark!</strong><p>Du har sjekket det viktigste. Spill ditt spill!</p></section><section class="camp-focus"><span>🎯</span><div><strong>Få hodet med på laget</strong><p>Prøv 60 sekunder med kampfokus.</p></div><a href="visualisering.html">Start ›</a></section><button id="campReset" class="camp-reset" type="button">Start listen på nytt</button><p class="camp-foot">Følg lagets beskjed om oppmøte og oppvarming.</p></main><script src="kampklar.js?v=3"></script></body></html>
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d1c2d">
+<title>Kampklar · Spillerhjelpen</title>
+<link rel="stylesheet" href="kampklar-v2.css?v=20261115b">
+</head>
+<body>
+<main class="match-app">
+<header class="match-top"><a href="index.html">← Spillerhjelpen</a><span class="match-brand"><span class="brand-ball">⚽</span> KAMPKLAR</span></header>
+<div class="match-layout">
+<section class="match-intro" aria-labelledby="matchTitle">
+<div class="intro-top"><span class="eyebrow">MATCHDAY / FØR AVSPARK</span><span class="intro-number">01 / 02</span></div>
+<h1 id="matchTitle">KLAR FOR<br><em>KAMP?</em></h1>
+<p class="intro-lead">Sju raske sjekker før du går på banen.</p>
+<div class="progress-block"><div class="progress-line"><span>DIN STATUS</span><strong id="campCount" aria-live="polite">0 av 7 klare</strong></div><div class="camp-track"><div id="campFill"></div></div></div>
+<div class="match-note"><span class="note-mark">!</span><p>Følg alltid trenerens beskjed om oppmøte og oppvarming.</p></div>
+</section>
+<section class="match-checklist" aria-labelledby="listTitle">
+<div class="list-heading"><div><span class="eyebrow">SJEKKLISTE</span><h2 id="listTitle">Før du drar</h2></div><span class="list-symbol">✓</span></div>
+<div id="campList" class="camp-list" aria-label="Sjekkliste før kamp"></div>
+<div id="campDone" class="camp-done" hidden><strong>🏆 Klar for avspark!</strong><span>Du har sjekket det viktigste. Kos deg med kampen!</span></div>
+<button id="campReset" class="camp-reset" type="button">↻ Nullstill sjekklisten</button>
+</section>
+<a class="match-focus" href="visualisering.html" aria-label="Start mental kampforberedelse">
+<div class="focus-symbol">◎</div><div class="focus-copy"><span class="eyebrow">02 / MENTAL OPPVARMING</span><strong>VINN FØRSTE DUELL I HODET</strong><small>Tre korte steg med pust, visualisering og kampfokus.</small></div><span class="focus-go">START ↗</span>
+</a>
+</div>
+</main>
+<script src="kampklar.js?v=3"></script>
+</body></html>
