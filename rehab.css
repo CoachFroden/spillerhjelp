@@ -58,3 +58,59 @@
 .rehab-intro-note{margin:14px 0 18px}
 #homeBack:focus-visible,.menu>.pain-choice:focus-visible,.rehab-guide-button:focus-visible{outline:3px solid #c4b5fd;outline-offset:3px}
 @media(max-width:420px){.menu>.pain-choice{padding-left:16px;min-height:90px}.menu>.pain-choice strong{font-size:17px}.menu>.pain-choice small{font-size:13px}.menu>.pain-prevent{padding-left:12px}}
+
+/* Pain section 2.0 — complete visual system */
+[hidden]{display:none!important}
+#app{width:min(100%,620px)}
+.screen{padding:24px 24px 44px}
+.hero{padding:76px 0 10px}
+.hero:before{content:"SPILLERHJELPEN / HAR DU VONDT?";font-size:11px;padding:5px 12px;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3);color:#d8b4fe}
+.hero h1{font-size:clamp(40px,10vw,58px);line-height:1.05;margin:16px 0 8px}
+.hero .intro{font-size:21px;font-weight:800;margin-top:8px;color:#fff}
+.area-help{font-size:15px;color:#afc5b8;line-height:1.6;margin:8px 0 16px;max-width:52ch}
+.rehab-flow-steps{display:flex;gap:8px;margin:14px 0 20px;flex-wrap:wrap}
+.rehab-flow-steps span{flex:1;min-width:100px;text-align:center;padding:10px 8px;border:1px solid rgba(255,255,255,.09);border-radius:12px;color:#a4b4aa;font-size:12px;font-weight:700}
+.rehab-flow-steps .active{background:rgba(167,139,250,.18);border-color:rgba(167,139,250,.42);color:#f0e5ff}
+.rehab-flow-steps.checking span:first-child{background:none;border-color:rgba(255,255,255,.09);color:#a4b4aa}
+.rehab-flow-steps.checking span:nth-child(2){background:rgba(167,139,250,.18);border-color:rgba(167,139,250,.42);color:#f0e5ff}
+.rehab-intro-note{margin:0 0 16px;color:#c8d9d0;font-size:15px;line-height:1.5}
+.menu{gap:12px}
+.menu>.pain-choice{width:100%;min-height:100px;border-radius:20px;padding:20px 50px 20px 22px;display:flex;flex-direction:column;justify-content:center;box-shadow:none;position:relative;text-decoration:none;transition:transform .15s ease,background .15s ease}
+.menu>.pain-choice:hover{transform:translateY(-2px)}
+.menu>.pain-choice strong{font-size:19px;font-weight:850;letter-spacing:-.01em;color:#fff}
+.menu>.pain-choice small{font-size:14px;line-height:1.5;margin-top:8px;color:#e0e9e3}
+.menu>.pain-choice:after{content:"›";position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:26px;color:#cdd7d1}
+.menu>.pain-prevent{flex-direction:row;align-items:center;justify-content:flex-start;gap:14px;background:rgba(59,130,246,.12);border:1px solid rgba(96,165,250,.4);padding-left:18px}
+.menu>.pain-prevent .prevent-symbol{flex:0 0 42px;width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:rgba(96,165,250,.16);font-size:23px}
+.menu>.pain-prevent strong{font-size:17px}
+.menu>.quick-warning{margin-top:8px;padding:20px;border-radius:18px;background:rgba(248,113,113,.075);border:1px solid rgba(248,113,113,.25);font-size:14px;line-height:1.65}
+.menu>.quick-warning strong{display:block;font-size:15px;margin-bottom:7px}
+#workout{padding-top:86px}
+#levelBig{font-size:27px}
+#levelSmall{font-size:14px;line-height:1.5;color:#c3d2c8}
+#step{color:#d4c4ff;font-size:13px;margin-bottom:9px}
+.progressWrap{margin:0 0 24px}
+.rehab-progress-bar{height:6px;background:linear-gradient(90deg,#a78bfa,#6ee7b7);border-radius:6px}
+.card{padding:26px 24px;border-radius:22px;min-height:unset;background:linear-gradient(145deg,rgba(126,87,194,.17),rgba(255,255,255,.04));border:1px solid rgba(196,181,253,.27);box-shadow:none;cursor:default}
+.card:active{transform:none}
+.rehab-number{font-size:11px;letter-spacing:.13em;font-weight:850;color:#c4b5fd;margin-bottom:12px}
+#title{color:#fff;font-size:clamp(25px,7vw,32px);line-height:1.15}
+#desc{margin-top:20px}
+.dose-label{font-size:12px;color:#b8cbbf}
+.exercise-dose{color:#a7f3d0;font-size:25px}
+.rehab-purpose{font-size:16px;color:#dce6df;line-height:1.5;padding-top:16px;border-top:1px solid rgba(255,255,255,.12)}
+.rehab-guide-button{border:1px solid rgba(196,181,253,.5);background:rgba(139,92,246,.15);color:#f4edff;border-radius:15px;font-size:16px;min-height:56px}
+.rehab-inline-guide{padding:20px 22px;margin-top:10px;border-radius:18px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.12)}
+.rehab-inline-guide h3{font-size:19px;margin:0 0 14px}
+.rehab-inline-guide ol{margin:0;padding-left:22px}
+.rehab-inline-guide li{font-size:15px;line-height:1.65;margin-bottom:12px;color:#e7f0ea;padding-left:3px}
+.rehab-session-reminder{margin:18px 0 0;padding:16px 18px;border-radius:16px;border:1px solid rgba(110,231,183,.2);background:rgba(110,231,183,.055)}
+.rehab-session-reminder strong{font-size:15px;color:#a7f3d0}
+.rehab-session-reminder p{margin:6px 0 0;color:#d4e3d8;font-size:14px;line-height:1.6}
+#next{font-size:16px;min-height:62px}
+.rehab-exit{margin-top:12px}
+.safety-gate h2{font-size:26px}
+.safety-question{border-radius:17px;padding:18px}
+.gate-proceed,.gate-stop{min-height:60px}
+#homeBack,#backBtn{left:max(24px,calc((100vw - 620px)/2 + 24px))}
+@media(max-width:420px){.screen{padding-left:17px;padding-right:17px}.hero{padding-top:65px}.menu>.pain-choice{padding-left:17px;min-height:95px}.menu>.pain-choice strong{font-size:17px}.menu>.pain-choice small{font-size:13px}.rehab-flow-steps span{font-size:11px;min-width:85px}#homeBack,#backBtn{left:17px}}

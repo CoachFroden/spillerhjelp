@@ -549,17 +549,25 @@
     const levels = Object.assign({}, LEVELS, config.levels || {});
 
     menu.innerHTML = `
-      <button class="pain-choice pain-high" data-level="pain"><strong>MYE VONDT</strong><small>Velg bare rolige øvelser. Si fra til en voksen.</small></button>
-      <button class="pain-choice pain-mid" data-level="better"><strong>LITT VONDT</strong><small>Du kan gå, men løping eller hopp gjør vondt</small></button>
-      <button class="pain-choice pain-low" data-level="almost"><strong>NESTEN BRA</strong><small>Du kan jogge, men ikke løpe fullt</small></button>
-      <button class="pain-choice pain-ready" data-level="ready"><strong>NESTEN TILBAKE</strong><small>Du kan løpe nesten normalt, men er ikke klar for full kamp</small></button>
-      <a class="pain-choice pain-prevent" href="forebygging.html"><span class="prevent-symbol" aria-hidden="true">🛡️</span><span><strong>Vil du forebygge skader?</strong><small>Se egne øvelser for å holde deg skadefri</small></span></a>
+      <button class="pain-choice pain-high" data-level="pain"><strong>Det gjør mye vondt</strong><small>Vanlig bevegelse gjør vondt. Si fra til en voksen.</small></button>
+      <button class="pain-choice pain-mid" data-level="better"><strong>Det gjør litt vondt</strong><small>Jeg kan gå, men løping eller hopp gjør vondt</small></button>
+      <button class="pain-choice pain-low" data-level="almost"><strong>Det begynner å bli bedre</strong><small>Jeg kan jogge, men ikke løpe i full fart</small></button>
+      <button class="pain-choice pain-ready" data-level="ready"><strong>Jeg tåler nesten vanlig trening</strong><small>Jeg kan løpe nesten normalt, men er ikke klar for kamp</small></button>
+      <a class="pain-choice pain-prevent" href="forebygging.html"><span class="prevent-symbol" aria-hidden="true">🛡️</span><span><strong>Forebygg skader</strong><small>For deg som ikke har vondt nå</small></span></a>
       <div class="quick-warning"><strong>Viktig før du begynner</strong><span>Fortell en voksen hvor du har vondt. Ved kraftig skade, stor hevelse, nummenhet eller problemer med å gå: Ikke tren videre – få hjelp til å vurdere skaden.</span></div>
     `;
 
+    const areaHelp = document.createElement("p");
+    areaHelp.className = "area-help";
+    areaHelp.textContent = "Her finner du rolige øvelser og råd for " + (config.name || "området").toLowerCase() + ". Det er ikke en diagnose.";
+    heroTitle?.after(areaHelp);
+    const flowSteps = document.createElement("div");
+    flowSteps.className = "rehab-flow-steps";
+    flowSteps.innerHTML = '<span class="active">1 · Velg nivå</span><span>2 · Sjekk</span><span>3 · Øvelser</span>';
+    startScreen.querySelector(".hero")?.after(flowSteps);
     const guideIntro = document.createElement("p");
     guideIntro.className = "rehab-intro-note";
-    guideIntro.textContent = "Velg hvordan det kjennes i dag. Du får øvelser som passer til nivået ditt.";
+    guideIntro.textContent = "Hvordan kjennes det akkurat nå? Velg det som passer best.";
     menu.before(guideIntro);
     const safetyGate = document.createElement("section");
     safetyGate.className = "safety-gate";
@@ -570,6 +578,7 @@
       state.pendingLevel = level;
       menu.hidden = true;
       guideIntro.hidden = true;
+      flowSteps.classList.add("checking");
       if (intro) intro.textContent = "Sjekk dette før du begynner";
       safetyGate.hidden = false;
       safetyGate.replaceChildren();
@@ -595,11 +604,11 @@
       const proceed = document.createElement("button");
       proceed.className = "gate-proceed";
       proceed.textContent = "Nei på alle – vis øvelsene";
-      proceed.addEventListener("click", () => { safetyGate.hidden = true; menu.hidden = false; guideIntro.hidden = false; startPhase(level); });
+      proceed.addEventListener("click", () => { safetyGate.hidden = true; menu.hidden = false; guideIntro.hidden = false; flowSteps.classList.remove("checking"); startPhase(level); });
       const stop = document.createElement("button");
       stop.className = "gate-stop";
       stop.textContent = "Ja på ett eller flere – gå tilbake";
-      stop.addEventListener("click", () => { safetyGate.hidden = true; menu.hidden = false; guideIntro.hidden = false; if(intro)intro.textContent="Hvor vondt er det nå?"; });
+      stop.addEventListener("click", () => { safetyGate.hidden = true; menu.hidden = false; guideIntro.hidden = false; flowSteps.classList.remove("checking"); if(intro)intro.textContent="Hvor vondt er det nå?"; });
       safetyGate.append(proceed, stop);
     }
     menu.querySelectorAll("[data-level]").forEach(btn => btn.addEventListener("click", () => chooseLevel(btn.dataset.level)));
@@ -613,6 +622,14 @@
     const trained = document.createElement("p");
     trained.className = "rehab-purpose";
     desc.after(trained);
+    const inlineGuide = document.createElement("div");
+    inlineGuide.className = "rehab-inline-guide";
+    inlineGuide.hidden = true;
+    guideButton.after(inlineGuide);
+    const sessionReminder = document.createElement("aside");
+    sessionReminder.className = "rehab-session-reminder";
+    sessionReminder.innerHTML = '<strong>Ta vare på kroppen</strong><p>Stopp ved skarp eller økende smerte, eller hvis du begynner å halte. Snakk med en voksen hvis du er usikker.</p>';
+    inlineGuide.after(sessionReminder);
     const progressBar = document.createElement("div");
     progressBar.className = "rehab-progress-bar";
     progressWrap?.append(progressBar);
@@ -645,13 +662,13 @@
 
     function showWorkout() { startScreen.classList.remove("active"); workoutScreen.classList.add("active"); window.scrollTo(0, 0); }
     function showMenu() {
-      safetyGate.hidden = true; menu.hidden = false; guideIntro.hidden = false;
+      safetyGate.hidden = true; menu.hidden = false; guideIntro.hidden = false; flowSteps.classList.remove("checking");
       if(intro) intro.textContent = "Hvor vondt er det nå?";
       state.mode = "menu"; state.level = null; state.items = []; state.index = 0;
       startScreen.classList.add("active"); workoutScreen.classList.remove("active");
       modal?.classList.remove("show"); setButtons(); window.scrollTo(0, 0);
     }
-    function cleanCard() { exerciseBox.classList.remove("resultCard", "ready", "pain"); title.className = ""; }
+    function cleanCard() { exerciseBox.classList.remove("resultCard", "ready", "pain"); title.className = ""; exerciseBox.querySelectorAll(".rehab-number").forEach(el=>el.remove()); }
     function setHeader(level) {
       if (testHeader) testHeader.style.display = "none";
       if (progressWrap) progressWrap.style.display = "block";
@@ -676,12 +693,17 @@
       const item = state.items[state.index];
       if (!item) return finishPhase();
       cleanCard(); setHeader(state.level);
+      exerciseBox.querySelectorAll(".rehab-number").forEach(el => el.remove());
+      const number = document.createElement("span"); number.className="rehab-number"; number.textContent="ØVELSE "+(state.index+1)+" AV "+state.items.length; title.before(number);
       title.innerText = friendlyText(item.t);
       desc.replaceChildren();
       trained.textContent = purposeFor(item);
       trained.hidden = false;
       if (progressBar) progressBar.style.width = ((state.index + 1) / state.items.length * 100) + "%";
       guideButton.hidden = false;
+      inlineGuide.hidden = true;
+      guideButton.setAttribute("aria-expanded","false");
+      sessionReminder.hidden = false;
       guideButton.textContent = "Slik gjør du øvelsen ↓";
       guideButton.setAttribute("aria-label", "Vis forklaring for " + friendlyText(item.t));
       const doseLabel = document.createElement("span");
@@ -700,18 +722,23 @@
     }
 
     function showGuide() {
-      if (state.mode !== "workout" || !modal || !modalText) return;
+      if (state.mode !== "workout") return;
       const item = state.items[state.index];
       if (!item) return;
-      const steps = guideFor(item);
-      modalText.innerText = [
-        friendlyText(item.t).toUpperCase(),
-        friendlyText(item.d),
-        "",
-        "SLIK GJØR DU",
-        ...steps.map((text, i) => `${i + 1}. ${text}`)
-      ].join("\n\n");
-      modal.classList.add("show");
+      if (!inlineGuide.hidden) {
+        inlineGuide.hidden = true;
+        guideButton.textContent = "Slik gjør du øvelsen ↓";
+        guideButton.setAttribute("aria-expanded","false");
+        return;
+      }
+      const heading = document.createElement("h3");
+      heading.textContent = "Slik gjør du";
+      const list = document.createElement("ol");
+      guideFor(item).forEach(line => { const li = document.createElement("li"); li.textContent = line; list.append(li); });
+      inlineGuide.replaceChildren(heading,list);
+      inlineGuide.hidden = false;
+      guideButton.textContent = "Skjul forklaringen ↑";
+      guideButton.setAttribute("aria-expanded","true");
     }
 
     function nextExercise() {
@@ -721,7 +748,7 @@
     }
 
     function finishPhase() {
-      guideButton.hidden = true; trained.hidden = true;
+      guideButton.hidden = true; trained.hidden = true; inlineGuide.hidden = true; sessionReminder.hidden = true;
       cleanCard(); hideHeaders(); desc.replaceChildren(); if (hint) hint.style.display = "none";
       if (state.level === "ready") return showReadyCheck();
       title.innerText = "FERDIG ✓";
@@ -732,7 +759,7 @@
     }
 
     function showReadyCheck() {
-      guideButton.hidden = true; trained.hidden = true;
+      guideButton.hidden = true; trained.hidden = true; inlineGuide.hidden = true; sessionReminder.hidden = true;
       state.mode = "readyCheck"; title.innerText = "GIKK DET BRA?"; desc.replaceChildren();
       const text = document.createElement("span"); text.textContent = "Ingen tydelig smerte og du holdt ikke igjen?"; desc.append(text);
       if (tipEl) tipEl.innerText = "";
@@ -742,6 +769,7 @@
     }
 
     function showReadyResult() {
+      inlineGuide.hidden = true; sessionReminder.hidden = true; guideButton.hidden = true; trained.hidden = true;
       cleanCard(); exerciseBox.classList.add("resultCard", "ready"); title.innerText = "PRØV LITT TRENING"; title.className = "resultGood"; desc.replaceChildren();
       const text = document.createElement("span"); text.textContent = "Dette er ikke en klarering for kamp. Snakk med foresatte og trener, og gjerne fysioterapeut ved skade, før du øker til lagtrening. Start rolig og øk bare hvis du tåler belastningen også neste dag."; desc.append(text);
       setButtons({ next: true, nextText: "TILBAKE" }); nextBtn.onclick = showMenu;

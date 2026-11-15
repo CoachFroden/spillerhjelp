@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Har du vondt? · Spillerhjelpen</title>
   <meta name="theme-color" content="#07110d">
-  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="app.css"><link rel="stylesheet" href="pain-hub.css?v=2">
 </head>
 <body>
   <main class="app-shell">
@@ -17,14 +17,14 @@
     <section class="page-head">
       <div class="eyebrow">Når noe gjør vondt</div>
       <h1 class="page-title">Har du<br>vondt?</h1>
-      <p class="page-lead">Her finner du enkle råd når noe gjør vondt. Velg hvor du har vondt. Si fra til en voksen før du prøver øvelser, og ikke bruk appen til å stille en diagnose.</p>
+      <p class="page-lead">Finn området som gjør vondt, og få enkle råd. Øvelsene er ikke en diagnose. Fortell en voksen om smerten før du begynner.</p>
     </section>
 
-    <div class="notice"><strong>Ikke vondt?</strong> Da kan du bruke <a href="forebygging.html">skadeforebygging</a>.</div><div class="search-wrap"><input id="rehabSearch" type="search" placeholder="Søk: hæl, kne, lyske …" aria-label="Søk i rehabområder"></div>
-    <div class="chip-row" aria-hidden="true"><span class="chip">Si fra til en voksen</span><span class="chip">Start forsiktig</span><span class="chip">Tilbake til fotball</span></div>
+    <a class="pain-hub-prevent" href="forebygging.html"><span>🛡️</span><span><strong>Vil du forebygge skader?</strong><small>Gå til øvelser for spillere uten smerter</small></span><b>›</b></a><div class="search-wrap"><input id="rehabSearch" type="search" placeholder="Søk: hæl, kne, lyske …" aria-label="Søk i rehabområder"></div>
+    <div class="pain-hub-steps"><span><b>1</b> Velg område</span><span><b>2</b> Sjekk smerten</span><span><b>3</b> Se øvelser</span></div>
 
     <section class="section">
-      <div class="section-head"><h2>Områder</h2><p id="rehabCount">7 valg</p></div>
+      <div class="section-head"><h2>Hvor har du vondt?</h2><p id="rehabCount">7 områder</p></div>
       <div id="rehabGrid" class="category-grid">
         <button class="category-card" data-search="hamstring bakside lår strekk sprint" onclick="goTo('hamstring.html')"><div class="category-icon">⚡</div><div><h3>Bakside lår</h3><p>Vondt på baksiden av låret, for eksempel etter løping</p></div></button>
         <button class="category-card" data-search="legg calf muskel smerte" onclick="goTo('legg.html')"><div class="category-icon">🦵</div><div><h3>Legg</h3><p>Vondt i leggen når du løper eller hopper</p></div></button>
@@ -43,7 +43,7 @@
   <nav class="bottom-nav" aria-label="Hovedmeny">
     <a class="nav-item" href="index.html"><b>⌂</b>Hjem</a>
     <a class="nav-item" href="trening.html"><b>⚡</b>Trening</a>
-    <a class="nav-item" href="forebygging.html"><b>🛡️</b>Forebygg</a><a class="nav-item active" href="skade.html"><b>＋</b>Rehab</a>
+    <a class="nav-item" href="forebygging.html"><b>🛡️</b>Forebygg</a><a class="nav-item active" href="skade.html"><b>＋</b>Vondt?</a>
     <a class="nav-item" href="kampklar.html"><b>⚽</b>Kamp</a>
   </nav>
   <script src="skade.js"></script>
