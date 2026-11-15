@@ -27,9 +27,9 @@
     [/adduktor squeeze/gi, "klem ball mellom knærne"],
     [/bent-knee fallout/gi, "før kneet rolig ut til siden"],
     [/side-liggende adduksjon/gi, "løft nederste bein"],
-    [/copenhagen adduction/gi, "sideplanke med bein på stol"],
-    [/kort copenhagen/gi, "sideplanke med kne på stol"],
-    [/\bcopenhagen\b/gi, "sideplanke med bein på stol"],
+    [/copenhagen adduction/gi, "Copenhagen-planke"],
+    [/kort copenhagen/gi, "Copenhagen-planke (lett variant)"],
+    [/\bcopenhagen\b/gi, "Copenhagen-planke"],
     [/lateral shuffle/gi, "raske sidesteg"],
     [/isometrisk tåhev/gi, "hold deg på tå"],
     [/bøyd-kne ettbeins tåhev/gi, "stå på tå på ett bein med bøyd kne"],
@@ -54,8 +54,8 @@
     [/\bwall sit\b/gi, "sitt mot veggen"],
     [/step-up/gi, "gå opp på et trinn"],
     [/step-down/gi, "senk deg fra et trinn"],
-    [/split squat – kort/gi, "utfall på stedet"],
-    [/\bsplit squat\b/gi, "utfall på stedet"],
+    [/split squat – kort/gi, "splittknebøy (kort bevegelse)"],
+    [/\bsplit squat\b/gi, "splittknebøy"],
     [/pogohopp/gi, "små raske hopp"],
     [/\bpogos?\b/gi, "små raske hopp"],
     [/star reach/gi, "balanse med foten i tre retninger"],
@@ -92,7 +92,7 @@
 
   function guideFor(item) {
     const t = rawTitle(item);
-    const stop = "Stopp hvis det blir tydelig mer vondt.";
+    const stop = "Stopp hvis det blir tydelig mer vondt. Si fra til en voksen.";
 
     if (/kald flaske|tennisball/.test(t)) return [
       "Sitt på en stol.",
@@ -231,10 +231,10 @@
 
     if (/copenhagen/.test(t)) return [
       "Ligg på siden ved en stol eller benk.",
-      "Legg kneet eller beinet som er øverst på stolen.",
+      "Ved lett variant legger du det øverste kneet på en stødig benk. Ved tyngre variant støtter du med leggen.",
       "Støtt overkroppen på albuen.",
-      "Løft hofta opp fra gulvet.",
-      "Hold kroppen rett og senk rolig ned igjen."
+      "Press det øverste beinet ned mot benken og løft hoften og det nederste beinet fra gulvet.",
+      "Hold kroppen mest mulig rett. Senk kontrollert ned igjen."
     ];
 
     if (/sideutfall/.test(t)) return [
@@ -549,12 +549,12 @@
     const levels = Object.assign({}, LEVELS, config.levels || {});
 
     menu.innerHTML = `
-      <button class="pain-choice pain-high" data-level="pain"><strong>MYE VONDT</strong><small>Vondt, men du kan gå</small></button>
-      <button class="pain-choice pain-mid" data-level="better"><strong>LITT VONDT</strong><small>Du kan gå, men jogging eller hopp gjør vondt</small></button>
+      <button class="pain-choice pain-high" data-level="pain"><strong>MYE VONDT</strong><small>Velg bare rolige øvelser. Si fra til en voksen.</small></button>
+      <button class="pain-choice pain-mid" data-level="better"><strong>LITT VONDT</strong><small>Du kan gå, men løping eller hopp gjør vondt</small></button>
       <button class="pain-choice pain-low" data-level="almost"><strong>NESTEN BRA</strong><small>Du kan jogge, men ikke løpe fullt</small></button>
-      <button class="pain-choice pain-ready" data-level="ready"><strong>NESTEN TILBAKE</strong><small>Du kan løpe nesten normalt</small></button>
+      <button class="pain-choice pain-ready" data-level="ready"><strong>NESTEN TILBAKE</strong><small>Du kan løpe nesten normalt, men er ikke klar for full kamp</small></button>
       <a class="pain-choice pain-prevent" href="forebygging.html"><strong>IKKE VONDT?</strong><small>Gå til egne forebyggende øvelser →</small></a>
-      <div class="quick-warning"><strong>STOPP:</strong> Smell/knepp, stor hevelse, nummenhet eller klarer du ikke å gå normalt? Si fra til en voksen og få det vurdert.</div>
+      <div class="quick-warning"><strong>FØR DU STARTER:</strong> Si fra til en voksen om smerten. Velg ikke øvelser hvis du er usikker på skaden. <strong>STOPP:</strong> Smell/knepp, stor hevelse, nummenhet eller klarer du ikke å gå normalt? Si fra til en voksen og få det vurdert.</div>
     `;
 
     menu.querySelectorAll("[data-level]").forEach(btn => btn.addEventListener("click", () => startPhase(btn.dataset.level)));
@@ -659,7 +659,7 @@
 
     function showReadyResult() {
       cleanCard(); exerciseBox.classList.add("resultCard", "ready"); title.innerText = "PRØV LITT TRENING"; title.className = "resultGood"; desc.replaceChildren();
-      const text = document.createElement("span"); text.textContent = "Start rolig på lagtrening. Ikke gå rett til full kamp. Er du like bra i morgen, kan du øke litt."; desc.append(text);
+      const text = document.createElement("span"); text.textContent = "Dette er ikke en klarering for kamp. Snakk med foresatte og trener, og gjerne fysioterapeut ved skade, før du øker til lagtrening. Start rolig og øk bare hvis du tåler belastningen også neste dag."; desc.append(text);
       setButtons({ next: true, nextText: "TILBAKE" }); nextBtn.onclick = showMenu;
     }
 

@@ -3,41 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Rehab · Spillerhjelpen</title>
+  <title>Har du vondt? · Spillerhjelpen</title>
   <meta name="theme-color" content="#07110d">
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
-      <a class="brand" href="index.html"><div class="brand-mark">SH</div><div class="brand-copy"><strong>Spillerhjelpen</strong><span>Rehabilitering</span></div></a>
+      <a class="brand" href="index.html"><div class="brand-mark">SH</div><div class="brand-copy"><strong>Spillerhjelpen</strong><span>Har du vondt?</span></div></a>
       <a class="icon-btn" href="index.html" aria-label="Hjem">⌂</a>
     </header>
 
     <section class="page-head">
-      <div class="eyebrow">Rehabilitering</div>
+      <div class="eyebrow">Når noe gjør vondt</div>
       <h1 class="page-title">Har du<br>vondt?</h1>
-      <p class="page-lead">Denne delen er for deg som allerede har smerter eller en skade. Velg området som plager deg, og følg rådene for gradvis tilbakeføring.</p>
+      <p class="page-lead">Her finner du enkle råd når noe gjør vondt. Velg hvor du har vondt. Si fra til en voksen før du prøver øvelser, og ikke bruk appen til å stille en diagnose.</p>
     </section>
 
-    <div class="notice"><strong>Er du frisk?</strong> Da skal du heller bruke <a href="forebygging.html">skadeforebygging</a>.</div><div class="search-wrap"><input id="rehabSearch" type="search" placeholder="Søk: hæl, kne, lyske …" aria-label="Søk i rehabområder"></div>
-    <div class="chip-row" aria-hidden="true"><span class="chip">Sikkerhet først</span><span class="chip">Gradert belastning</span><span class="chip">Retur til fotball</span></div>
+    <div class="notice"><strong>Ikke vondt?</strong> Da kan du bruke <a href="forebygging.html">skadeforebygging</a>.</div><div class="search-wrap"><input id="rehabSearch" type="search" placeholder="Søk: hæl, kne, lyske …" aria-label="Søk i rehabområder"></div>
+    <div class="chip-row" aria-hidden="true"><span class="chip">Si fra til en voksen</span><span class="chip">Start forsiktig</span><span class="chip">Tilbake til fotball</span></div>
 
     <section class="section">
       <div class="section-head"><h2>Områder</h2><p id="rehabCount">7 valg</p></div>
       <div id="rehabGrid" class="category-grid">
-        <button class="category-card" data-search="hamstring bakside lår strekk sprint" onclick="goTo('hamstring.html')"><div class="category-icon">⚡</div><div><h3>Hamstring</h3><p>Bakside lår, muskelstrekk og retur til sprint</p></div></button>
-        <button class="category-card" data-search="legg calf muskel smerte" onclick="goTo('legg.html')"><div class="category-icon">🦵</div><div><h3>Legg</h3><p>Leggmuskel, kapasitet og retur til løping</p></div></button>
-        <button class="category-card" data-search="akilles sene hæl senebelastning" onclick="goTo('akilles.html')"><div class="category-icon">↟</div><div><h3>Akilles</h3><p>Senebelastning, leggstyrke og retur til fotball</p></div></button>
-        <button class="category-card" data-search="hæl sever vekst barn ungdom heel" onclick="goTo('hael.html')"><div class="category-icon">👟</div><div><h3>Hæl / Sever</h3><p>Vekstrelatert hælsmerte og belastningsstyring</p></div></button>
-        <button class="category-card" data-search="lyske adduktor groin innside lår" onclick="goTo('lyske.html')"><div class="category-icon">◆</div><div><h3>Lyske</h3><p>Adduktorrelatert smerte og gradvis retur</p></div></button>
-        <button class="category-card" data-search="kne knesmerte foran patellofemoral" onclick="goTo('kne.html')"><div class="category-icon">◉</div><div><h3>Kne</h3><p>Gradvis fremre knesmerte og belastningsstyring</p></div></button>
-        <button class="category-card" data-search="ankel overtråkk fot leddbånd" onclick="goTo('ankel.html')"><div class="category-icon">⌁</div><div><h3>Ankel</h3><p>Overtråkk, stabilitet og retur til fotball</p></div></button>
+        <button class="category-card" data-search="hamstring bakside lår strekk sprint" onclick="goTo('hamstring.html')"><div class="category-icon">⚡</div><div><h3>Bakside lår</h3><p>Vondt på baksiden av låret, for eksempel etter løping</p></div></button>
+        <button class="category-card" data-search="legg calf muskel smerte" onclick="goTo('legg.html')"><div class="category-icon">🦵</div><div><h3>Legg</h3><p>Vondt i leggen når du løper eller hopper</p></div></button>
+        <button class="category-card" data-search="akilles sene hæl senebelastning" onclick="goTo('akilles.html')"><div class="category-icon">↟</div><div><h3>Akilles</h3><p>Vondt eller stivt i senen bak ankelen</p></div></button>
+        <button class="category-card" data-search="hæl sever vekst barn ungdom heel" onclick="goTo('hael.html')"><div class="category-icon">👟</div><div><h3>Hæl</h3><p>Vondt i hælen, ofte ved løping og hopping i vekstperioden</p></div></button>
+        <button class="category-card" data-search="lyske adduktor groin innside lår" onclick="goTo('lyske.html')"><div class="category-icon">◆</div><div><h3>Lyske</h3><p>Vondt på innsiden av låret eller i lysken</p></div></button>
+        <button class="category-card" data-search="kne knesmerte foran patellofemoral" onclick="goTo('kne.html')"><div class="category-icon">◉</div><div><h3>Kne</h3><p>Vondt foran eller rundt kneskålen</p></div></button>
+        <button class="category-card" data-search="ankel overtråkk fot leddbånd" onclick="goTo('ankel.html')"><div class="category-icon">⌁</div><div><h3>Ankel</h3><p>Vondt etter overtråkk eller når ankelen belastes</p></div></button>
       </div>
       <div id="rehabEmpty" class="empty-state hide">Fant ikke noe område som passer søket.</div>
     </section>
 
-    <div class="notice"><strong>Ikke sikker på hva det er?</strong> Velg området der du kjenner smerten og bruk sikkerhetssjekken. Ved akutt kraftig skade, tydelig funksjonstap eller uvanlige symptomer skal du ikke presse deg gjennom testen.</div>
+    <div class="notice"><strong>Viktig:</strong> Dette er generelle råd, ikke en diagnose eller en erstatning for lege eller fysioterapeut. <strong>Ikke sikker på hva det er?</strong> Velg området der det gjør vondt. Har du fått en kraftig skade, stor hevelse, nummenhet, feber, eller klarer du ikke å gå normalt? Stopp og si fra til en voksen. Ved alvorlige symptomer må du få rask medisinsk hjelp.</div>
   </main>
 
   <nav class="bottom-nav" aria-label="Hovedmeny">
