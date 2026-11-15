@@ -6,7 +6,7 @@
   <title>Har du vondt? · Spillerhjelpen</title>
   <meta name="theme-color" content="#101820">
   <link rel="stylesheet" href="app.css"><link rel="stylesheet" href="pain-hub.css?v=2"><link rel="stylesheet" href="spiller-ny.css?v=4">
-<link rel="stylesheet" href="metal-theme.css?v=1"></head>
+<link rel="stylesheet" href="metal-theme.css?v=1"><link rel="stylesheet" href="skade-v2.css?v=20261115a"></head>
 <body>
   <main class="app-shell">
     <header class="topbar">
@@ -15,16 +15,16 @@
     </header>
 
     <section class="page-head">
-      <div class="eyebrow">Når noe gjør vondt</div>
-      <h1 class="page-title">Hvor gjør det vondt?</h1>
-      <p class="page-lead">Velg området. Si fra til en voksen hvis du har vondt.</p>
+      <div class="eyebrow">SKADEHJELP / FINN OMRÅDET</div>
+      <h1 class="page-title">Hvor gjør det <em>vondt?</em></h1>
+      <p class="page-lead">Velg hvor du kjenner smerte. Vi hjelper deg å finne neste steg.</p>
     </section>
 
-    <a class="pain-hub-prevent" href="forebygging.html"><span>🛡️</span><span><strong>Vil du forebygge skader?</strong><small>Gå til øvelser for spillere uten smerter</small></span><b>›</b></a>
+    
     
 
     <section class="section">
-      <div class="section-head"><h2>Hvor har du vondt?</h2><p id="rehabCount">7 områder</p></div>
+      <div class="section-head"><h2>VELG OMRÅDE</h2><p id="rehabCount">7 områder</p></div>
       <div id="rehabGrid" class="category-grid">
         <button class="category-card" data-search="hamstring bakside lår strekk sprint" onclick="goTo('hamstring.html')"><div class="category-icon">⚡</div><div><h3>Bakside lår</h3><p>Bak på låret</p></div></button>
         <button class="category-card" data-search="legg calf muskel smerte" onclick="goTo('legg.html')"><div class="category-icon">🦵</div><div><h3>Legg</h3><p>Bak på leggen</p></div></button>
@@ -36,6 +36,7 @@
       </div>
       <div id="rehabEmpty" class="empty-state hide">Fant ikke noe område som passer søket.</div>
     </section>
+    <a class="pain-hub-prevent" href="forebygging.html"><span>🛡️</span><span><strong>Vil du forebygge skader?</strong><small>Øvelser for deg som ikke har vondt</small></span><b>›</b></a>
 
     <div class="notice"><strong>Viktig:</strong> Dette er generelle råd, ikke en diagnose eller en erstatning for lege eller fysioterapeut. <strong>Ikke sikker på hva det er?</strong> Velg området der det gjør vondt. Har du fått en kraftig skade, stor hevelse, nummenhet, feber, eller klarer du ikke å gå normalt? Stopp og si fra til en voksen. Ved alvorlige symptomer må du få rask medisinsk hjelp.</div>
   </main>
